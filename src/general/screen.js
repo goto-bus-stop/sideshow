@@ -4,38 +4,38 @@
  * @class Screen
  * @static
  */
-var Screen = {};
+class Screen {
+  /**
+   * Object holding dimension information for the screen
+   *
+   * @field
+   * @type Object
+   */
 
-/**
- * Object holding dimension information for the screen
- *
- * @@field
- * @static
- * @type Object
- */
-Screen.dimension = {};
+  dimension = {};
 
-/**
- * Checks if the screen dimension information has changed
- *
- * @method hasChanged
- * @static
- * @return boolean
- */
-Screen.hasChanged = function() {
-  return window.innerWidth !== this.dimension.width ||
-    window.innerHeight !== this.dimension.height;
-};
+  /**
+   * Checks if the screen dimension information has changed
+   *
+   * @method hasChanged
+   * @return boolean
+   */
 
-/**
- * Updates the dimension information for the screen
- *
- * @method updateInfo
- * @static
- */
-Screen.updateInfo = function() {
-  this.dimension.width = window.innerWidth;
-  this.dimension.height = window.innerHeight;
-};
+  hasChanged() {
+    return window.innerWidth !== this.dimension.width ||
+      window.innerHeight !== this.dimension.height;
+  }
 
-export default Screen;
+  /**
+   * Updates the dimension information for the screen
+   *
+   * @method updateInfo
+   */
+
+  updateInfo() {
+    this.dimension.width = window.innerWidth;
+    this.dimension.height = window.innerHeight;
+  }
+}
+
+export default new Screen();
