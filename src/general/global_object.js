@@ -6,7 +6,6 @@ import CompositeMask from "../mask/composite_mask";
 import SubjectMask from "../mask/subject_mask";
 import WizardMenu from "../wizard/wizard_menu";
 import Wizard from "../wizard/wizard";
-import ControlVariables from "../wizard/wizard_control_variables";
 import SSException from "./exception";
 import strings from "./dictionary";
 import Polling from "./polling";
@@ -40,8 +39,6 @@ const SS = {
 
   config
 };
-
-SS.ControlVariables = ControlVariables;
 
 /**
  * Initializes Sideshow
@@ -87,7 +84,6 @@ SS.close = function() {
 
   removeDOMGarbage();
   Polling.clear();
-  ControlVariables.clear();
   unregisterInnerHotkeys();
   setCurrentWizard(null);
   flags.running = false;
@@ -266,7 +262,6 @@ SS.showRelatedWizardsList = function(completedWizard) {
   }
 
   Polling.clear();
-  ControlVariables.clear();
   SS.showWizardsList(relatedWizards, getString(strings.relatedWizards));
 
   return true;
