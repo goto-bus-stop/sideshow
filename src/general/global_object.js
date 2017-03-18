@@ -210,14 +210,17 @@ SS.registerWizard = function(wizardConfig) {
 SS.getElegibleWizards = function(onlyNew) {
   const eligibleWizards = [];
   let somethingNew = false;
-  foreach(wiz => {
-    if (wiz.isEligible()) {
-      if (!wiz.isAlreadyWatched()) {
-        somethingNew = true;
+  foreach(
+    wiz => {
+      if (wiz.isEligible()) {
+        if (!wiz.isAlreadyWatched()) {
+          somethingNew = true;
+        }
+        eligibleWizards.push(wiz);
       }
-      eligibleWizards.push(wiz);
-    }
-  }, wizards);
+    },
+    wizards
+  );
 
   return !onlyNew || somethingNew ? eligibleWizards : [];
 };

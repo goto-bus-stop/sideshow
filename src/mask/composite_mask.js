@@ -1,7 +1,7 @@
 import addClass from "@f/add-class";
 import scrollTo from "@f/scroll-to";
-import foreach from '@f/foreach-array'
-import html from 'bel'
+import foreach from "@f/foreach-array";
+import html from "bel";
 import FadableItem from "../interface_items/fadable_item";
 import StepDescription from "../step/step_description";
 import Screen from "../general/screen";
@@ -49,7 +49,7 @@ export default class CompositeMask extends FadableItem {
    */
 
   render() {
-    this.$el = html`<div class="sideshow-hidden sideshow-invisible" />`
+    this.$el = html`<div class="sideshow-hidden sideshow-invisible" />`;
 
     for (const i in this.parts) {
       const part = this.parts[i];
@@ -63,7 +63,7 @@ export default class CompositeMask extends FadableItem {
     });
     this.status = NOT_DISPLAYED;
 
-    super.render()
+    super.render();
   }
 
   /**

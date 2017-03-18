@@ -41,23 +41,29 @@ Arrows.setTargets = function(targets, targetsChanged) {
   }
 
   if (targets.length > 0) {
-    foreach(el => {
-      const arrow = new Arrow();
-      arrow.target.$el = el;
-      if (isVisible(arrow.target.$el)) {
-        Arrows.arrows.push(arrow);
-        arrow.onceVisible = true;
-      }
-    }, targets);
+    foreach(
+      el => {
+        const arrow = new Arrow();
+        arrow.target.$el = el;
+        if (isVisible(arrow.target.$el)) {
+          Arrows.arrows.push(arrow);
+          arrow.onceVisible = true;
+        }
+      },
+      targets
+    );
   } else if (!targetsChanged) {
     throw new SSException("150", "Invalid targets.");
   }
 };
 
 Arrows.recreateDOMReferences = function() {
-  foreach(arrow => {
-    remove(arrow.$el);
-  }, this.arrows);
+  foreach(
+    arrow => {
+      remove(arrow.$el);
+    },
+    this.arrows
+  );
 
   Arrows.clear();
   Arrows.setTargets(currentWizard.currentStep.targets, true);

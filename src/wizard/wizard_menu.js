@@ -64,7 +64,7 @@ WizardMenu.render = function(wizards) {
 
   this.titleElement = html`
     <h1 class="sideshow-wizard-menu-title" />
-  `
+  `;
 
   this.$el = html`
     <div class="sideshow-wizard-menu">

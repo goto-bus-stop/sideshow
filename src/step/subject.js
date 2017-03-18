@@ -56,16 +56,14 @@ Subject.hasChanged = function() {
   if (!this.obj) return false;
 
   const offset = elementRect(this.obj, document.documentElement);
-  const style = getComputedStyle(this.obj)
+  const style = getComputedStyle(this.obj);
 
   return offset.left - window.pageXOffset !== this.position.x ||
     offset.top - window.pageYOffset !== this.position.y ||
     this.obj.clientWidth !== this.dimension.width ||
     this.obj.clientHeight !== this.dimension.height ||
-    parsePxValue(style.borderTopLeftRadius) !==
-      this.borderRadius.leftTop ||
-    parsePxValue(style.borderTopRightRadius) !==
-      this.borderRadius.rightTop ||
+    parsePxValue(style.borderTopLeftRadius) !== this.borderRadius.leftTop ||
+    parsePxValue(style.borderTopRightRadius) !== this.borderRadius.rightTop ||
     parsePxValue(style.borderBottomLeftRadius) !==
       this.borderRadius.leftBottom ||
     parsePxValue(style.borderBottomRightRadius) !==
@@ -82,22 +80,16 @@ Subject.hasChanged = function() {
 Subject.updateInfo = function(config) {
   if (!config) {
     const offset = elementRect(this.obj, document.documentElement);
-    const style = getComputedStyle(this.obj)
+    const style = getComputedStyle(this.obj);
 
     this.position.x = offset.left - window.pageXOffset;
     this.position.y = offset.top - window.pageYOffset;
     this.dimension.width = this.obj.clientWidth;
     this.dimension.height = this.obj.clientHeight;
     this.borderRadius.leftTop = parsePxValue(style.borderTopLeftRadius);
-    this.borderRadius.rightTop = parsePxValue(
-      style.borderTopRightRadius
-    );
-    this.borderRadius.leftBottom = parsePxValue(
-      style.borderBottomLeftRadius
-    );
-    this.borderRadius.rightBottom = parsePxValue(
-      style.borderBottomRightRadius
-    );
+    this.borderRadius.rightTop = parsePxValue(style.borderTopRightRadius);
+    this.borderRadius.leftBottom = parsePxValue(style.borderBottomLeftRadius);
+    this.borderRadius.rightBottom = parsePxValue(style.borderBottomRightRadius);
   } else {
     this.position.x = config.position.x;
     this.position.y = config.position.y;
