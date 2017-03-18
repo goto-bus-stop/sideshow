@@ -1,4 +1,4 @@
-import find from '@f/find'
+import find from "@f/find";
 import foreach from "@f/foreach-array";
 import html from "bel";
 import Arrows from "../step/arrows";
@@ -22,7 +22,8 @@ import {
   unregisterInnerHotkeys,
   removeDOMGarbage
 } from "./utility_functions";
-import { registerParser } from './parsers'
+import { registerParser } from "./parsers";
+import closeIcon from "../icons/close";
 
 /**
  * The main class for Sideshow
@@ -61,7 +62,7 @@ SS.init = function() {
 /**
  * Register a new format parser.
  */
-SS.registerParser = registerParser
+SS.registerParser = registerParser;
 
 /**
  * Stops and Closes Sideshow
@@ -298,6 +299,7 @@ SS.CloseButton = class CloseButton extends FadableItem {
   render() {
     this.$el = html`
       <button onclick=${() => SS.close()} class="sideshow-close-button">
+        ${closeIcon()}
         ${getString(strings.close)}
       </button>
     `;

@@ -11,7 +11,7 @@ import strings from "../general/dictionary";
 import { getString } from "../general/utility_functions";
 import SS from "../general/global_object";
 import { flags, currentWizard, setCurrentWizard } from "../general/state";
-import { hasParser, parse } from '../general/parsers'
+import { hasParser, parse } from "../general/parsers";
 
 /**
  * Represents a tutorial
@@ -249,7 +249,7 @@ export default class Wizard {
       const description = StepDescription.singleInstance;
       const text = stripIndent(step.text);
       if (hasParser(step.format)) {
-        description.setHTML(parse(step.format, text))
+        description.setHTML(parse(step.format, text));
       } else {
         description.setText(text);
       }

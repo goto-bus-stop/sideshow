@@ -3,6 +3,7 @@ import elementRect from "@f/element-rect";
 import html from "bel";
 import { parsePxValue } from "../general/utility_functions";
 import FadableItem from "../interface_items/fadable_item";
+import iconArrow from "../icons/caret-down";
 
 /**
  * A single arrow for pointing individual items in current subject 
@@ -45,7 +46,9 @@ export default class Arrow extends FadableItem {
 
   render() {
     this.$el = html`
-      <div class="sideshow-subject-arrow ${this.position} sideshow-hidden sideshow-invisible"/>
+      <div class="sideshow-subject-arrow ${this.position} sideshow-hidden sideshow-invisible">
+        ${iconArrow({ width: 40, height: 40 })}
+      </div>
     `;
 
     super.render();

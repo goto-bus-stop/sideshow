@@ -141,7 +141,6 @@ $sideshow-button{
 	//The "next/finish" button
 	.sideshow-next-step-button{
 		@extends $sideshow-button;
-		icon-play();
 		float: right;
 		margin-top: 10px;
 	}
@@ -166,8 +165,6 @@ $sideshow-button{
 //@extends $sideshow-fadable-element;
 .sideshow-subject-arrow{
 	@extends $sideshow-fadable-element;
-	icon-caret-down();
-	icon-font-size(40px);
 	only-icon-button();
 	color: sideshow-subject-arrow-color;
 	position: fixed;
@@ -268,7 +265,6 @@ $sideshow-button{
 			}
 
 			.sideshow-wizard-menu-item-estimated-time{
-				icon-clock();
 				transition: border-right sideshow-default-transition-duration ease;
 				border-right: solid 0 sideshow-wizard-menu-item-foreground-color;
 				opacity: 0.5;
@@ -327,8 +323,6 @@ $sideshow-button{
 
 //The Sideshow close button
 .sideshow-close-button{
-	icon-close();
-	icon-font-size(sideshow-medium-font-size);
 	text-shadow: 0 0 5px #030, 0 0 3px #000, 0 2px 3px #000;
 	transition: text-shadow sideshow-default-transition-duration ease;
 	border-width: 0;

@@ -1,12 +1,12 @@
-import has from '@f/has'
-import snarkdown from 'snarkdown'
+import has from "@f/has";
+import snarkdown from "snarkdown";
 
 const parsers = {
   html: text => text,
   // Default to @developit's teeny-tiny markdown parser to get decent back
   // compat with upstream sideshow.
   markdown: snarkdown
-}
+};
 
 /**
  * Check if a parser exists for the given format.
@@ -14,8 +14,8 @@ const parsers = {
  * @param {string} format Format name.
  * @return {bool} Whether a parser exists.
  */
-export function hasParser( format) {
-  return has(format, parsers)
+export function hasParser(format) {
+  return has(format, parsers);
 }
 
 /**
@@ -25,8 +25,8 @@ export function hasParser( format) {
  * @param {string} text Input text.
  * @return {string} HTML output of the parser.
  */
-export function parse (format, text) {
-  return hasParser(format) ? parsers[format](text) : text
+export function parse(format, text) {
+  return hasParser(format) ? parsers[format](text) : text;
 }
 
 /**
@@ -35,6 +35,6 @@ export function parse (format, text) {
  * @param {string} format Format name.
  * @param {function(string): string} parser Parser function.
  */
-export function registerParser (format, parser) {
-  parsers[format] = parser
+export function registerParser(format, parser) {
+  parsers[format] = parser;
 }

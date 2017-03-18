@@ -6,6 +6,7 @@ import strings from "../general/dictionary";
 import SS from "../general/global_object";
 import { getString } from "../general/utility_functions";
 import { wizards } from "../general/state";
+import clockIcon from "../icons/clock";
 
 /**
  * The main menu, where the available wizards are listed
@@ -34,6 +35,7 @@ class WizardMenu {
         return html`
           <li onclick=${onclick}>
             <span class="sideshow-wizard-menu-item-estimated-time">
+              ${clockIcon()}
               ${wiz.estimatedTime}
             </span>
             <h2>${wiz.title}</h2>
@@ -83,7 +85,7 @@ class WizardMenu {
    * @method show
    * @param {Array} wizards The wizards list
    */
-  
+
   show(wizards, title) {
     if (wizards.length == 1 && SS.config.autoSkipIntro) {
       wizards[0].prepareAndPlay();

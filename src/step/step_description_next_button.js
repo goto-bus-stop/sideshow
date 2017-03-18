@@ -1,5 +1,6 @@
 import html from "bel";
 import HidableItem from "../interface_items/hidable_item";
+import playIcon from "../icons/play";
 
 /**
  * Step next button 
@@ -46,7 +47,7 @@ export default class StepDescriptionNextButton extends HidableItem {
 
   setText(text) {
     this._text = text;
-    this.$el.textContent = text;
+    this.labelElement.textContent = text;
   }
 
   /**
@@ -57,8 +58,12 @@ export default class StepDescriptionNextButton extends HidableItem {
    */
 
   render($stepDescriptionEl) {
+    this.labelElement = html`<span />`;
     this.$el = html`
-      <button class="sideshow-next-step-button" />
+      <button class="sideshow-next-step-button">
+        ${playIcon()}
+        ${this.labelElement}
+      </button>
     `;
 
     super.render($stepDescriptionEl);
