@@ -1,12 +1,10 @@
-//All Requires
+// All Requires
 const gulp = require("gulp");
 const autoprefixer = require("gulp-autoprefixer");
 const minifycss = require("gulp-minify-css");
-const jshint = require("gulp-jshint");
 const uglify = require("gulp-uglify");
 const csslint = require("gulp-csslint");
 const rename = require("gulp-rename");
-const concat = require("gulp-concat");
 const notify = require("gulp-notify");
 const livereload = require("gulp-livereload");
 const open = require("open");
@@ -14,15 +12,11 @@ const del = require("del");
 const http = require("http");
 const ecstatic = require("ecstatic");
 const util = require("gulp-util");
-const prettify = require("gulp-prettify");
-const beautify = require("gulp-beautify");
 const stylus = require("gulp-stylus");
-const include = require("gulp-include");
 const fs = require("fs");
 const path = require("path");
 const prompt = require("gulp-prompt");
 const yuidoc = require("gulp-yuidoc");
-const unzip = require("gulp-unzip");
 const zip = require("gulp-zip");
 const gzip = require("gulp-gzip");
 const tar = require("gulp-tar");
