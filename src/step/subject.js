@@ -1,3 +1,4 @@
+import elementRect from "@f/element-rect";
 import { parsePxValue } from "../general/utility_functions";
 import Screen from "../general/screen";
 
@@ -54,17 +55,20 @@ Subject.borderRadius = {};
 Subject.hasChanged = function() {
   if (!this.obj) return false;
 
-  return this.obj.offset().left - $window.scrollLeft() !== this.position.x ||
-    this.obj.offset().top - $window.scrollTop() !== this.position.y ||
-    this.obj.outerWidth() !== this.dimension.width ||
-    this.obj.outerHeight() !== this.dimension.height ||
-    parsePxValue(this.obj.css("border-top-left-radius")) !==
+  const offset = elementRect(this.obj, document.documentElement);
+  const style = getComputedStyle(this.obj)
+
+  return offset.left - window.pageXOffset !== this.position.x ||
+    offset.top - window.pageYOffset !== this.position.y ||
+    this.obj.clientWidth !== this.dimension.width ||
+    this.obj.clientHeight !== this.dimension.height ||
+    parsePxValue(style.borderTopLeftRadius) !==
       this.borderRadius.leftTop ||
-    parsePxValue(this.obj.css("border-top-right-radius")) !==
+    parsePxValue(style.borderTopRightRadius) !==
       this.borderRadius.rightTop ||
-    parsePxValue(this.obj.css("border-bottom-left-radius")) !==
+    parsePxValue(style.borderBottomLeftRadius) !==
       this.borderRadius.leftBottom ||
-    parsePxValue(this.obj.css("border-bottom-right-radius")) !==
+    parsePxValue(style.borderBottomRightRadius) !==
       this.borderRadius.rightBottom ||
     Screen.hasChanged();
 };
@@ -76,22 +80,23 @@ Subject.hasChanged = function() {
  * @param {Object} config Dimension, positioning and border radius information
  */
 Subject.updateInfo = function(config) {
-  if (config === undefined) {
-    this.position.x = this.obj.offset().left - $window.scrollLeft();
-    this.position.y = this.obj.offset().top - $window.scrollTop();
-    this.dimension.width = this.obj.outerWidth();
-    this.dimension.height = this.obj.outerHeight();
-    this.borderRadius.leftTop = parsePxValue(
-      this.obj.css("border-top-left-radius")
-    );
+  if (!config) {
+    const offset = elementRect(this.obj, document.documentElement);
+    const style = getComputedStyle(this.obj)
+
+    this.position.x = offset.left - window.pageXOffset;
+    this.position.y = offset.top - window.pageYOffset;
+    this.dimension.width = this.obj.clientWidth;
+    this.dimension.height = this.obj.clientHeight;
+    this.borderRadius.leftTop = parsePxValue(style.borderTopLeftRadius);
     this.borderRadius.rightTop = parsePxValue(
-      this.obj.css("border-top-right-radius")
+      style.borderTopRightRadius
     );
     this.borderRadius.leftBottom = parsePxValue(
-      this.obj.css("border-bottom-left-radius")
+      style.borderBottomLeftRadius
     );
     this.borderRadius.rightBottom = parsePxValue(
-      this.obj.css("border-bottom-right-radius")
+      style.borderBottomRightRadius
     );
   } else {
     this.position.x = config.position.x;
@@ -108,7 +113,7 @@ Subject.updateInfo = function(config) {
 };
 
 Subject.isSubjectVisible = function(position, dimension) {
-  if (position.y + dimension.height > $window.height() || position.y < 0) {
+  if (position.y + dimension.height > window.innerHeight || position.y < 0) {
     return false;
   }
   return true;

@@ -1,3 +1,5 @@
+import applyStyles from "@f/apply-styles";
+import html from "bel";
 import FadableItem from "../interface_items/fadable_item";
 import { parsePxValue } from "../general/utility_functions";
 import { currentWizard } from "../general/state";
@@ -9,13 +11,13 @@ import DetailsPanel from "./step_details_panel";
  * 
  * @class StepDescription
  * @extends FadableItem
- * @@initializer
+ * @initializer
  */
 export default class StepDescription extends FadableItem {
   /**
    * The step description text content
    * 
-   * @@field text
+   * @field text
    * @type String
    */
 
@@ -24,7 +26,7 @@ export default class StepDescription extends FadableItem {
   /**
    * The title text for the step description panel
    * 
-   * @@field title
+   * @field title
    * @type String
    */
 
@@ -33,7 +35,7 @@ export default class StepDescription extends FadableItem {
   /**
    * An object holding dimension information for the Step Description panel
    * 
-   * @@field dimension
+   * @field dimension
    * @type Object
    */
 
@@ -42,7 +44,7 @@ export default class StepDescription extends FadableItem {
   /**
    * An object holding positioning information for the Step Description panel
    * 
-   * @@field position
+   * @field position
    * @type Object
    */
 
@@ -51,7 +53,7 @@ export default class StepDescription extends FadableItem {
   /**
    * An object representing the next button for a step description panel 
    * 
-   * @@field nextButton
+   * @field nextButton
    * @type Object
    */
 
@@ -66,7 +68,7 @@ export default class StepDescription extends FadableItem {
 
   setText(text) {
     this.text = text;
-    this.$el.find(".sideshow-step-text").text(text);
+    this.textElement.textContent = text;
   }
 
   /**
@@ -78,7 +80,7 @@ export default class StepDescription extends FadableItem {
 
   setHTML(text) {
     this.text = text;
-    this.$el.find(".sideshow-step-text").html(text);
+    this.textElement.innerHTML = text;
   }
 
   /**
@@ -90,7 +92,7 @@ export default class StepDescription extends FadableItem {
 
   setTitle(title) {
     this.title = title;
-    this.$el.find("h2:first").text(title);
+    this.titleElement.textContent = title;
   }
 
   /**
@@ -102,7 +104,7 @@ export default class StepDescription extends FadableItem {
 
   setStepPosition(stepPosition) {
     this.stepPosition = stepPosition;
-    this.$el.find(".sideshow-step-position").text(stepPosition);
+    this.stepPositionElement.textContent = stepPosition;
   }
 
   /**
@@ -112,24 +114,33 @@ export default class StepDescription extends FadableItem {
    */
 
   render() {
-    this.$el = $("<div>")
-      .addClass("sideshow-step-description")
-      .addClass("sideshow-hidden")
-      .addClass("sideshow-invisible");
+    this.stepPositionElement = html`
+      <span
+        class="sideshow-step-position"
+        hidden=${currentWizard.showStepPosition === false}
+      />
+    `;
 
-    const stepPosition = $("<span>").addClass("sideshow-step-position");
-    this.$el.append(stepPosition);
-    if (currentWizard.showStepPosition === false) {
-      stepPosition.hide();
-    }
+    this.textElement = html`
+      <div class="sideshow-step-text" />
+    `;
+    this.titleElement = html`
+      <h2 />
+    `;
 
-    this.$el.append($("<h2>"));
-    this.$el.append($("<div>").addClass("sideshow-step-text"));
+    this.$el = html`
+      <div class="sideshow-step-description sideshow-hidden sideshow-invisible">
+        ${this.stepPositionElement}
+        ${this.titleElement}
+        ${this.textElement}
+      </div>
+    `;
+
     this.nextButton.render(this.$el);
-    this.nextButton.$el.click(() => {
+    this.nextButton.$el.addEventListener("click", () => {
       currentWizard.next();
     });
-    DetailsPanel.singleInstance.$el.append(this.$el);
+    DetailsPanel.singleInstance.$el.appendChild(this.$el);
   }
 
   /**
@@ -157,34 +168,36 @@ export default class StepDescription extends FadableItem {
       this.dimension.width = dp.dimension.width * 0.9;
     }
 
-    this.$el.css("width", this.dimension.width);
+    applyStyles(this.$el, { width: this.dimension.width });
 
-    const paddingLeftRight = (parsePxValue(this.$el.css("padding-left")) +
-      parsePxValue(this.$el.css("padding-right"))) /
+    const paddingLeftRight = (parsePxValue(this.$el.style.paddingLeft) +
+      parsePxValue(this.$el.style.paddingRight)) /
       2;
-    const paddingTopBottom = (parsePxValue(this.$el.css("padding-top")) +
-      parsePxValue(this.$el.css("padding-bottom"))) /
+    const paddingTopBottom = (parsePxValue(this.$el.style.paddingTop) +
+      parsePxValue(this.$el.style.paddingBottom)) /
       2;
 
-    this.dimension.height = parsePxValue(this.$el.outerHeight());
+    this.dimension.height = parsePxValue(this.$el.clientHeight);
 
-    //Checks if the description dimension overflow the available space in the details panel
+    // Checks if the description dimension overflow the available space in the details panel
     if (
       this.dimension.height > dp.dimension.height || this.dimension.width < 400
     ) {
-      this.dimension.width = $window.width() * 0.9;
-      this.$el.css("width", this.dimension.width);
-      this.dimension.height = parsePxValue(this.$el.outerHeight());
+      this.dimension.width = window.innerWidth * 0.9;
+      applyStyles(this.$el, { width: this.dimension.width });
+      this.dimension.height = parsePxValue(this.$el.clientHeight);
 
-      this.position.x = ($window.width() - this.dimension.width) / 2;
-      this.position.y = ($window.height() - this.dimension.height) / 2;
+      this.position.x = (window.innerWidth - this.dimension.width) / 2;
+      this.position.y = (window.innerHeight - this.dimension.height) / 2;
     } else {
       this.position.x = (dp.dimension.width - this.dimension.width) / 2;
       this.position.y = (dp.dimension.height - this.dimension.height) / 2;
     }
 
-    this.$el.css("left", this.position.x - paddingLeftRight);
-    this.$el.css("top", this.position.y - paddingTopBottom);
+    applyStyles(this.$el, {
+      left: this.position.x - paddingLeftRight,
+      top: this.position.y - paddingTopBottom
+    });
   }
 }
 

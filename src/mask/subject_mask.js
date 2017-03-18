@@ -1,10 +1,9 @@
+import html from "bel";
+import applyStyles from "@f/apply-styles";
 import FadableItem from "../interface_items/fadable_item";
 
 /**
  * Controls the mask that covers the subject during a step transition
- *
- * @class SubjectMask
- * @@singleton
  */
 
 export default class SubjectMask extends FadableItem {
@@ -15,7 +14,9 @@ export default class SubjectMask extends FadableItem {
    */
 
   render() {
-    this.$el = $("<div>").addClass("sideshow-subject-mask");
+    this.$el = html`
+      <div class="sideshow-subject-mask" />
+    `;
     super.render();
   }
 
@@ -29,16 +30,14 @@ export default class SubjectMask extends FadableItem {
    */
 
   update(position, dimension, borderRadius) {
-    this.$el
-      .css("left", position.x)
-      .css("top", position.y)
-      .css("width", dimension.width)
-      .css("height", dimension.height)
-      .css(
-        "border-radius",
-        `${borderRadius.leftTop}px ${borderRadius.rightTop}px ` +
-          `${borderRadius.leftBottom}px ${borderRadius.rightBottom}px`
-      );
+    applyStyles(this.$el, {
+      left: position.x,
+      top: position.y,
+      width: dimension.width,
+      height: dimension.height,
+      borderRadius: `${borderRadius.leftTop}px ${borderRadius.rightTop}px ` +
+        `${borderRadius.leftBottom}px ${borderRadius.rightBottom}px`
+    });
   }
 }
 

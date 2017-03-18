@@ -1,3 +1,5 @@
+import applyStyles from "@f/apply-styles";
+import html from "bel";
 import FadableItem from "../interface_items/fadable_item";
 import CompositeMask from "../mask/composite_mask";
 import { parsePxValue } from "../general/utility_functions";
@@ -7,7 +9,7 @@ import Screen from "../general/screen";
  * The panel that holds step description, is positionated over the biggest remaining space among the four parts of a composite mask
  * 
  * @class DetailsPanel
- * @@singleton
+ * @singleton
  * @extends FadableItem
  */
 
@@ -15,7 +17,7 @@ export default class DetailsPanel extends FadableItem {
   /**
    * An object holding dimension information for the Details Panel
    * 
-   * @@field dimension
+   * @field dimension
    * @type Object
    */
 
@@ -24,7 +26,7 @@ export default class DetailsPanel extends FadableItem {
   /**
    * An object holding positioning information for the Details Panel
    * 
-   * @@field position
+   * @field position
    * @type Object
    */
 
@@ -37,9 +39,9 @@ export default class DetailsPanel extends FadableItem {
    */
 
   render() {
-    this.$el = $("<div>")
-      .addClass("sideshow-details-panel")
-      .addClass("sideshow-hidden");
+    this.$el = html`
+      <div class="sideshow-details-panel sideshow-hidden" />
+    `;
     super.render();
   }
 
@@ -69,33 +71,36 @@ export default class DetailsPanel extends FadableItem {
         if (
           dimension.width + dimension.height >
           (biggestSide[0].dimension.width + biggestSide[0].dimension.height) * 2
-        )
+        ) {
           biggestSide = side;
+        }
       }
     }
 
     if (biggestSide[1] == "width") {
-      this.$el
-        .css("left", biggestSide[0].position.x)
-        .css("top", 0)
-        .css("height", Screen.dimension.height)
-        .css("width", biggestSide[0].dimension.width);
+      applyStyles(this.$el, {
+        left: biggestSide[0].position.x,
+        top: 0,
+        height: Screen.dimension.height,
+        width: biggestSide[0].dimension.width
+      });
     } else {
-      this.$el
-        .css("left", 0)
-        .css("top", biggestSide[0].position.y)
-        .css("height", biggestSide[0].dimension.height)
-        .css("width", Screen.dimension.width);
+      applyStyles(this.$el, {
+        left: 0,
+        top: biggestSide[0].position.y,
+        height: biggestSide[0].dimension.height,
+        width: Screen.dimension.width
+      });
     }
 
     this.dimension = {
-      width: parsePxValue(this.$el.css("width")),
-      height: parsePxValue(this.$el.css("height"))
+      width: parsePxValue(this.$el.style.width),
+      height: parsePxValue(this.$el.style.height)
     };
 
     this.position = {
-      x: parsePxValue(this.$el.css("left")),
-      y: parsePxValue(this.$el.css("top"))
+      x: parsePxValue(this.$el.style.left),
+      y: parsePxValue(this.$el.style.top)
     };
   }
 }

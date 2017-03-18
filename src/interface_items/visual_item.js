@@ -1,3 +1,4 @@
+import remove from "@f/remove-element";
 import { NOT_DISPLAYED, NOT_RENDERED } from "../general/AnimationStatus";
 
 /**
@@ -31,8 +32,8 @@ export default class VisualItem {
    * @method render
    */
 
-  render($parent = $body) {
-    $parent.append(this.$el);
+  render($parent = document.body) {
+    $parent.appendChild(this.$el);
     this.status = NOT_DISPLAYED;
   }
 
@@ -43,6 +44,6 @@ export default class VisualItem {
    */
 
   destroy() {
-    this.$el.remove();
+    remove(this.$el);
   }
 }

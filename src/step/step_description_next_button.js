@@ -1,3 +1,4 @@
+import html from "bel";
 import HidableItem from "../interface_items/hidable_item";
 
 /**
@@ -23,7 +24,7 @@ export default class StepDescriptionNextButton extends HidableItem {
    */
 
   disable() {
-    this.$el.attr("disabled", "disabled");
+    this.$el.setAttribute("disabled", "disabled");
   }
 
   /**
@@ -33,7 +34,7 @@ export default class StepDescriptionNextButton extends HidableItem {
    */
 
   enable() {
-    this.$el.attr("disabled", null);
+    this.$el.removeAttribute("disabled", null);
   }
 
   /**
@@ -45,7 +46,7 @@ export default class StepDescriptionNextButton extends HidableItem {
 
   setText(text) {
     this._text = text;
-    this.$el.text(text);
+    this.$el.textContent = text;
   }
 
   /**
@@ -56,7 +57,10 @@ export default class StepDescriptionNextButton extends HidableItem {
    */
 
   render($stepDescriptionEl) {
-    this.$el = $("<button>").addClass("sideshow-next-step-button");
+    this.$el = html`
+      <button class="sideshow-next-step-button" />
+    `;
+
     super.render($stepDescriptionEl);
   }
 }

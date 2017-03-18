@@ -1,3 +1,7 @@
+import addClass from "@f/add-class";
+import scrollTo from "@f/scroll-to";
+import foreach from '@f/foreach-array'
+import html from 'bel'
 import FadableItem from "../interface_items/fadable_item";
 import StepDescription from "../step/step_description";
 import Screen from "../general/screen";
@@ -12,9 +16,6 @@ import SubjectMask from "./subject_mask";
 
 /**
  * Controls the mask surrounds the subject (the step focussed area)
- * 
- * @class CompositeMask
- * @@singleton
  */
 export default class CompositeMask extends FadableItem {
   /**
@@ -48,19 +49,21 @@ export default class CompositeMask extends FadableItem {
    */
 
   render() {
+    this.$el = html`<div class="sideshow-hidden sideshow-invisible" />`
+
     for (const i in this.parts) {
       const part = this.parts[i];
       if (part.render) {
-        part.render();
+        part.render(this.$el);
       }
     }
-    this.$el = $(".sideshow-mask-part, .sideshow-mask-corner-part");
-    // if(!this.$el || this.$el.length === 0) this.$el = $(".sideshow-mask-part, .sideshow-mask-corner-part");
     SubjectMask.singleInstance.render();
     ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(d => {
-      this.parts[d].$el.addClass(d);
+      addClass(d, this.parts[d].$el);
     });
     this.status = NOT_DISPLAYED;
+
+    super.render()
   }
 
   /**
@@ -72,33 +75,22 @@ export default class CompositeMask extends FadableItem {
    */
 
   scrollIfNecessary(position, dimension) {
-    function doSmoothScroll(scrollTop, callback) {
-      $("body,html").animate(
-        {
-          scrollTop: scrollTop
-        },
-        300,
-        callback
-      );
-    }
-
     if (!Subject.isSubjectVisible(position, dimension)) {
       const description = StepDescription.singleInstance;
-      let y = dimension.height > $window.height() - 50
+      let y = dimension.height > window.innerHeight - 50
         ? position.y
         : position.y - 25;
-      y += $window.scrollTop();
+      y += window.pageYOffset;
 
-      doSmoothScroll(y, () => {
-        setTimeout(
-          () => {
-            DetailsPanel.singleInstance.positionate();
-            description.positionate();
-            description.fadeIn();
-          },
-          300
-        );
-      });
+      scrollTo(y, 300);
+      setTimeout(
+        () => {
+          DetailsPanel.singleInstance.positionate();
+          description.positionate();
+          description.fadeIn();
+        },
+        300
+      );
 
       return true;
     }
@@ -125,73 +117,31 @@ export default class CompositeMask extends FadableItem {
 
     //Updates the divs surrounding the subject
     this.parts.top.update(
-      {
-        x: 0,
-        y: 0
-      },
-      {
-        width: $window.width(),
-        height: top
-      }
+      { x: 0, y: 0 },
+      { width: window.innerWidth, height: top }
     );
-    this.parts.left.update(
-      {
-        x: 0,
-        y: top
-      },
-      {
-        width: left,
-        height: height
-      }
-    );
+    this.parts.left.update({ x: 0, y: top }, { width: left, height: height });
     this.parts.right.update(
-      {
-        x: left + width,
-        y: top
-      },
-      {
-        width: $window.width() - (left + width),
-        height: height
-      }
+      { x: left + width, y: top },
+      { width: window.innerWidth - (left + width), height: height }
     );
     this.parts.bottom.update(
-      {
-        x: 0,
-        y: top + height
-      },
-      {
-        width: $window.width(),
-        height: $window.height() - (top + height)
-      }
+      { x: 0, y: top + height },
+      { width: window.innerWidth, height: window.innerHeight - (top + height) }
     );
 
     //Updates the Rounded corners
-    this.parts.leftTop.update(
-      {
-        x: left,
-        y: top
-      },
-      br.leftTop
-    );
+    this.parts.leftTop.update({ x: left, y: top }, br.leftTop);
     this.parts.rightTop.update(
-      {
-        x: left + width - br.rightTop,
-        y: top
-      },
+      { x: left + width - br.rightTop, y: top },
       br.rightTop
     );
     this.parts.leftBottom.update(
-      {
-        x: left,
-        y: top + height - br.leftBottom
-      },
+      { x: left, y: top + height - br.leftBottom },
       br.leftBottom
     );
     this.parts.rightBottom.update(
-      {
-        x: left + width - br.rightBottom,
-        y: top + height - br.rightBottom
-      },
+      { x: left + width - br.rightBottom, y: top + height - br.rightBottom },
       br.rightBottom
     );
   }
@@ -205,8 +155,10 @@ export default class CompositeMask extends FadableItem {
   pollForSubjectChanges() {
     if (!flags.lockMaskUpdate) {
       if (currentWizard && currentWizard.currentStep.subject) {
-        const subject = $(currentWizard.currentStep.subject);
-        if (Subject.obj[0] !== subject[0]) {
+        const subject = document.querySelector(
+          currentWizard.currentStep.subject
+        );
+        if (Subject.obj !== subject) {
           SS.setSubject(subject, true);
         }
       }

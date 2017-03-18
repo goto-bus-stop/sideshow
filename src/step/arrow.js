@@ -1,3 +1,6 @@
+import applyStyles from "@f/apply-styles";
+import elementRect from "@f/element-rect";
+import html from "bel";
 import { parsePxValue } from "../general/utility_functions";
 import FadableItem from "../interface_items/fadable_item";
 
@@ -41,11 +44,10 @@ export default class Arrow extends FadableItem {
    */
 
   render() {
-    this.$el = $("<div>")
-      .addClass("sideshow-subject-arrow")
-      .addClass(this.position)
-      .addClass("sideshow-hidden")
-      .addClass("sideshow-invisible");
+    this.$el = html`
+      <div class="sideshow-subject-arrow ${this.position} sideshow-hidden sideshow-invisible"/>
+    `;
+
     super.render();
   }
 
@@ -59,13 +61,15 @@ export default class Arrow extends FadableItem {
     const target = this.target;
     const position = this.position;
 
+    const offset = elementRect(target.$el, document.documentElement);
+
     target.position = {
-      x: target.$el.offset().left - $window.scrollLeft(),
-      y: target.$el.offset().top - $window.scrollTop()
+      x: offset.left - window.pageXOffset,
+      y: offset.top - window.pageYOffset
     };
     target.dimension = {
-      width: parsePxValue(target.$el.outerWidth()),
-      height: parsePxValue(target.$el.outerHeight())
+      width: parsePxValue(target.$el.clientWidth),
+      height: parsePxValue(target.$el.clientHeight)
     };
 
     const coordinates = {
@@ -88,7 +92,7 @@ export default class Arrow extends FadableItem {
       }
     };
 
-    this.$el.css({
+    applyStyles(this.$el, {
       left: coordinates[position].x,
       top: coordinates[position].y
     });
@@ -124,11 +128,11 @@ export default class Arrow extends FadableItem {
    */
 
   hasChanged() {
-    return this.target.dimension.width !== this.target.$el.outerWidth() ||
-      this.target.dimension.height !== this.target.$el.outerHeight() ||
-      this.target.position.y !==
-        this.target.$el.offset().top - $window.scrollTop() ||
-      this.target.position.x !==
-        this.target.$el.offset().left - $window.scrollLeft();
+    const offset = elementRect(this.target.$el, document.documentElement);
+
+    return this.target.dimension.width !== this.target.$el.clientWidth ||
+      this.target.dimension.height !== this.target.$el.clientHeight ||
+      this.target.position.y !== offset.top - window.pageYOffset ||
+      this.target.position.x !== offset.left - window.pageXOffset;
   }
 }

@@ -1,6 +1,13 @@
+import foreach from "@f/foreach-array";
+import remove from "@f/remove-element";
 import SSException from "../general/exception";
 import { currentWizard } from "../general/state";
 import Arrow from "./arrow";
+
+// https://github.com/jquery/jquery/blob/2d4f534/src/css/hiddenVisibleSelectors.js#L12
+function isVisible(el) {
+  return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+}
 
 /**
  * Class representing all the current shown arrows
@@ -29,28 +36,28 @@ Arrows.clear = function() {
  * @static
  */
 Arrows.setTargets = function(targets, targetsChanged) {
-  if (targets.constructor === String) {
-    targets = $(targets);
+  if (typeof targets === "string") {
+    targets = document.querySelectorAll(targets);
   }
 
-  if (targets instanceof $ && targets.length > 0) {
-    targets.each(function() {
+  if (targets.length > 0) {
+    foreach(el => {
       const arrow = new Arrow();
-      arrow.target.$el = $(this);
-      if (arrow.target.$el.is(":visible")) {
+      arrow.target.$el = el;
+      if (isVisible(arrow.target.$el)) {
         Arrows.arrows.push(arrow);
         arrow.onceVisible = true;
       }
-    });
+    }, targets);
   } else if (!targetsChanged) {
     throw new SSException("150", "Invalid targets.");
   }
 };
 
 Arrows.recreateDOMReferences = function() {
-  this.arrows.forEach(arrow => {
-    arrow.$el.remove();
-  });
+  foreach(arrow => {
+    remove(arrow.$el);
+  }, this.arrows);
 
   Arrows.clear();
   Arrows.setTargets(currentWizard.currentStep.targets, true);
@@ -147,7 +154,7 @@ Arrows.pollForArrowsChanges = function() {
     if (arrow.hasChanged()) {
       arrow.positionate();
     }
-    if (arrow.onceVisible && !arrow.target.$el.is(":visible")) {
+    if (arrow.onceVisible && !isVisible(arrow.target.$el)) {
       brokenReference = true;
     }
   });

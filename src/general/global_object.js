@@ -1,3 +1,5 @@
+import foreach from "@f/foreach-array";
+import html from "bel";
 import Arrows from "../step/arrows";
 import Subject from "../step/subject";
 import DetailsPanel from "../step/step_details_panel";
@@ -61,7 +63,9 @@ SS.init = function() {
  * @static
  */
 SS.close = function() {
-  if (!currentWizard) WizardMenu.hide();
+  if (!currentWizard) {
+    WizardMenu.hide();
+  }
 
   DetailsPanel.singleInstance.fadeOut();
 
@@ -159,13 +163,13 @@ SS.setEmptySubject = function() {
  * @static
  */
 SS.setSubject = function(subj, subjectChanged) {
-  if (subj.constructor === String) {
-    subj = $(subj);
+  if (typeof subj === "string") {
+    subj = document.querySelectorAll(subj);
   }
 
-  if (subj instanceof $ && subj.length > 0) {
+  if (subj.length > 0) {
     if (subj.length === 1) {
-      Subject.obj = subj;
+      Subject.obj = subj[0];
       Subject.updateInfo();
       flags.lockMaskUpdate = false;
     } else {
@@ -206,14 +210,14 @@ SS.registerWizard = function(wizardConfig) {
 SS.getElegibleWizards = function(onlyNew) {
   const eligibleWizards = [];
   let somethingNew = false;
-  wizards.forEach(wiz => {
+  foreach(wiz => {
     if (wiz.isEligible()) {
       if (!wiz.isAlreadyWatched()) {
         somethingNew = true;
       }
       eligibleWizards.push(wiz);
     }
-  });
+  }, wizards);
 
   return !onlyNew || somethingNew ? eligibleWizards : [];
 };
@@ -282,12 +286,12 @@ SS.CloseButton = class CloseButton extends FadableItem {
    */
 
   render() {
-    this.$el = $("<button>")
-      .addClass("sideshow-close-button")
-      .text(getString(strings.close));
-    this.$el.click(() => {
-      SS.close();
-    });
+    this.$el = html`
+      <button onclick=${() => SS.close()} class="sideshow-close-button">
+        ${getString(strings.close)}
+      </button>
+    `;
+
     super.render();
   }
 };

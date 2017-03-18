@@ -388,7 +388,7 @@ export default class Wizard {
    */
 
   isEligible() {
-    var l = global.location;
+    var l = window.location;
 
     function isEqual(a, b, caseSensitive) {
       return caseSensitive ? a === b : a.toLowerCase() === b.toLowerCase();

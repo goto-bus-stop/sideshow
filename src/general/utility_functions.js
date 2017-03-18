@@ -1,22 +1,26 @@
+import remove from "@f/remove-element";
+import foreach from "@f/foreach-array";
 import SS from "./global_object";
 
 /**
  * Parses a string in the format "#px" in a number
  *
- * @@function parsePxValue
+ * @function parsePxValue
  * @param {String} value A value with/without a px unit
  * @return Number The number value without unit
  */
 export function parsePxValue(value) {
-  if (value.constructor !== String) return value;
-  var br = value === "" ? "0" : value;
+  if (typeof value !== "string") {
+    return value;
+  }
+  const br = value === "" ? "0" : value;
   return +br.replace("px", "");
 }
 
 /**
  * Gets a string from the dictionary in the current language
  *
- * @@function getString
+ * @function getString
  * @param {Object} stringKeyValuePair A string key-value pair in dictionary
  * @return String The string value in the current language
  */
@@ -35,19 +39,19 @@ export function getString(stringKeyValuePair) {
 /**
  * Registers hotkeys to be used when running Sideshow
  *
- * @@function registerInnerHotkeys
+ * @function registerInnerHotkeys
  */
 export function registerInnerHotkeys() {
-  $document.keyup(innerHotkeysListener);
+  document.addEventListener("keyup", innerHotkeysListener);
 }
 
 /**
  * Unregisters hotkeys used when running Sideshow
  *
- * @@function Unregisters
+ * @function Unregisters
  */
 export function unregisterInnerHotkeys() {
-  $document.unbind("keyup", innerHotkeysListener);
+  document.removeEventListener("keyup", innerHotkeysListener);
 }
 
 function innerHotkeysListener(e) {
@@ -58,16 +62,14 @@ function innerHotkeysListener(e) {
 /**
  * Registers global hotkeys
  *
- * @@function registerGlobalHotkeys
+ * @function registerGlobalHotkeys
  */
 export function registerGlobalHotkeys(SS) {
-  $document.keyup(e => {
+  document.addEventListener("keyup", e => {
     // F2
     if (e.keyCode == 113) {
       if (e.shiftKey) {
-        SS.start({
-          listAll: true
-        });
+        SS.start({ listAll: true });
       } else {
         SS.start();
       }
@@ -78,12 +80,13 @@ export function registerGlobalHotkeys(SS) {
 /**
  * Removes nodes created by Sideshow (except mask, which remains due to performance reasons when recalling Sideshow)
  *
- * @@function removeDOMGarbage
+ * @function removeDOMGarbage
  */
 export function removeDOMGarbage() {
-  $('[class*="sideshow"]')
-    .not(
-      ".sideshow-mask-part, .sideshow-mask-corner-part, .sideshow-subject-mask"
+  foreach(
+    remove,
+    document.querySelectorAll(
+      '[class*="sideshow"]:not(.sideshow-mask-part):not(.sideshow-mask-corner-part):not(.sideshow-subject-mask)'
     )
-    .remove();
+  );
 }

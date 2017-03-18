@@ -1,3 +1,5 @@
+import addClass from "@f/remove-class";
+import removeClass from "@f/remove-class";
 import { VISIBLE, NOT_DISPLAYED } from "../general/AnimationStatus";
 import VisualItem from "./visual_item";
 
@@ -21,9 +23,9 @@ export default class HidableItem extends VisualItem {
       this.render();
     }
     if (!displayButKeepTransparent) {
-      this.$el.removeClass("sideshow-invisible");
+      removeClass("sideshow-invisible", this.$el);
     }
-    this.$el.removeClass("sideshow-hidden");
+    removeClass("sideshow-hidden", this.$el);
     this.status = VISIBLE;
   }
 
@@ -35,9 +37,9 @@ export default class HidableItem extends VisualItem {
 
   hide(keepHoldingSpace) {
     if (!keepHoldingSpace) {
-      this.$el.addClass("sideshow-hidden");
+      addClass("sideshow-hidden", this.$el);
     }
-    this.$el.addClass("sideshow-invisible");
+    addClass("sideshow-invisible", this.$el);
     this.status = NOT_DISPLAYED;
   }
 }

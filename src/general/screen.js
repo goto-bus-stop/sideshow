@@ -23,8 +23,8 @@ Screen.dimension = {};
  * @return boolean
  */
 Screen.hasChanged = function() {
-  return $window.width() !== this.dimension.width ||
-    $window.height() !== this.dimension.height;
+  return window.innerWidth !== this.dimension.width ||
+    window.innerHeight !== this.dimension.height;
 };
 
 /**
@@ -34,8 +34,8 @@ Screen.hasChanged = function() {
  * @static
  */
 Screen.updateInfo = function() {
-  this.dimension.width = $window.width();
-  this.dimension.height = $window.height();
+  this.dimension.width = window.innerWidth;
+  this.dimension.height = window.innerHeight;
 };
 
 export default Screen;

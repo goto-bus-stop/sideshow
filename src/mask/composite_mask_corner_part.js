@@ -1,19 +1,16 @@
+import html from "bel";
+import applyStyles from "@f/apply-styles";
 import VisualItem from "../interface_items/visual_item";
 
 /**
- * A corner part composing the mask
- * 
- * @class CornerPart
- * @@initializer 
- * @param {Object} position The positioning information 
- * @param {Object} dimension The dimension information 
+ * A corner part composing the mask.
  */
 
 export default class CornerPart extends VisualItem {
   /**
    * An object holding positioning information for the mask corner part
    * 
-   * @@field position
+   * @field position
    * @type Object
    */
 
@@ -22,7 +19,7 @@ export default class CornerPart extends VisualItem {
   /**
    * An object holding dimension information for the mask corner part
    * 
-   * @@field position
+   * @field position
    * @type Object
    */
 
@@ -31,7 +28,7 @@ export default class CornerPart extends VisualItem {
   /**
    * An object holding border radius information for the mask corner part
    * 
-   * @@field borderRadius
+   * @field borderRadius
    * @type Object
    */
 
@@ -58,18 +55,18 @@ export default class CornerPart extends VisualItem {
    */
 
   static buildSVG(borderRadius) {
-    function SVG(nodeName) {
+    function createSvgNode(nodeName) {
       return document.createElementNS("http://www.w3.org/2000/svg", nodeName);
     }
 
     const bezierPoints = this.SVGPathPointsTemplate(borderRadius);
-    const $svg = $(SVG("svg"));
-    const $path = $(SVG("path"));
+    const svg = createSvgNode("svg");
+    const path = createSvgNode("path");
 
-    $path.attr("d", bezierPoints);
-    $svg.append($path);
+    path.setAttribute("d", bezierPoints);
+    svg.appendChild(path);
 
-    return $svg[0];
+    return svg;
   }
 
   /**
@@ -79,14 +76,14 @@ export default class CornerPart extends VisualItem {
    * @return {Object} The corner part jQuery wrapped DOM element
    */
 
-  render() {
-    this.$el = $("<div>")
-      .addClass("sideshow-mask-corner-part")
-      .addClass("sideshow-hidden")
-      .addClass("sideshow-invisible");
-    this.$el.append(CornerPart.buildSVG(this.borderRadius));
-    $body.append(this.$el);
-    return this.$el;
+  render(parent) {
+    this.$el = html`
+      <div class="sideshow-mask-corner-part">
+        ${CornerPart.buildSVG(this.borderRadius)}
+      </div>
+    `;
+
+    super.render(parent);
   }
 
   /**
@@ -98,14 +95,15 @@ export default class CornerPart extends VisualItem {
    */
 
   update(position, borderRadius) {
-    this.$el
-      .css("left", position.x)
-      .css("top", position.y)
-      .css("width", borderRadius)
-      .css("height", borderRadius);
+    applyStyles(this.$el, {
+      left: position.x,
+      top: position.y,
+      width: borderRadius,
+      height: borderRadius
+    });
 
-    $(this.$el)
-      .find("path")
-      .attr("d", CornerPart.SVGPathPointsTemplate(borderRadius));
+    this.$el
+      .querySelector("path")
+      .setAttribute("d", CornerPart.SVGPathPointsTemplate(borderRadius));
   }
 }

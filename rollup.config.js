@@ -1,6 +1,5 @@
 const fs = require("fs");
 const babel = require("rollup-plugin-babel");
-const inject = require("rollup-plugin-inject");
 const nodeResolve = require("rollup-plugin-node-resolve");
 const commonjs = require("rollup-plugin-commonjs");
 
@@ -10,7 +9,10 @@ module.exports = {
     {
       dest: "./distr/sideshow.js",
       format: "umd",
-      moduleName: "Sideshow"
+      moduleName: "Sideshow",
+      globals: {
+        marked: "marked"
+      }
     },
     {
       dest: "./distr/sideshow.es.js",
@@ -19,23 +21,17 @@ module.exports = {
   ],
   banner: fs.readFileSync("./src/copyright_info.js"),
   external: Object.keys(require("./package.json").dependencies),
-  globals: {
-    marked: "marked"
-  },
   plugins: [
     babel({
       babelrc: false,
       presets: [["env", { loose: true, modules: false }]],
-      plugins: ["transform-class-properties", "external-helpers"]
+      plugins: [
+        "transform-class-properties",
+        "external-helpers",
+        ["yo-yoify", { useImport: true }]
+      ]
     }),
     nodeResolve(),
-    commonjs(),
-    inject({
-      global: require.resolve("./src/bridge/global"),
-      $: require.resolve("./src/bridge/jquery"),
-      $body: require.resolve("./src/bridge/body"),
-      $document: require.resolve("./src/bridge/document"),
-      $window: require.resolve("./src/bridge/window")
-    })
+    commonjs()
   ]
 };
