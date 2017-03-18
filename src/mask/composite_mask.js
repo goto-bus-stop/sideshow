@@ -1,10 +1,22 @@
+import FadableItem from "../interface_itens/fadable_item";
+import StepDescription from "../step/step_description";
+import Screen from "../general/screen";
+import { flags, currentWizard } from "../general/state";
+import { NOT_DISPLAYED } from "../general/AnimationStatus";
+import SS from "../general/global_object";
+import Subject from "../step/subject";
+import DetailsPanel from "../step/step_details_panel";
+import Part from "./composite_mask_part";
+import CornerPart from "./composite_mask_corner_part";
+import SubjectMask from "./subject_mask";
+
 /**
  * Controls the mask surrounds the subject (the step focussed area)
  * 
  * @class CompositeMask
  * @@singleton
  */
-class CompositeMask extends FadableItem {
+export default class CompositeMask extends FadableItem {
   /**
    * Initializes the composite mask
    * 
@@ -14,10 +26,10 @@ class CompositeMask extends FadableItem {
   init() {
     var mask = this;
     ["top", "left", "right", "bottom"].forEach(function(d) {
-      mask.parts[d] = new Mask.CompositeMask.Part();
+      mask.parts[d] = new Part();
     });
     ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(function(d) {
-      mask.parts[d] = new Mask.CompositeMask.CornerPart();
+      mask.parts[d] = new CornerPart();
     });
   }
 
@@ -44,11 +56,11 @@ class CompositeMask extends FadableItem {
     }
     this.$el = $(".sideshow-mask-part, .sideshow-mask-corner-part");
     // if(!this.$el || this.$el.length === 0) this.$el = $(".sideshow-mask-part, .sideshow-mask-corner-part");
-    Mask.SubjectMask.singleInstance.render();
+    SubjectMask.singleInstance.render();
     ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(function(d) {
       mask.parts[d].$el.addClass(d);
     });
-    this.status = AnimationStatus.NOT_DISPLAYED;
+    this.status = NOT_DISPLAYED;
   }
 
   /**
@@ -103,7 +115,7 @@ class CompositeMask extends FadableItem {
    */
 
   update(position, dimension, borderRadius) {
-    Mask.SubjectMask.singleInstance.update(position, dimension, borderRadius);
+    SubjectMask.singleInstance.update(position, dimension, borderRadius);
     //Aliases
     var left = position.x,
       top = position.y,
@@ -218,5 +230,4 @@ class CompositeMask extends FadableItem {
   }
 }
 
-Mask.CompositeMask = CompositeMask;
-Mask.CompositeMask.singleInstance = new CompositeMask();
+CompositeMask.singleInstance = new CompositeMask();

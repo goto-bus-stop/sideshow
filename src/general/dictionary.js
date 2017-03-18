@@ -3,7 +3,7 @@
  *
  * @@object strings
  */
-var strings = {
+export default {
   availableWizards: {
     en: "Available Tutorials",
     "pt-br": "Tutoriais Disponíveis",

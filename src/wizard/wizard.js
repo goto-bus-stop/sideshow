@@ -1,3 +1,16 @@
+import SSException from "../general/exception";
+import Arrows from "../step/arrows";
+import CompositeMask from "../mask/composite_mask";
+import SubjectMask from "../mask/subject_mask";
+import DetailsPanel from "../step/step_details_panel";
+import StepDescription from "../step/step_description";
+import Subject from "../step/subject";
+import Polling from "../general/polling";
+import strings from "../general/dictionary";
+import { getString } from "../general/utility_functions";
+import SS from "../general/global_object";
+import { flags, currentWizard, setCurrentWizard } from "../general/state";
+
 /**
  * Represents a tutorial
  * 
@@ -5,7 +18,7 @@
  * @@initializer
  * @param {Object} wizardConfig The wizard configuration object                        
  */
-class Wizard {
+export default class Wizard {
   /**
    * A function to prepare the environment for running a wizard (e.g. redirecting to some screen)
    * 
@@ -138,7 +151,7 @@ class Wizard {
     var wiz = this;
 
     Polling.enqueue("check_composite_mask_subject_changes", function() {
-      Mask.CompositeMask.singleInstance.pollForSubjectChanges();
+      CompositeMask.singleInstance.pollForSubjectChanges();
     });
 
     Polling.enqueue("check_arrow_changes", function() {
@@ -173,7 +186,7 @@ class Wizard {
       });
     });
 
-    Mask.CompositeMask.singleInstance.fadeIn();
+    CompositeMask.singleInstance.fadeIn();
   }
 
   /**
@@ -216,13 +229,13 @@ class Wizard {
       if (step.subject) SS.setSubject(step.subject);
       else SS.setEmptySubject();
       //Updates the mask
-      Mask.CompositeMask.singleInstance.update(
+      CompositeMask.singleInstance.update(
         Subject.position,
         Subject.dimension,
         Subject.borderRadius
       );
 
-      var sm = Mask.SubjectMask.singleInstance;
+      var sm = SubjectMask.singleInstance;
       sm.fadeOut(function() {
         if (step.lockSubject) sm.show(true);
       });
@@ -279,7 +292,7 @@ class Wizard {
       //Step Description is shown, but is transparent yet (since we need to know its dimension to positionate it properly)
       description.show(true);
       if (
-        !Mask.CompositeMask.singleInstance.scrollIfNecessary(
+        !CompositeMask.singleInstance.scrollIfNecessary(
           Subject.position,
           Subject.dimension
         )
@@ -324,7 +337,7 @@ class Wizard {
             currentStep.listeners.afterStep();
 
           var completedWizard = currentWizard;
-          currentWizard = null;
+          setCurrentWizard(null);
           var listeners = self.listeners;
           if (listeners && listeners.afterWizardEnds)
             listeners.afterWizardEnds();
@@ -347,12 +360,12 @@ class Wizard {
       DetailsPanel.singleInstance.hide();
     });
     Arrows.fadeOut();
-    Mask.SubjectMask.singleInstance.update(
+    SubjectMask.singleInstance.update(
       Subject.position,
       Subject.dimension,
       Subject.borderRadius
     );
-    Mask.SubjectMask.singleInstance.fadeIn(callback);
+    SubjectMask.singleInstance.fadeIn(callback);
   }
 
   /**
@@ -443,7 +456,7 @@ class Wizard {
   }
 
   prepareAndPlay() {
-    currentWizard = this;
+    setCurrentWizard(this);
 
     if (!this.isEligible()) {
       if (this.preparation)

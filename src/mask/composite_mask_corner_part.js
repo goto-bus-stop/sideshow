@@ -1,3 +1,5 @@
+import VisualItem from "../interface_itens/visual_item";
+
 /**
  * A corner part composing the mask
  * 
@@ -7,7 +9,7 @@
  * @param {Object} dimension The dimension information 
  */
 
-class CornerPart extends VisualItem {
+export default class CornerPart extends VisualItem {
   /**
    * An object holding positioning information for the mask corner part
    * 
@@ -115,5 +117,3 @@ class CornerPart extends VisualItem {
       .attr("d", CornerPart.SVGPathPointsTemplate(borderRadius));
   }
 }
-
-Mask.CompositeMask.CornerPart = CornerPart;

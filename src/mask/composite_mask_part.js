@@ -1,3 +1,5 @@
+import VisualItem from "../interface_itens/visual_item";
+
 /**
  * A part composing the mask
  * 
@@ -7,7 +9,7 @@
  * @param {Object} dimension The dimension information 
  */
 
-class Part extends VisualItem {
+export default class Part extends VisualItem {
   /**
    * An object holding positioning information for the mask part
    * 
@@ -58,5 +60,3 @@ class Part extends VisualItem {
       .css("height", dimension.height);
   }
 }
-
-Mask.CompositeMask.Part = Part;

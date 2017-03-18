@@ -1,10 +1,12 @@
+var controlVariables = [];
+
 /**
  * Stores the variables used in step evaluators 
  * 
  * @class ControlVariables
  * @static
  */
-SS.ControlVariables = {};
+const ControlVariables = {};
 
 /**
  * Sets a variable value
@@ -14,7 +16,7 @@ SS.ControlVariables = {};
  * @param {String} value The variable value
  * @return {String} A formatted key=value pair representing the defined variable 
  */
-SS.ControlVariables.set = function(name, value) {
+ControlVariables.set = function(name, value) {
   var variable = {};
   if (this.isDefined(name)) {
     variable = this.getNameValuePair(name);
@@ -34,7 +36,7 @@ SS.ControlVariables.set = function(name, value) {
  * @param {String} value The variable value
  * @return {String} A formatted key=value pair representing the defined variable 
  */
-SS.ControlVariables.setIfUndefined = function(name, value) {
+ControlVariables.setIfUndefined = function(name, value) {
   if (!this.isDefined(name)) return this.set(name, value);
 };
 
@@ -45,7 +47,7 @@ SS.ControlVariables.setIfUndefined = function(name, value) {
  * @param {String} name The variable name
  * @return {boolean} A boolean indicating if the variable is already defined
  */
-SS.ControlVariables.isDefined = function(name) {
+ControlVariables.isDefined = function(name) {
   return this.getNameValuePair(name) !== undefined;
 };
 
@@ -56,7 +58,7 @@ SS.ControlVariables.isDefined = function(name) {
  * @param {String} name The variable name
  * @return {any} The variable value
  */
-SS.ControlVariables.get = function(name) {
+ControlVariables.get = function(name) {
   var pair = this.getNameValuePair(name);
   return pair ? pair.value : undefined;
 };
@@ -68,7 +70,7 @@ SS.ControlVariables.get = function(name) {
  * @param {String} name The variable name
  * @return {Object} A pair with the variable name and value
  */
-SS.ControlVariables.getNameValuePair = function(name) {
+ControlVariables.getNameValuePair = function(name) {
   for (var i = 0; i < controlVariables.length; i++) {
     var variable = controlVariables[i];
     if (variable.name === name) return variable;
@@ -82,7 +84,7 @@ SS.ControlVariables.getNameValuePair = function(name) {
  * @param {String} name The variable name
  * @return {Object} A pair with the removed variable name and value
  */
-SS.ControlVariables.remove = function(name) {
+ControlVariables.remove = function(name) {
   return controlVariables.splice(
     controlVariables.indexOf(this.getNameValuePair(name)),
     1
@@ -94,6 +96,8 @@ SS.ControlVariables.remove = function(name) {
  * 
  * @method clear
  */
-SS.ControlVariables.clear = function() {
+ControlVariables.clear = function() {
   controlVariables = [];
 };
+
+export default ControlVariables;

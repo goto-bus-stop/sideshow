@@ -1,3 +1,5 @@
+import SS from "./global_object";
+
 /**
  * Shows a warning  in a pre-defined format
  * 
@@ -5,7 +7,7 @@
  * @param {String} code                                  The warning code
  * @param {String} message                               The warning message
  */
-function showWarning(code, message) {
+export function showWarning(code, message) {
   console.warn(
     "[SIDESHOW_W#" + ("00000000" + code).substr(-8) + "] " + message
   );
@@ -18,7 +20,7 @@ function showWarning(code, message) {
  * @param {String} message                               The warning message
  */
 
-function showDeprecationWarning(message) {
+export function showDeprecationWarning(message) {
   console.warn("[DEPRECATION_WARNING] " + message);
 }
 
@@ -29,7 +31,7 @@ function showDeprecationWarning(message) {
  * @param {String} value A value with/without a px unit
  * @return Number The number value without unit 
  */
-function parsePxValue(value) {
+export function parsePxValue(value) {
   if (value.constructor !== String) return value;
   var br = value === "" ? "0" : value;
   return +br.replace("px", "");
@@ -42,7 +44,7 @@ function parsePxValue(value) {
  * @param {Object} stringKeyValuePair A string key-value pair in dictionary
  * @return String The string value in the current language
  */
-function getString(stringKeyValuePair) {
+export function getString(stringKeyValuePair) {
   if (!(SS.config.language in stringKeyValuePair)) {
     showWarning(
       "2001",
@@ -59,7 +61,7 @@ function getString(stringKeyValuePair) {
  * 
  * @@function registerInnerHotkeys
  */
-function registerInnerHotkeys() {
+export function registerInnerHotkeys() {
   $document.keyup(innerHotkeysListener);
 }
 
@@ -68,7 +70,7 @@ function registerInnerHotkeys() {
  * 
  * @@function Unregisters
  */
-function unregisterInnerHotkeys() {
+export function unregisterInnerHotkeys() {
   $document.unbind("keyup", innerHotkeysListener);
 }
 
@@ -82,7 +84,7 @@ function innerHotkeysListener(e) {
  * 
  * @@function registerGlobalHotkeys
  */
-function registerGlobalHotkeys() {
+export function registerGlobalHotkeys(SS) {
   $document.keyup(function(e) {
     //F2
     if (e.keyCode == 113) {
@@ -101,7 +103,7 @@ function registerGlobalHotkeys() {
  * 
  * @@function removeDOMGarbage
  */
-function removeDOMGarbage() {
+export function removeDOMGarbage() {
   $('[class*="sideshow"]')
     .not(
       ".sideshow-mask-part, .sideshow-mask-corner-part, .sideshow-subject-mask"

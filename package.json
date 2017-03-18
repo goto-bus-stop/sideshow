@@ -21,6 +21,7 @@
   "author": "Fortes Informática",
   "license": "Apache 2",
   "devDependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-preset-env": "^1.2.2",
     "del": "^0.1.2",
@@ -53,6 +54,9 @@
     "gulp-yuidoc": "^0.1.2",
     "gulp-zip": "^2.0.2",
     "ini": "^1.2.1",
-    "open": "0.0.5"
+    "open": "0.0.5",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-inject": "^2.0.0"
   }
 }

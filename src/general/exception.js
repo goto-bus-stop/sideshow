@@ -6,13 +6,12 @@
  * @param {String} code The error code
  * @param {String} message The error message
  */
-function SSException(code, message) {
-  this.name = "SSException";
-  this.message = "[SIDESHOW_E#" +
-    ("00000000" + code).substr(-8) +
-    "] " +
-    message;
-}
+export default class SSException extends Error {
+  name = "SSException";
 
-SSException.prototype = new Error();
-SSException.prototype.constructor = SSException;
+  constructor(code, message) {
+    super(message);
+
+    this.message = `[SIDESHOW_E#${`00000000${code}`.substr(-8)}] ${message}`;
+  }
+}

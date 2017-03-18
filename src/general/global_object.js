@@ -1,3 +1,48 @@
+import Arrows from "../step/arrows";
+import Subject from "../step/subject";
+import DetailsPanel from "../step/step_details_panel";
+import FadableItem from "../interface_itens/fadable_item";
+import CompositeMask from "../mask/composite_mask";
+import SubjectMask from "../mask/subject_mask";
+import WizardMenu from "../wizard/wizard_menu";
+import Wizard from "../wizard/wizard";
+import ControlVariables from "../wizard/wizard_control_variables";
+import SSException from "./exception";
+import strings from "./dictionary";
+import Polling from "./polling";
+import { VISIBLE, FADING_IN } from "./AnimationStatus";
+import { flags, currentWizard, setCurrentWizard, wizards } from "./state";
+import config from "./config";
+import {
+  registerGlobalHotkeys,
+  getString,
+  registerInnerHotkeys,
+  unregisterInnerHotkeys,
+  removeDOMGarbage
+} from "./utility_functions";
+
+/**
+ * The main class for Sideshow
+ * 
+ * @class SS 
+ * @static
+ */
+var SS = {
+  /**
+   * The current Sideshow version
+   * 
+   * @property VERSION
+   * @type String
+   */
+  get VERSION() {
+    return "0.4.3";
+  },
+
+  config
+};
+
+SS.ControlVariables = ControlVariables;
+
 /**
  * Initializes Sideshow
  * 
@@ -5,14 +50,11 @@
  * @static
  */
 SS.init = function() {
-  $window = $(global);
-  $document = $(global.document);
-  $body = $("body", global.document);
-  registerGlobalHotkeys();
+  registerGlobalHotkeys(SS);
   Polling.start();
-  Mask.CompositeMask.singleInstance.init();
+  CompositeMask.singleInstance.init();
   flags.lockMaskUpdate = true;
-  Mask.CompositeMask.singleInstance.render();
+  CompositeMask.singleInstance.render();
 };
 
 /**
@@ -44,21 +86,21 @@ SS.close = function() {
   setTimeout(
     function() {
       if (
-        Mask.CompositeMask.singleInstance.status === AnimationStatus.VISIBLE ||
-        Mask.CompositeMask.singleInstance.status === AnimationStatus.FADING_IN
+        CompositeMask.singleInstance.status === VISIBLE ||
+        CompositeMask.singleInstance.status === FADING_IN
       )
-        Mask.CompositeMask.singleInstance.fadeOut();
+        CompositeMask.singleInstance.fadeOut();
 
-      Mask.SubjectMask.singleInstance.fadeOut();
+      SubjectMask.singleInstance.fadeOut();
     },
-    longAnimationDuration
+    600
   );
 
   removeDOMGarbage();
   Polling.clear();
-  SS.ControlVariables.clear();
+  ControlVariables.clear();
   unregisterInnerHotkeys();
-  currentWizard = null;
+  setCurrentWizard(null);
   flags.running = false;
 };
 
@@ -75,7 +117,7 @@ SS.runWizard = function(name) {
   var wiz = wizards.filter(function(w) {
     return w.name === name;
   })[0];
-  currentWizard = wiz;
+  setCurrentWizard(wiz);
   if (wiz) {
     if (wiz.isEligible())
       wiz.play();
@@ -256,7 +298,7 @@ SS.showRelatedWizardsList = function(completedWizard) {
   if (relatedWizards.length == 0) return false;
 
   Polling.clear();
-  SS.ControlVariables.clear();
+  ControlVariables.clear();
   SS.showWizardsList(relatedWizards, getString(strings.relatedWizards));
 
   return true;
@@ -330,7 +372,9 @@ SS.start = function(config) {
     flags.running = true;
 
     Polling.enqueue("check_composite_mask_screen_changes", function() {
-      Mask.CompositeMask.singleInstance.pollForScreenChanges();
+      CompositeMask.singleInstance.pollForScreenChanges();
     });
   }
 };
+
+export default SS;

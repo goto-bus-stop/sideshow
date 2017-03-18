@@ -1,3 +1,6 @@
+import { parsePxValue } from "../general/utility_functions";
+import Screen from "../general/screen";
+
 /**
  * The current subject (the object being shown by the current wizard)
  * 
@@ -110,3 +113,5 @@ Subject.isSubjectVisible = function(position, dimension) {
   }
   return true;
 };
+
+export default Subject;

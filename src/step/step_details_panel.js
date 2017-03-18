@@ -1,3 +1,8 @@
+import FadableItem from "../interface_itens/fadable_item";
+import CompositeMask from "../mask/composite_mask";
+import { parsePxValue } from "../general/utility_functions";
+import Screen from "../general/screen";
+
 /**
  * The panel that holds step description, is positionated over the biggest remaining space among the four parts of a composite mask
  * 
@@ -6,7 +11,7 @@
  * @extends FadableItem
  */
 
-class DetailsPanel extends FadableItem {
+export default class DetailsPanel extends FadableItem {
   /**
    * An object holding dimension information for the Details Panel
    * 
@@ -45,7 +50,7 @@ class DetailsPanel extends FadableItem {
    */
 
   positionate() {
-    var parts = Mask.CompositeMask.singleInstance.parts;
+    var parts = CompositeMask.singleInstance.parts;
 
     //Considering the four parts surrounding the current subject, gets the biggest one
     var sortedSides = [

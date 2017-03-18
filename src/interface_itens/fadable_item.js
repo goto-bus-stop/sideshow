@@ -1,3 +1,12 @@
+import {
+  FADING_IN,
+  VISIBLE,
+  NOT_DISPLAYED,
+  NOT_RENDERED,
+  FADING_OUT
+} from "../general/AnimationStatus";
+import HidableItem from "./hidable_item";
+
 /**
  * A visual item which holds fading in and out capabilities
  * 
@@ -6,7 +15,7 @@
  * @extends HidableItem
  */
 
-class FadableItem extends HidableItem {
+export default class FadableItem extends HidableItem {
   /**
    * Does a fade in transition for the visual item
    * 
@@ -15,7 +24,7 @@ class FadableItem extends HidableItem {
 
   fadeIn(callback, linearTimingFunction) {
     var item = this;
-    item.status = AnimationStatus.FADING_IN;
+    item.status = FADING_IN;
 
     if (!item.$el) this.render();
     if (linearTimingFunction)
@@ -29,12 +38,12 @@ class FadableItem extends HidableItem {
 
         setTimeout(
           function() {
-            item.status = AnimationStatus.VISIBLE;
+            item.status = VISIBLE;
             if (linearTimingFunction)
               item.$el.css("animation-timing-function", "ease");
             if (callback) callback();
           },
-          longAnimationDuration
+          600
         );
       },
       20
@@ -49,8 +58,8 @@ class FadableItem extends HidableItem {
 
   fadeOut(callback, linearTimingFunction) {
     var item = this;
-    if (item.status != AnimationStatus.NOT_RENDERED) {
-      item.status = AnimationStatus.FADING_OUT;
+    if (item.status != NOT_RENDERED) {
+      item.status = FADING_OUT;
 
       if (linearTimingFunction)
         item.$el.css("animation-timing-function", "linear");
@@ -59,12 +68,12 @@ class FadableItem extends HidableItem {
       setTimeout(
         function() {
           item.$el.addClass("sideshow-hidden");
-          item.status = AnimationStatus.NOT_DISPLAYED;
+          item.status = NOT_DISPLAYED;
           if (linearTimingFunction)
             item.$el.css("animation-timing-function", "ease");
           if (callback) callback();
         },
-        longAnimationDuration
+        600
       );
     }
   }

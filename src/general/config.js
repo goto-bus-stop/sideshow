@@ -3,7 +3,7 @@
  *
  * @@object config
  */
-SS.config = {};
+const config = {};
 
 /**
  * Application route to persists user preferences
@@ -13,7 +13,7 @@ SS.config = {};
  * @@unused
  * @@todo Implement persistence logic
  */
-SS.config.userPreferencesRoute = null;
+config.userPreferencesRoute = null;
 
 /**
  * Logged in user
@@ -22,7 +22,7 @@ SS.config.userPreferencesRoute = null;
  * @type String
  * @@unused
  */
-SS.config.loggedInUser = null;
+config.loggedInUser = null;
 
 /**
  * Chosen language for sideshow interface
@@ -30,7 +30,7 @@ SS.config.loggedInUser = null;
  * @@field language
  * @type String
  */
-SS.config.language = "en";
+config.language = "en";
 
 /**
  * Defines if the intro screen (the tutorial list) will be  skipped when there's just one 
@@ -39,4 +39,6 @@ SS.config.language = "en";
  * @@field autoSkipIntro
  * @type boolean
  */
-SS.config.autoSkipIntro = false;
+config.autoSkipIntro = false;
+
+export default config;

@@ -1,3 +1,6 @@
+import { VISIBLE, NOT_DISPLAYED } from "../general/AnimationStatus";
+import VisualItem from "./visual_item";
+
 /**
  * A visual item which can be shown and hidden
  * 
@@ -5,7 +8,7 @@
  * @@abstract
  * @extends VisualItem
  */
-class HidableItem extends VisualItem {
+export default class HidableItem extends VisualItem {
   /**
    * Shows the visual item
    * 
@@ -17,7 +20,7 @@ class HidableItem extends VisualItem {
     if (!this.$el) this.render();
     if (!displayButKeepTransparent) this.$el.removeClass("sideshow-invisible");
     this.$el.removeClass("sideshow-hidden");
-    this.status = AnimationStatus.VISIBLE;
+    this.status = VISIBLE;
   }
 
   /**
@@ -29,6 +32,6 @@ class HidableItem extends VisualItem {
   hide(keepHoldingSpace) {
     if (!keepHoldingSpace) this.$el.addClass("sideshow-hidden");
     this.$el.addClass("sideshow-invisible");
-    this.status = AnimationStatus.NOT_DISPLAYED;
+    this.status = NOT_DISPLAYED;
   }
 }

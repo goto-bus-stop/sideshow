@@ -1,3 +1,7 @@
+import SSException from "../general/exception";
+
+var pollingDuration = 150;
+
 /**
  * Controls the polling functions needed by Sideshow
  * 
@@ -168,3 +172,5 @@ Polling.doPolling = function() {
     );
   }
 };
+
+export default Polling;

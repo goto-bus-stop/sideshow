@@ -1,3 +1,10 @@
+import CompositeMask from "../mask/composite_mask";
+import Subject from "../step/subject";
+import strings from "../general/dictionary";
+import SS from "../general/global_object";
+import { getString } from "../general/utility_functions";
+import { wizards } from "../general/state";
+
 /**
  * The main menu, where the available wizards are listed
  * 
@@ -75,12 +82,12 @@ WizardMenu.show = function(wizards, title) {
     wizards[0].prepareAndPlay();
   else {
     SS.setEmptySubject();
-    Mask.CompositeMask.singleInstance.update(
+    CompositeMask.singleInstance.update(
       Subject.position,
       Subject.dimension,
       Subject.borderRadius
     );
-    Mask.CompositeMask.singleInstance.fadeIn();
+    CompositeMask.singleInstance.fadeIn();
 
     WizardMenu.render(wizards);
 
@@ -105,10 +112,12 @@ WizardMenu.hide = function(callback) {
       $el && $el.hide();
       if (callback) callback();
     },
-    longAnimationDuration
+    600
   );
 };
 
 WizardMenu.setTitle = function(title) {
   this.$el.find(".sideshow-wizard-menu-title").text(title);
 };
+
+export default WizardMenu;

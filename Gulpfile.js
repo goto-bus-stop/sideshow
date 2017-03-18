@@ -1,6 +1,5 @@
 //All Requires
 const gulp = require("gulp");
-const babel = require("gulp-babel");
 const autoprefixer = require("gulp-autoprefixer");
 const minifycss = require("gulp-minify-css");
 const jshint = require("gulp-jshint");
@@ -216,37 +215,34 @@ function compileExamplesStylesheet() {
 }
 
 function bundleScripts(endCallback) {
-  return gulp
-    .src("./src/main.js")
-    .pipe(include())
-    .on("error", errorHandler("jsbuild_error"))
-    .pipe(rename("sideshow.js"))
-    .pipe(
-      babel({
-        presets: [["env", { loose: true }]],
-        plugins: ["transform-class-properties"]
-      })
-    )
-    .pipe(beautify({ indentSize: 2 }))
-    .pipe(gulp.dest("distr/"))
-    .pipe(rename({ suffix: ".min" }))
-    .pipe(uglify())
-    .pipe(gulp.dest("./distr/"))
-    .on("end", function() {
-      //adding copyright message in the expanded version
-      gulp
-        .src(["./src/copyright_info.js", "./distr/sideshow.js"])
-        .pipe(concat("sideshow.js"))
-        .pipe(gulp.dest("./distr/"));
+  const rollupPath = require.resolve("rollup/bin/rollup");
+  require("child_process").exec(`node ${rollupPath} -c`, err => {
+    if (err) {
+      errorHandler("jsbuild_error")(err);
+      return;
+    }
 
-      //adding copyright message in the minified version
-      gulp
-        .src(["./src/copyright_info.js", "./distr/sideshow.min.js"])
-        .pipe(concat("sideshow.min.js"))
-        .pipe(gulp.dest("./distr/"));
+    gulp
+      .src("./distr/sideshow.js")
+      .pipe(rename({ suffix: ".min" }))
+      .pipe(uglify())
+      .pipe(gulp.dest("./distr/"))
+      .on("end", function() {
+        //adding copyright message in the expanded version
+        gulp
+          .src(["./src/copyright_info.js", "./distr/sideshow.js"])
+          .pipe(concat("sideshow.js"))
+          .pipe(gulp.dest("./distr/"));
 
-      if (endCallback) endCallback();
-    });
+        //adding copyright message in the minified version
+        gulp
+          .src(["./src/copyright_info.js", "./distr/sideshow.min.js"])
+          .pipe(concat("sideshow.min.js"))
+          .pipe(gulp.dest("./distr/"));
+
+        if (endCallback) endCallback();
+      });
+  });
 }
 
 function cleanFiles(cb) {

@@ -1,9 +1,12 @@
+import { parsePxValue } from "../general/utility_functions";
+import FadableItem from "../interface_itens/fadable_item";
+
 /**
  * A single arrow for pointing individual items in current subject 
  * 
  * @class Arrow
  */
-class Arrow extends FadableItem {
+export default class Arrow extends FadableItem {
   /**
    * The jQuery wrapped object which will be pointed by this arrow
    * 

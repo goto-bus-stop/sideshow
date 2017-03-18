@@ -1,10 +1,12 @@
+import { NOT_DISPLAYED, NOT_RENDERED } from "../general/AnimationStatus";
+
 /**
  * A visual item 
  * 
  * @class VisualItem
  * @@abstract
  */
-class VisualItem {
+export default class VisualItem {
   /**
    * The jQuery wrapped DOM element for the visual item
    * 
@@ -21,7 +23,7 @@ class VisualItem {
    * @type AnimationStatus 
    */
 
-  status = AnimationStatus.NOT_RENDERED;
+  status = NOT_RENDERED;
 
   /**
    * Renders the item's DOM object
@@ -31,7 +33,7 @@ class VisualItem {
 
   render($parent) {
     ($parent || $body).append(this.$el);
-    this.status = AnimationStatus.NOT_DISPLAYED;
+    this.status = NOT_DISPLAYED;
   }
 
   /**

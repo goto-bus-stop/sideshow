@@ -1,3 +1,9 @@
+import FadableItem from "../interface_itens/fadable_item";
+import { parsePxValue } from "../general/utility_functions";
+import { currentWizard } from "../general/state";
+import StepDescriptionNextButton from "./step_description_next_button";
+import DetailsPanel from "./step_details_panel";
+
 /**
  * Represents a panel holding the step description
  * 
@@ -5,7 +11,7 @@
  * @extends FadableItem
  * @@initializer
  */
-class StepDescription extends FadableItem {
+export default class StepDescription extends FadableItem {
   /**
    * The step description text content
    * 

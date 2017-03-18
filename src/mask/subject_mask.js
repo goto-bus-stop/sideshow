@@ -1,3 +1,5 @@
+import FadableItem from "../interface_itens/fadable_item";
+
 /**
  * Controls the mask that covers the subject during a step transition
  * 
@@ -5,7 +7,7 @@
  * @@singleton
  */
 
-class SubjectMask extends FadableItem {
+export default class SubjectMask extends FadableItem {
   /**
    * Renders the subject mask
    * 
@@ -46,5 +48,4 @@ class SubjectMask extends FadableItem {
   }
 }
 
-Mask.SubjectMask = SubjectMask;
-Mask.SubjectMask.singleInstance = new Mask.SubjectMask();
+SubjectMask.singleInstance = new SubjectMask();

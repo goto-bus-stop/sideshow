@@ -37,3 +37,5 @@ Screen.updateInfo = function() {
   this.dimension.width = $window.width();
   this.dimension.height = $window.height();
 };
+
+export default Screen;

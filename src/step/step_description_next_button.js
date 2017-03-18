@@ -1,10 +1,12 @@
+import HidableItem from "../interface_itens/hidable_item";
+
 /**
  * Step next button 
  * 
  * @class StepDescriptionNextButton
  * @extends HidableItem
  */
-class StepDescriptionNextButton extends HidableItem {
+export default class StepDescriptionNextButton extends HidableItem {
   /**
    * The text for the next button
    * 
