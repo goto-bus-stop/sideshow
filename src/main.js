@@ -1,4 +1,4 @@
-(function(global, $, jazz, markdown) {
+(function($, markdown, global) {
   (function(name, module) {
     var ss = module();
 
@@ -11,10 +11,6 @@
     //jQuery is needed
     if ($ === undefined)
       throw new SSException("2", "jQuery is required for Sideshow to work.");
-
-    //Jazz is needed
-    if (jazz === undefined)
-      throw new SSException("3", "Jazz is required for Sideshow to work.");
 
     //Pagedown (the Markdown parser used by Sideshow) is needed
     if (markdown === undefined)
@@ -36,8 +32,8 @@
     //=include step/step_details_panel.js
     //=include step/arrows.js
     //=include step/arrow.js
-    //=include step/step_description.js
     //=include step/step_description_next_button.js
+    //=include step/step_description.js
     //=include general/screen.js
     //=include step/subject.js
     //=include mask/mask.js
@@ -58,4 +54,12 @@
         'The global access point "Sideshow" is already being used.'
       );
   });
-})(this, jQuery, Jazz, Markdown);
+})(
+  jQuery,
+  Markdown,
+  (() => {
+    if (typeof global !== "undefined") return global;
+    if (typeof window !== "undefined") return window;
+    if (typeof self !== "undefined") return self;
+  })()
+);

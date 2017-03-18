@@ -4,39 +4,43 @@
  * @class VisualItem
  * @@abstract
  */
-var VisualItem = jazz.Class().abstract;
+class VisualItem {
+  /**
+   * The jQuery wrapped DOM element for the visual item
+   * 
+   * @@field $el
+   * @type Object 
+   */
 
-/**
- * The jQuery wrapped DOM element for the visual item
- * 
- * @@field $el
- * @type Object 
- */
-VisualItem.field("$el");
+  $el = null;
 
-/**
- * The jQuery wrapped DOM element for the visual item
- * 
- * @@field $el
- * @type AnimationStatus 
- */
-VisualItem.field("status", AnimationStatus.NOT_RENDERED);
+  /**
+   * The jQuery wrapped DOM element for the visual item
+   * 
+   * @@field $el
+   * @type AnimationStatus 
+   */
 
-/**
- * Renders the item's DOM object
- * 
- * @method render
- */
-VisualItem.method("render", function($parent) {
-  ($parent || $body).append(this.$el);
-  this.status = AnimationStatus.NOT_DISPLAYED;
-});
+  status = AnimationStatus.NOT_RENDERED;
 
-/**
- * Destroys the item's DOM object
- * 
- * @method destroy
- */
-VisualItem.method("destroy", function() {
-  this.$el.remove();
-});
+  /**
+   * Renders the item's DOM object
+   * 
+   * @method render
+   */
+
+  render($parent) {
+    ($parent || $body).append(this.$el);
+    this.status = AnimationStatus.NOT_DISPLAYED;
+  }
+
+  /**
+   * Destroys the item's DOM object
+   * 
+   * @method destroy
+   */
+
+  destroy() {
+    this.$el.remove();
+  }
+}

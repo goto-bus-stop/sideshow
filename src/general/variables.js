@@ -38,11 +38,11 @@ var currentWizard;
  * 
  * @@enum AnimationStatus
  */
-var AnimationStatus = jazz.Enum(
-  "VISIBLE",
-  "FADING_IN",
-  "FADING_OUT",
-  "NOT_DISPLAYED",
-  "NOT_RENDERED",
-  "TRANSPARENT"
-);
+var AnimationStatus = {
+  VISIBLE: 0,
+  FADING_IN: 1,
+  FADING_OUT: 2,
+  NOT_DISPLAYED: 3,
+  NOT_RENDERED: 4,
+  TRANSPARENT: 5
+};

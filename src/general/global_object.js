@@ -108,7 +108,8 @@ SS.gotoStep = function() {
         "401",
         "There's no step in the storyline with position " + firstArg + "."
       );
-  } else if (typeof firstArg == "string") { //First argument is the step name
+  } else if (typeof firstArg == "string") {
+    //First argument is the step name
     destination = steps.filter(function(i) {
       return i.name === firstArg;
     })[0];
@@ -187,7 +188,7 @@ SS.setSubject = function(subj, subjectChanged) {
  * @static
  **/
 SS.registerWizard = function(wizardConfig) {
-  var wiz = Wizard.build(wizardConfig);
+  var wiz = new Wizard(wizardConfig);
   wizards.push(wiz);
   return wiz;
 };
@@ -268,22 +269,24 @@ SS.showRelatedWizardsList = function(completedWizard) {
  * @@singleton
  * @extends FadableItem
  */
-SS.CloseButton = jazz.Class().extending(FadableItem).singleton;
+SS.CloseButton = class CloseButton extends FadableItem {
+  /**
+   * Renders the close button
+   * 
+   * @method render
+   */
 
-/**
- * Renders the close button
- * 
- * @method render
- */
-SS.CloseButton.method("render", function() {
-  this.$el = $("<button>")
-    .addClass("sideshow-close-button")
-    .text(getString(strings.close));
-  this.$el.click(function() {
-    SS.close();
-  });
-  this.callSuper("render");
-});
+  render() {
+    this.$el = $("<button>")
+      .addClass("sideshow-close-button")
+      .text(getString(strings.close));
+    this.$el.click(function() {
+      SS.close();
+    });
+    super.render();
+  }
+};
+SS.CloseButton.singleInstance = new SS.CloseButton();
 
 /**
  * Starts Sideshow

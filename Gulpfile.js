@@ -1,5 +1,6 @@
 //All Requires
 const gulp = require("gulp");
+const babel = require("gulp-babel");
 const autoprefixer = require("gulp-autoprefixer");
 const minifycss = require("gulp-minify-css");
 const jshint = require("gulp-jshint");
@@ -220,6 +221,12 @@ function bundleScripts(endCallback) {
     .pipe(include())
     .on("error", errorHandler("jsbuild_error"))
     .pipe(rename("sideshow.js"))
+    .pipe(
+      babel({
+        presets: [["env", { loose: true }]],
+        plugins: ["transform-class-properties"]
+      })
+    )
     .pipe(beautify({ indentSize: 2 }))
     .pipe(gulp.dest("distr/"))
     .pipe(rename({ suffix: ".min" }))

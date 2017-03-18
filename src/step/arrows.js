@@ -29,7 +29,7 @@ Arrows.setTargets = function(targets, targetsChanged) {
 
   if (targets instanceof $ && targets.length > 0) {
     targets.each(function() {
-      var arrow = Arrow.build();
+      var arrow = new Arrow();
       arrow.target.$el = $(this);
       if (arrow.target.$el.is(":visible")) {
         Arrows.arrows.push(arrow);
