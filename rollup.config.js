@@ -1,10 +1,10 @@
-import * as fs from "fs";
-import babel from "rollup-plugin-babel";
-import inject from "rollup-plugin-inject";
-import nodeResolve from "rollup-plugin-node-resolve";
-import commonjs from "rollup-plugin-commonjs";
+const fs = require("fs");
+const babel = require("rollup-plugin-babel");
+const inject = require("rollup-plugin-inject");
+const nodeResolve = require("rollup-plugin-node-resolve");
+const commonjs = require("rollup-plugin-commonjs");
 
-export default {
+module.exports = {
   entry: "./src/general/global_object.js",
   targets: [
     {

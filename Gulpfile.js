@@ -1,21 +1,18 @@
 // All Requires
 const gulp = require("gulp");
 const autoprefixer = require("gulp-autoprefixer");
-const minifycss = require("gulp-minify-css");
+const cssnano = require("gulp-cssnano");
 const uglify = require("gulp-uglify");
-const csslint = require("gulp-csslint");
 const rename = require("gulp-rename");
-const notify = require("gulp-notify");
 const livereload = require("gulp-livereload");
-const open = require("open");
 const del = require("del");
-const http = require("http");
-const ecstatic = require("ecstatic");
+const serve = require("serve");
+const rollup = require("rollup").rollup;
 const util = require("gulp-util");
 const stylus = require("gulp-stylus");
 const fs = require("fs");
 const path = require("path");
-const prompt = require("gulp-prompt");
+const stripIndent = require("strip-indent");
 const zip = require("gulp-zip");
 const gzip = require("gulp-gzip");
 const tar = require("gulp-tar");
@@ -24,6 +21,7 @@ const wait = require("gulp-wait");
 const git = require("gift");
 const documentation = require("documentation");
 const streamArray = require("stream-array");
+const runSequence = require("run-sequence");
 const repo = git("./");
 const webserverPort = 8080;
 const isWin = /^win/.test(process.platform);
@@ -31,57 +29,93 @@ const appRoot = path.resolve(".");
 
 /* Tasks (will be extracted to separated files) */
 
-//Sideshow's main stylesheet
-gulp.task("style", function() {
-  compileSideshowStylesheets();
-});
+/* Sideshow's main stylesheet */
+gulp.task("style:main", () =>
+  gulp
+    .src("stylesheets/sideshow.styl")
+    .pipe(stylus())
+    .on("error", errorHandler("sideshow_stylesheet_compiling_error"))
+    .pipe(autoprefixer())
+    .on("error", errorHandler("sideshow_stylesheet_autoprefixing_error"))
+    .pipe(rename("sideshow.min.css"))
+    .pipe(cssnano({ safe: true }))
+    .pipe(gulp.dest("distr/stylesheets")));
+
+gulp.task("style:font", () =>
+  gulp
+    .src("stylesheets/sideshow-fontface.styl")
+    .pipe(stylus())
+    .on("error", errorHandler("fontface_stylesheet_compiling_error"))
+    .pipe(autoprefixer())
+    .on("error", errorHandler("fontface_stylesheet_autoprefixing_error"))
+    .pipe(rename("sideshow-fontface.min.css"))
+    .pipe(cssnano({ safe: true }))
+    .pipe(gulp.dest("distr/fonts")));
+
+gulp.task("style", ["style:main", "style:font"]);
 
 //Examples pages Style task
-gulp.task("examples-style", function() {
-  compileExamplesStylesheet();
+gulp.task("examples:style", () =>
+  gulp
+    .src("examples/stylesheets/styl/example.styl")
+    .pipe(stylus())
+    .on("error", errorHandler("examples_stylesheet_compiling_error"))
+    .pipe(autoprefixer())
+    .on("error", errorHandler("examples_stylesheet_autoprefixing_error"))
+    .pipe(rename("example.min.css"))
+    .pipe(cssnano({ safe: true }))
+    .pipe(gulp.dest("examples/stylesheets")));
+
+gulp.task("bundle:rollup", () => {
+  const config = require("./rollup.config");
+  return rollup(config).then(bundle =>
+    Promise.all(config.targets.map(bundle.write, bundle)));
 });
 
-//Bundle Nexit modules with Browserify
-gulp.task("bundle-scripts", function() {
-  bundleScripts();
-});
+gulp.task("bundle:minify", ["bundle:rollup"], () =>
+  gulp
+    .src("./distr/sideshow.js")
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(uglify())
+    .pipe(gulp.dest("./distr/")));
+
+gulp.task("bundle-scripts", ["bundle:rollup", "bundle:minify"]);
 
 //Clean task
-gulp.task("clean", function(cb) {
-  cleanFiles(cb);
-});
+gulp.task("clean", () => del(["distr/*.js", "docs/**/*"]));
 
 //Watch Task
-gulp.task("watch", function() {
-  pollForChanges();
+gulp.task("watch", () => {
+  gulp.watch("src/**/*.js", ["bundle-scripts"]);
+  gulp.watch("stylesheets/**/*.styl", ["style", "examples:style"]);
+  gulp.watch("examples/stylesheets/styl/**/*.styl", ["examples:style"]);
+
+  // Create LiveReload server
+  livereload.listen();
+
+  // Watch any files in distr/, reload on change
+  gulp
+    .watch(["examples/stylesheets/example.min.css", "distr/**"])
+    .on("change", () => {
+      livereload.changed();
+    });
 });
 
 //Webserver task
-gulp.task("webserver", function() {
-  runDevelopmentWebServer();
+gulp.task("webserver", () => {
+  serve(__dirname, { port: webserverPort });
 });
 
 //Default task
-gulp.task("default", function() {
-  compileSideshowStylesheets();
-  compileExamplesStylesheet();
-  // gulp.start('examples-partials');
-  runDevelopmentWebServer();
-  pollForChanges();
-
-  setTimeout(
-    function() {
-      openInBrowser(util.env.browser);
-    },
-    3000
-  );
+gulp.task("default", cb => {
+  runSequence(["examples:style", "style", "watch"], "webserver", cb);
 });
 
-gulp.task("update-version", function() {
+gulp.task("update-version", () => {
   updateVersionNumberReferences();
 });
 
-gulp.task("generate-docs", function(done) {
+gulp.task("generate-docs", done => {
   documentation.build("src/**/*.js", {}, (err, res) => {
     if (err) return done(err);
     documentation.formats.html(res, {}, (err, output) => {
@@ -92,227 +126,122 @@ gulp.task("generate-docs", function(done) {
   });
 });
 
-gulp.task("prepare-build", ["update-version", "clean"], function() {
+gulp.task("prepare-build", ["update-version", "clean"], () => {
   console.log(
     "Remember to edit the CHANGELOG file before doing a complete build."
   );
 });
 
-gulp.task("complete-build", function() {
-  if (prompt.confirm("Did you run the prepare-build before this?")) {
-    compileSideshowStylesheets();
-    compileExamplesStylesheet();
-    bundleScripts(function() {
-      gulp.start("generate-docs");
-    });
-  }
+gulp.task("complete-build", ["examples:style", "style"], cb => {
+  runSequence("build-scripts", "generate-docs", cb);
 });
 
-gulp.task("pack", function() {
-  zipDistributableFiles();
-  generatePackages();
-});
+gulp.task("compress:zip", () =>
+  gulp
+    .src(["./distr/**/*", "./examples/**/*", "example.html"])
+    .pipe(zip("sideshow.zip"))
+    .pipe(gulp.dest("./")));
 
-gulp.task("zip", function() {
-  zipDistributableFiles();
-});
+gulp.task("compress:tgz", () =>
+  gulp
+    .src(["./distr/**/*", "./examples/**/*", "example.html"])
+    .pipe(tar("sideshow.tar"))
+    .pipe(gzip())
+    .pipe(gulp.dest("./")));
 
-function zipDistributableFiles() {
-  var distr = gulp.src(["./distr*/**/*", "./examples*/**/*", "example.html"]);
-
-  distr.pipe(zip("sideshow.zip")).pipe(gulp.dest("./"));
-
-  distr.pipe(tar("sideshow.tar")).pipe(gzip()).pipe(gulp.dest("./"));
-}
-
-function generatePackages() {
+gulp.task("pack", ["compress:zip", "compress:tgz"], () => {
   var target = util.env.target || "all";
 
-  del(["*.gem", "*.nupkg"], function() {
-    repo.status(function(err, status) {
-      if (Object.keys(status.files).length === 0) {
-        var versionFilePath = path.join(appRoot, "VERSION");
-
-        fs.readFile(versionFilePath, "utf8", function(err, version) {
-          var versionNumber = version.match(/[\d.]+/);
-
-          if (["all", "github"].indexOf(target) > -1) {
-            console.log("Generating git tag and push everything.");
-            gulp
-              .src("./")
-              .pipe(run("git tag -a " + version + " -m '" + version + "'"))
-              .pipe(wait(5000))
-              .pipe(run("git push --all origin"))
-              .pipe(run("git push --tags origin"));
-          }
-
-          if (["all", "gem"].indexOf(target) > -1) {
-            console.log("Building and pushing Sideshow gem");
-            gulp
-              .src("./")
-              .pipe(run("gem build sideshow.gemspec"))
-              .pipe(wait(5000))
-              .pipe(run("gem push sideshow-" + versionNumber + ".gem"));
-          }
-
-          if (isWin && ["all", "nuget"].indexOf(target) > -1) {
-            console.log("Packing and pushing Sideshow nuget package");
-            gulp
-              .src("./")
-              .pipe(run("nuget pack sideshow.nuspec"))
-              .pipe(wait(5000))
-              .pipe(run("nuget push sideshow." + versionNumber + ".nupkg"));
-          }
-        });
-      } else {
+  del(["*.gem", "*.nupkg"]).then(() => {
+    repo.status((err, status) => {
+      if (Object.keys(status.files).length > 0) {
         console.log(
           "Before packing a new version you must commit your changes."
         );
+        return;
       }
+
+      const versionFilePath = path.join(appRoot, "VERSION");
+
+      fs.readFile(versionFilePath, "utf8", (err, version) => {
+        const versionNumber = version.match(/[\d.]+/);
+
+        if (target === "all" || target === "github") {
+          console.log("Generating git tag and push everything.");
+          gulp
+            .src("./")
+            .pipe(run(`git tag -a ${version} -m '${version}'`))
+            .pipe(wait(5000))
+            .pipe(run("git push --all origin"))
+            .pipe(run("git push --tags origin"));
+        }
+
+        if (target === "all" || target === "gem") {
+          console.log("Building and pushing Sideshow gem");
+          gulp
+            .src("./")
+            .pipe(run("gem build sideshow.gemspec"))
+            .pipe(wait(5000))
+            .pipe(run(`gem push sideshow-${versionNumber}.gem`));
+        }
+
+        if (isWin && (target === "all" || target === "nuget")) {
+          console.log("Packing and pushing Sideshow nuget package");
+          gulp
+            .src("./")
+            .pipe(run("nuget pack sideshow.nuspec"))
+            .pipe(wait(5000))
+            .pipe(run(`nuget push sideshow.${versionNumber}.nupkg`));
+        }
+      });
     });
   });
-}
-
-function compileSideshowStylesheets() {
-  return gulp
-    .src("stylesheets/sideshow.styl")
-    .pipe(stylus())
-    .on("error", errorHandler("sideshow_stylesheet_compiling_error"))
-    .pipe(autoPrefixerConfig())
-    .on("error", errorHandler("sideshow_stylesheet_autoprefixing_error"))
-    .pipe(rename("sideshow.css"))
-    .pipe(gulp.dest("tmp"))
-    .pipe(csslint(".csslintrc"))
-    .pipe(csslint.reporter())
-    .pipe(rename({ suffix: ".min" }))
-    .pipe(minifycss())
-    .pipe(gulp.dest("distr/stylesheets"));
-
-  //Font face stylesheet
-  gulp
-    .src("stylesheets/sideshow-fontface.styl")
-    .pipe(stylus())
-    .on("error", errorHandler("fontface_stylesheet_compiling_error"))
-    .pipe(autoPrefixerConfig())
-    .on("error", errorHandler("fontface_stylesheet_autoprefixing_error"))
-    .pipe(rename("sideshow-fontface.min.css"))
-    .pipe(minifycss())
-    .pipe(gulp.dest("distr/fonts"));
-}
-
-function compileExamplesStylesheet() {
-  return gulp
-    .src("examples/stylesheets/styl/example.styl")
-    .pipe(stylus())
-    .on("error", errorHandler("examples_stylesheet_compiling_error"))
-    .pipe(autoPrefixerConfig())
-    .on("error", errorHandler("examples_stylesheet_autoprefixing_error"))
-    .pipe(rename("example.css"))
-    .pipe(gulp.dest("tmp"))
-    .pipe(csslint(".csslintrc"))
-    .pipe(csslint.reporter())
-    .pipe(rename({ suffix: ".min" }))
-    .pipe(minifycss())
-    .pipe(gulp.dest("examples/stylesheets"));
-}
-
-function bundleScripts(endCallback = () => {}) {
-  const rollupPath = require.resolve("rollup/bin/rollup");
-  require("child_process").exec(`node ${rollupPath} -c`, err => {
-    if (err) {
-      errorHandler("jsbuild_error")(err);
-      return;
-    }
-
-    gulp
-      .src("./distr/sideshow.js")
-      .pipe(rename({ suffix: ".min" }))
-      .pipe(uglify())
-      .pipe(gulp.dest("./distr/"))
-      .on("end", endCallback);
-  });
-}
-
-function cleanFiles(cb) {
-  del(["distr/*.js", "tmp/*", "docs/**/*"], cb);
-}
-
-function pollForChanges() {
-  gulp.watch("src/**/*.js", ["bundle-scripts"]);
-  gulp.watch("stylesheets/**/*.styl", ["style", "examples-style"]);
-  gulp.watch("examples/stylesheets/styl/**/*.styl", ["examples-style"]);
-  gulp.watch("examples/partials/**/*.html", ["examples-partials"]);
-
-  // Create LiveReload server
-  livereload.listen();
-
-  // Watch any files in distr/, reload on change
-  gulp
-    .watch(["examples/stylesheets/example.min.css", "distr/**"])
-    .on("change", function() {
-      livereload.changed();
-      notify("Changed.");
-    });
-
-  notify("Running livereload.");
-}
-
-function runDevelopmentWebServer() {
-  http.createServer(ecstatic({ root: __dirname })).listen(webserverPort);
-
-  notify("Web server started. Listening on port " + webserverPort + ".");
-}
-
-function openInBrowser(browser) {
-  function go(browser) {
-    return open("http://localhost:" + webserverPort + "/example.html", browser);
-  }
-
-  if (browser != "none") {
-    if (browser == "all") {
-      go("firefox");
-      go("opera");
-      go("safari");
-      go("chrome");
-    } else if (browser) go(browser);
-    else go("firefox");
-  }
-}
+});
 
 function updateVersionNumberReferences() {
-  var version = util.env.version ||
-    (function() {
-      throw "A version number must be passed. Please inform the '--version' argument.";
-    })(),
-    name = util.env.name ||
-      (function() {
-        throw "A version name must be passed. Please inform the '--name' argument.";
-      })(),
-    appRoot = path.resolve("."),
-    versionFilePath = path.join(appRoot, "VERSION"),
-    gemspecFilePath = path.join(appRoot, "sideshow.gemspec"),
-    nuspecFilePath = path.join(appRoot, "sideshow.nuspec"),
-    packageJsonFilePath = path.join(appRoot, "package.json"),
-    changelogFilePath = path.join(appRoot, "CHANGELOG.md"),
-    copyrightInfoFilePath = path.join(appRoot, "src", "copyright_info.js"),
-    variablesFilePath = path.join(appRoot, "src", "general", "variables.js"),
-    releaseDate = new Date().toISOString().slice(0, 10);
+  if (!util.env.version) {
+    throw new Error(
+      "A version number must be passed. Please inform the '--version' argument."
+    );
+  }
+  if (!util.env.name) {
+    throw new Error(
+      "A version name must be passed. Please inform the '--name' argument."
+    );
+  }
+
+  const version = util.env.version;
+  const name = util.env.name;
+  const appRoot = path.resolve(".");
+  const versionFilePath = path.join(appRoot, "VERSION");
+  const gemspecFilePath = path.join(appRoot, "sideshow.gemspec");
+  const nuspecFilePath = path.join(appRoot, "sideshow.nuspec");
+  const packageJsonFilePath = path.join(appRoot, "package.json");
+  const changelogFilePath = path.join(appRoot, "CHANGELOG.md");
+  const copyrightInfoFilePath = path.join(appRoot, "src", "copyright_info.js");
+  const variablesFilePath = path.join(
+    appRoot,
+    "src",
+    "general",
+    "variables.js"
+  );
+  const releaseDate = new Date().toISOString().slice(0, 10);
 
   //VERSION file
   fs.readFile(versionFilePath, "utf8", function(err, data) {
     if (err) throw err;
 
-    fs.writeFile(versionFilePath, "v" + version + "-" + name);
+    fs.writeFile(versionFilePath, `v${version}-${name}`);
   });
 
   //package.json
   fs.readFile(packageJsonFilePath, "utf8", function(err, data) {
     if (err) throw err;
 
-    var json = JSON.parse(data);
+    const json = JSON.parse(data);
     json.version = version;
 
-    fs.writeFile(packageJsonFilePath, JSON.stringify(json, null, 4));
+    fs.writeFile(packageJsonFilePath, JSON.stringify(json, null, 2));
   });
 
   //sideshow.gemspec
@@ -321,7 +250,7 @@ function updateVersionNumberReferences() {
 
     fs.writeFile(
       gemspecFilePath,
-      data.replace(/(s.version\s+=\s+)('[\d.]+')/, "$1'" + version + "'")
+      data.replace(/(s.version\s+=\s+)('[\d.]+')/, `$1'${version}'`)
     );
   });
 
@@ -332,8 +261,8 @@ function updateVersionNumberReferences() {
     fs.writeFile(
       copyrightInfoFilePath,
       data
-        .replace(/(Version: )([\d.]+)/, "$1" + version)
-        .replace(/(Date: )([\d-]+)/, "$1" + releaseDate)
+        .replace(/(Version: )([\d.]+)/, `$1${version}`)
+        .replace(/(Date: )([\d-]+)/, `$1${releaseDate}`)
     );
   });
 
@@ -341,18 +270,19 @@ function updateVersionNumberReferences() {
   fs.readFile(changelogFilePath, "utf8", function(err, data) {
     if (err) throw err;
 
-    if (data.indexOf("#Version " + version) == -1) {
-      var versionChangelogText = "#Version " +
-        version +
-        " " +
-        name +
-        " (" +
-        releaseDate +
-        ")" +
-        "\n\n##General" +
-        "\n\n##Fixes\n\n" +
-        Array(61).join("-") +
-        "\n\n";
+    if (data.indexOf(`#Version ${version}`) == -1) {
+      var versionChangelogText = stripIndent(
+        `
+        #Version ${version} ${name} (${releaseDate})
+        
+        ##General
+        
+        ##Fixes
+        
+        ${Array(61).join("-")}
+        
+      `
+      );
 
       fs.writeFile(changelogFilePath, versionChangelogText + data);
     }
@@ -383,17 +313,5 @@ function updateVersionNumberReferences() {
 function errorHandler(title) {
   return function(error) {
     console.log((title || "Error") + ": " + error.message);
-    notify((title || "Error") + ": " + error.message);
   };
-}
-
-function autoPrefixerConfig() {
-  return autoprefixer(
-    "last 2 version",
-    "safari 5",
-    "ie 9",
-    "opera 12.1",
-    "ios 6",
-    "android 4"
-  );
 }
