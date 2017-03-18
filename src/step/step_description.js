@@ -1,10 +1,10 @@
 /**
-    Represents a panel holding the step description
-
-    @class StepDescription
-    @extends FadableItem
-    @@initializer
-    **/
+ * Represents a panel holding the step description
+ * 
+ * @class StepDescription
+ * @extends FadableItem
+ * @@initializer
+ */
 var StepDescription = jazz
   .Class(function() {
     this.nextButton = StepDescriptionNextButton.build();
@@ -12,94 +12,94 @@ var StepDescription = jazz
   .extending(FadableItem).singleton;
 
 /**
-    The step description text content
-
-    @@field text
-    @type String
-    **/
+ * The step description text content
+ * 
+ * @@field text
+ * @type String
+ */
 StepDescription.field("text", "");
 
 /**
-    The title text for the step description panel
-
-    @@field title
-    @type String
-    **/
+ * The title text for the step description panel
+ * 
+ * @@field title
+ * @type String
+ */
 StepDescription.field("title", "");
 
 /**
-    An object holding dimension information for the Step Description panel
-
-    @@field dimension
-    @type Object
-    **/
+ * An object holding dimension information for the Step Description panel
+ * 
+ * @@field dimension
+ * @type Object
+ */
 StepDescription.field("dimension", {});
 
 /**
-    An object holding positioning information for the Step Description panel
-
-    @@field position
-    @type Object
-    **/
+ * An object holding positioning information for the Step Description panel
+ * 
+ * @@field position
+ * @type Object
+ */
 StepDescription.field("position", {});
 
 /**
-    An object representing the next button for a step description panel 
-
-    @@field nextButton
-    @type Object
-    **/
+ * An object representing the next button for a step description panel 
+ * 
+ * @@field nextButton
+ * @type Object
+ */
 StepDescription.field("nextButton");
 
 /**
-    Sets the text for the step description panel
-
-    @method setText
-    @param {String} text                                  The text for the step description panel
-    **/
+ * Sets the text for the step description panel
+ * 
+ * @method setText
+ * @param {String} text The text for the step description panel
+ */
 StepDescription.method("setText", function(text) {
   this.text = text;
   this.$el.find(".sideshow-step-text").text(text);
 });
 
 /**
-    Sets the HTML content for the step description panel
-
-    @method setHTML
-    @param {String} text                                  The HTML content for step description panel
-    **/
+ * Sets the HTML content for the step description panel
+ * 
+ * @method setHTML
+ * @param {String} text The HTML content for step description panel
+ */
 StepDescription.method("setHTML", function(text) {
   this.text = text;
   this.$el.find(".sideshow-step-text").html(text);
 });
 
 /**
-    Sets the title for the step description panel
-
-    @method setTitle
-    @param {String} title                                 The text for the step description panel
-    **/
+ * Sets the title for the step description panel
+ * 
+ * @method setTitle
+ * @param {String} title The text for the step description panel
+ */
 StepDescription.method("setTitle", function(title) {
   this.title = title;
   this.$el.find("h2:first").text(title);
 });
 
 /**
-    Sets the title for the step description panel
-
-    @method setStepPosition
-    @param {String} title                                 The text for the step description panel
-    **/
+ * Sets the title for the step description panel
+ * 
+ * @method setStepPosition
+ * @param {String} title The text for the step description panel
+ */
 StepDescription.method("setStepPosition", function(stepPosition) {
   this.stepPosition = stepPosition;
   this.$el.find(".sideshow-step-position").text(stepPosition);
 });
 
 /**
-    Renders the step description panel
-
-    @method render
-    **/
+ * Renders the step description panel
+ * 
+ * @method render
+ */
 StepDescription.method("render", function() {
   this.$el = $("<div>")
     .addClass("sideshow-step-description")
@@ -120,20 +120,20 @@ StepDescription.method("render", function() {
 });
 
 /**
-    Shows the step description panel
-
-    @method show
-    **/
+ * Shows the step description panel
+ * 
+ * @method show
+ */
 StepDescription.method("show", function(displayButKeepTransparent) {
   this.callSuper("show", displayButKeepTransparent);
   //this.positionate();
 });
 
 /**
-    Positionates the step description panel
-
-    @method positionate
-    **/
+ * Positionates the step description panel
+ * 
+ * @method positionate
+ */
 StepDescription.method("positionate", function() {
   var dp = DetailsPanel.singleInstance;
 

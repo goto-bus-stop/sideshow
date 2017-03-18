@@ -4,19 +4,19 @@ var globalObjectName = "Sideshow",
   $document,
   pollingDuration = 150,
   longAnimationDuration = 600,
-  /** 
-        The main class for Sideshow
-
-        @class SS 
-        @static
-        **/
+  /**
+   * The main class for Sideshow
+   * 
+   * @class SS 
+   * @static
+   */
   SS = {
     /**
-            The current Sideshow version
-
-            @property VERSION
-            @type String
-            **/
+     * The current Sideshow version
+     * 
+     * @property VERSION
+     * @type String
+     */
     get VERSION() {
       return "0.4.3";
     }
@@ -31,10 +31,10 @@ var globalObjectName = "Sideshow",
   wizards = [],
   currentWizard,
   /**
-        Possible statuses for an animation
-
-        @@enum AnimationStatus
-        **/
+   * Possible statuses for an animation
+   * 
+   * @@enum AnimationStatus
+   */
   AnimationStatus = jazz.Enum(
     "VISIBLE",
     "FADING_IN",

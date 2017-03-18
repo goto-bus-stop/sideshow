@@ -1,30 +1,30 @@
 /**
-    @@alias Part
-    @@to Mask.CompositeMask.Part
-    **/
+ * @@alias Part
+ * @@to Mask.CompositeMask.Part
+ */
 var Part = Mask.CompositeMask.Part;
 
 /**
-    An object holding positioning information for the mask part
-
-    @@field position
-    @type Object
-    **/
+ * An object holding positioning information for the mask part
+ * 
+ * @@field position
+ * @type Object
+ */
 Part.field("position", {});
 
 /**
-    An object holding dimension information for the mask part
-
-    @@field position
-    @type Object
-    **/
+ * An object holding dimension information for the mask part
+ * 
+ * @@field position
+ * @type Object
+ */
 Part.field("dimension", {});
 
 /**
-    Renders the mask part
-
-    @method render
-    **/
+ * Renders the mask part
+ * 
+ * @method render
+ */
 Part.method("render", function() {
   this.$el = $("<div>")
     .addClass("sideshow-mask-part")
@@ -34,12 +34,12 @@ Part.method("render", function() {
 });
 
 /**
-    Updates the dimension and positioning of the subject mask part
-
-    @method update
-    @param {Object} position                              The positioning information 
-    @param {Object} dimension                             The dimension information 
-    **/
+ * Updates the dimension and positioning of the subject mask part
+ * 
+ * @method update
+ * @param {Object} position The positioning information 
+ * @param {Object} dimension The dimension information 
+ */
 Part.method("update", function(position, dimension) {
   this.position = position;
   this.dimension = dimension;

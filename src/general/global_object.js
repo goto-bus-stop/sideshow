@@ -1,9 +1,9 @@
 /**
-    Initializes Sideshow
-
-    @method init
-    @static
-    **/
+ * Initializes Sideshow
+ * 
+ * @method init
+ * @static
+ */
 SS.init = function() {
   $window = $(global);
   $document = $(global.document);
@@ -16,23 +16,23 @@ SS.init = function() {
 };
 
 /**
-    Receives a function with just a multiline comment as body and converts to a here-document string
-
-    @method heredoc
-    @param {Function}                                     A function without body but a multiline comment
-    @return {String}                                      A multiline string
-    @static
-    **/
+ * Receives a function with just a multiline comment as body and converts to a here-document string
+ *  
+ * @method heredoc
+ * @param {Function} fn A function without body but a multiline comment
+ * @return {String} A multiline string
+ * @static
+ */
 SS.heredoc = function(fn) {
   return fn.toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
 };
 
 /**
-    Stops and Closes Sideshow
-
-    @method closes
-    @static
-    **/
+ * Stops and Closes Sideshow
+ * 
+ * @method closes
+ * @static
+ */
 SS.close = function() {
   if (!currentWizard) WizardMenu.hide();
 
@@ -63,10 +63,10 @@ SS.close = function() {
 };
 
 /**
-    @deprecated
-    @method runWizard
-    @static
-    **/
+ * @deprecated
+ * @method runWizard
+ * @static
+ */
 SS.runWizard = function(name) {
   showDeprecationWarning(
     "This method is deprecated and will be removed until the next major version of Sideshow."
@@ -128,11 +128,11 @@ SS.gotoStep = function() {
 };
 
 /**
-    A trick to use the composite mask to simulate the behavior of a solid mask, setting an empty subject
-
-    @method setEmptySubject
-    @static
-    **/
+ * A trick to use the composite mask to simulate the behavior of a solid mask, setting an empty subject
+ * 
+ * @method setEmptySubject
+ * @static
+ */
 SS.setEmptySubject = function() {
   flags.lockMaskUpdate = true;
   Subject.obj = null;
@@ -155,12 +155,12 @@ SS.setEmptySubject = function() {
 };
 
 /**
-    Sets the current subject
-
-    @method setSubject
-    @param {Object} subj
-    @static
-    **/
+ * Sets the current subject
+ * 
+ * @method setSubject
+ * @param {Object} subj
+ * @static
+ */
 SS.setSubject = function(subj, subjectChanged) {
   if (subj.constructor === String) subj = $(subj);
 
@@ -179,13 +179,13 @@ SS.setSubject = function(subj, subjectChanged) {
 };
 
 /**
-    Registers a wizard
-
-    @method registerWizard
-    @param {Object} wizardConfig                          
-    @return {Object}                                      The wizard instance
-    @static
-    **/
+ * Registers a wizard
+ * 
+ * @method registerWizard
+ * @param {Object} wizardConfig
+ * @return {Object} The wizard instance
+ * @static
+ **/
 SS.registerWizard = function(wizardConfig) {
   var wiz = Wizard.build(wizardConfig);
   wizards.push(wiz);
@@ -193,13 +193,13 @@ SS.registerWizard = function(wizardConfig) {
 };
 
 /**
-    Registers a wizard
-
-    @method registerWizard
-    @param {boolean} onlyNew                              Checks only recently added wizards
-    @return {Array}                                       The eligible wizards list
-    @static
-    **/
+ * Registers a wizard
+ * 
+ * @method registerWizard
+ * @param {boolean} onlyNew Checks only recently added wizards
+ * @return {Array} The eligible wizards list
+ * @static
+ */
 SS.getElegibleWizards = function(onlyNew) {
   var eligibleWizards = [];
   var somethingNew = false;
@@ -215,13 +215,13 @@ SS.getElegibleWizards = function(onlyNew) {
 };
 
 /**
-    Checks if there are eligible wizards, if exists, shows the wizard menu   
-
-    @method showWizardsList
-    @param {boolean} onlyNew                              Checks only recently added wizards
-    @return {boolean}                                     Returns a boolean indicating whether there is some wizard available
-    @static
-    **/
+ * Checks if there are eligible wizards, if exists, shows the wizard menu
+ * 
+ * @method showWizardsList
+ * @param {boolean} onlyNew Checks only recently added wizards
+ * @return {boolean} Returns a boolean indicating whether there is some wizard available
+ * @static
+ */
 SS.showWizardsList = function() {
   var firstArg = arguments[0];
   var title = arguments[1];
@@ -236,13 +236,13 @@ SS.showWizardsList = function() {
 };
 
 /**
-    Shows a list with the related wizards  
-
-    @method showRelatedWizardsList
-    @param {Object} completedWizard                       The recently completed wizard
-    @return {boolean}                                     Returns a boolean indicating whether there is some related wizard available
-    @static
-    **/
+ * Shows a list with the related wizards  
+ * 
+ * @method showRelatedWizardsList
+ * @param {Object} completedWizard The recently completed wizard
+ * @return {boolean} Returns a boolean indicating whether there is some related wizard available
+ * @static
+ */
 SS.showRelatedWizardsList = function(completedWizard) {
   var relatedWizardsNames = completedWizard.relatedWizards;
   if (!relatedWizardsNames) return false;
@@ -262,19 +262,19 @@ SS.showRelatedWizardsList = function(completedWizard) {
 };
 
 /**
-    The close button for the wizard
-
-    @class CloseButton
-    @@singleton
-    @extends FadableItem
-    **/
+ * The close button for the wizard
+ * 
+ * @class CloseButton
+ * @@singleton
+ * @extends FadableItem
+ */
 SS.CloseButton = jazz.Class().extending(FadableItem).singleton;
 
 /**
-    Renders the close button
-
-    @method render
-    **/
+ * Renders the close button
+ * 
+ * @method render
+ */
 SS.CloseButton.method("render", function() {
   this.$el = $("<button>")
     .addClass("sideshow-close-button")
@@ -286,11 +286,11 @@ SS.CloseButton.method("render", function() {
 });
 
 /**
-    Starts Sideshow
-
-    @method start
-    @param {Object} config                                The config object for Sideshow
-    **/
+ * Starts Sideshow
+ * 
+ * @method start
+ * @param {Object} config The config object for Sideshow
+ */
 SS.start = function(config) {
   config = config || {};
 

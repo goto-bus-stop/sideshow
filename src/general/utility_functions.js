@@ -1,10 +1,10 @@
 /**
-    Shows a warning  in a pre-defined format
-
-    @@function showWarning
-    @param {String} code                                  The warning code
-    @param {String} message                               The warning message
-    **/
+ * Shows a warning  in a pre-defined format
+ * 
+ * @@function showWarning
+ * @param {String} code                                  The warning code
+ * @param {String} message                               The warning message
+ */
 function showWarning(code, message) {
   console.warn(
     "[SIDESHOW_W#" + ("00000000" + code).substr(-8) + "] " + message
@@ -12,23 +12,23 @@ function showWarning(code, message) {
 }
 
 /**
-     Shows a deprecation warning in a pre-defined format
-     
-     @@function showDeprecationWarning
-     @param {String} message                               The warning message
-     **/
+ *  Shows a deprecation warning in a pre-defined format
+ * 
+ * @@function showDeprecationWarning
+ * @param {String} message                               The warning message
+ */
 
 function showDeprecationWarning(message) {
   console.warn("[DEPRECATION_WARNING] " + message);
 }
 
 /**
-    Parses a string in the format "#px" in a number
-
-    @@function parsePxValue
-    @param {String} value                                 A value with/without a px unit
-    @return Number                                        The number value without unit 
-    **/
+ * Parses a string in the format "#px" in a number
+ * 
+ * @@function parsePxValue
+ * @param {String} value A value with/without a px unit
+ * @return Number The number value without unit 
+ */
 function parsePxValue(value) {
   if (value.constructor !== String) return value;
   var br = value === "" ? "0" : value;
@@ -36,12 +36,12 @@ function parsePxValue(value) {
 }
 
 /**
-    Gets a string from the dictionary in the current language
-
-    @@function getString
-    @param {Object} stringKeyValuePair                    A string key-value pair in dictionary
-    @return String                                        The string value in the current language
-    **/
+ * Gets a string from the dictionary in the current language
+ * 
+ * @@function getString
+ * @param {Object} stringKeyValuePair A string key-value pair in dictionary
+ * @return String The string value in the current language
+ */
 function getString(stringKeyValuePair) {
   if (!(SS.config.language in stringKeyValuePair)) {
     showWarning(
@@ -55,19 +55,19 @@ function getString(stringKeyValuePair) {
 }
 
 /**
-    Registers hotkeys to be used when running Sideshow
-
-    @@function registerInnerHotkeys
-    **/
+ * Registers hotkeys to be used when running Sideshow
+ * 
+ * @@function registerInnerHotkeys
+ */
 function registerInnerHotkeys() {
   $document.keyup(innerHotkeysListener);
 }
 
 /**
-    Unregisters hotkeys used when running Sideshow
-
-    @@function Unregisters
-    **/
+ * Unregisters hotkeys used when running Sideshow
+ * 
+ * @@function Unregisters
+ */
 function unregisterInnerHotkeys() {
   $document.unbind("keyup", innerHotkeysListener);
 }
@@ -78,10 +78,10 @@ function innerHotkeysListener(e) {
 }
 
 /**
-    Registers global hotkeys
-
-    @@function registerGlobalHotkeys
-    **/
+ * Registers global hotkeys
+ * 
+ * @@function registerGlobalHotkeys
+ */
 function registerGlobalHotkeys() {
   $document.keyup(function(e) {
     //F2
@@ -97,10 +97,10 @@ function registerGlobalHotkeys() {
 }
 
 /**
-    Removes nodes created by Sideshow (except mask, which remains due to performance reasons when recalling Sideshow)
-
-    @@function removeDOMGarbage
-    **/
+ * Removes nodes created by Sideshow (except mask, which remains due to performance reasons when recalling Sideshow)
+ * 
+ * @@function removeDOMGarbage
+ */
 function removeDOMGarbage() {
   $('[class*="sideshow"]')
     .not(

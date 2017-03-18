@@ -1,29 +1,29 @@
 /**
-    Class representing all the current shown arrows
-
-    @class Arrows
-    @static
-    **/
+ * Class representing all the current shown arrows
+ * 
+ * @class Arrows
+ * @static
+ */
 var Arrows = {};
 
 Arrows.arrows = [];
 
 /**
-    Clear the currently defined arrows
-
-    @method clear
-    @static
-    **/
+ * Clear the currently defined arrows
+ * 
+ * @method clear
+ * @static
+ */
 Arrows.clear = function() {
   this.arrows = [];
 };
 
 /**
-    Sets the targets for arrows to point
-
-    @method setTargets
-    @static
-    **/
+ * Sets the targets for arrows to point
+ * 
+ * @method setTargets
+ * @static
+ */
 Arrows.setTargets = function(targets, targetsChanged) {
   if (targets.constructor === String) targets = $(targets);
 
@@ -53,11 +53,11 @@ Arrows.recreateDOMReferences = function() {
 };
 
 /**
-    Iterates over the arrows collection showing each arrow
-
-    @method show
-    @static
-    **/
+ * Iterates over the arrows collection showing each arrow
+ * 
+ * @method show
+ * @static
+ */
 Arrows.show = function() {
   for (var a = 0; a < this.arrows.length; a++) {
     var arrow = this.arrows[a];
@@ -66,11 +66,11 @@ Arrows.show = function() {
 };
 
 /**
-    Iterates over the arrows collection hiding each arrow
-
-    @method hide
-    @static
-    **/
+ * Iterates over the arrows collection hiding each arrow
+ * 
+ * @method hide
+ * @static
+ */
 Arrows.hide = function() {
   for (var a = 0; a < this.arrows.length; a++) {
     var arrow = this.arrows[a];
@@ -79,11 +79,11 @@ Arrows.hide = function() {
 };
 
 /**
-    Iterates over the arrows collection fading in each arrow
-
-    @method fadeIn
-    @static
-    **/
+ * Iterates over the arrows collection fading in each arrow
+ * 
+ * @method fadeIn
+ * @static
+ */
 Arrows.fadeIn = function() {
   for (var a = 0; a < this.arrows.length; a++) {
     var arrow = this.arrows[a];
@@ -92,11 +92,11 @@ Arrows.fadeIn = function() {
 };
 
 /**
-    Iterates over the arrows collection fading out each arrow
-
-    @method fadeOut
-    @static
-    **/
+ * Iterates over the arrows collection fading out each arrow
+ * 
+ * @method fadeOut
+ * @static
+ */
 Arrows.fadeOut = function() {
   for (var a = 0; a < this.arrows.length; a++) {
     var arrow = this.arrows[a];
@@ -111,11 +111,11 @@ Arrows.fadeOut = function() {
 };
 
 /**
-    Iterates over the arrows collection repositionating each arrow
-
-    @method positionate
-    @static
-    **/
+ * Iterates over the arrows collection repositionating each arrow
+ * 
+ * @method positionate
+ * @static
+ */
 Arrows.positionate = function() {
   for (var a = 0; a < this.arrows.length; a++) {
     var arrow = this.arrows[a];
@@ -124,11 +124,11 @@ Arrows.positionate = function() {
 };
 
 /**
-    Iterates over the arrows collection rendering each arrow
-
-    @method render
-    @static
-    **/
+ * Iterates over the arrows collection rendering each arrow
+ * 
+ * @method render
+ * @static
+ */
 Arrows.render = function(arrowPosition) {
   for (var a = 0; a < this.arrows.length; a++) {
     var arrow = this.arrows[a];
@@ -138,10 +138,10 @@ Arrows.render = function(arrowPosition) {
 };
 
 /**
-    A Polling function to check if arrows coordinates has changed
-
-    @method pollForArrowsChanges
-    **/
+ * A Polling function to check if arrows coordinates has changed
+ * 
+ * @method pollForArrowsChanges
+ */
 Arrows.pollForArrowsChanges = function() {
   var brokenReference = false;
   for (var a = 0; a < this.arrows.length; a++) {

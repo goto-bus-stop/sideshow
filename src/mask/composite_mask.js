@@ -1,16 +1,16 @@
 /**
-    Controls the mask surrounds the subject (the step focussed area)
-
-    @class CompositeMask
-    @@singleton
-    **/
+ * Controls the mask surrounds the subject (the step focussed area)
+ * 
+ * @class CompositeMask
+ * @@singleton
+ */
 Mask.CompositeMask = jazz.Class().extending(FadableItem).singleton;
 
 /**
-    Initializes the composite mask
-
-    @method init
-    **/
+ * Initializes the composite mask
+ * 
+ * @method init
+ */
 Mask.CompositeMask.method("init", function() {
   var mask = this;
   ["top", "left", "right", "bottom"].forEach(function(d) {
@@ -22,18 +22,18 @@ Mask.CompositeMask.method("init", function() {
 });
 
 /**
-    The parts composing the mask
-
-    @@field parts
-    @type Object
-    **/
+ * The parts composing the mask
+ * 
+ * @@field parts
+ * @type Object
+ */
 Mask.CompositeMask.field("parts", {});
 
 /**
-    Renders the composite mask 
-
-    @method render
-    **/
+ * Renders the composite mask 
+ * 
+ * @method render
+ */
 Mask.CompositeMask.method("render", function() {
   var mask = this;
   for (var p in this.parts) {
@@ -50,12 +50,12 @@ Mask.CompositeMask.method("render", function() {
 });
 
 /**
-    Checks if the subject is fully visible, if not, scrolls 'til it became fully visible
-
-    @method scrollIfNecessary
-    @param {Object} position                              An object representing the positioning info for the mask
-    @param {Object} dimension                             An object representing the dimension info for the mask
-    **/
+ * Checks if the subject is fully visible, if not, scrolls 'til it became fully visible
+ * 
+ * @method scrollIfNecessary
+ * @param {Object} position An object representing the positioning info for the mask
+ * @param {Object} dimension An object representing the dimension info for the mask
+ */
 Mask.CompositeMask.method("scrollIfNecessary", function(position, dimension) {
   function doSmoothScroll(scrollTop, callback) {
     $("body,html").animate(
@@ -91,13 +91,13 @@ Mask.CompositeMask.method("scrollIfNecessary", function(position, dimension) {
 });
 
 /**
-    Updates the positioning and dimension of each part composing the whole mask, according to the subject coordinates
-
-    @method update
-    @param {Object} position                              An object representing the positioning info for the mask
-    @param {Object} dimension                             An object representing the dimension info for the mask
-    @param {Object} borderRadius                          An object representing the borderRadius info for the mask
-    **/
+ * Updates the positioning and dimension of each part composing the whole mask, according to the subject coordinates
+ * 
+ * @method update
+ * @param {Object} position An object representing the positioning info for the mask
+ * @param {Object} dimension An object representing the dimension info for the mask
+ * @param {Object} borderRadius An object representing the borderRadius info for the mask
+ */
 Mask.CompositeMask.method(
   "update",
   function(position, dimension, borderRadius) {
@@ -184,10 +184,10 @@ Mask.CompositeMask.method(
 );
 
 /**
-    A Polling function to check if subject coordinates has changed
-
-    @method pollForSubjectChanges
-    **/
+ * A Polling function to check if subject coordinates has changed
+ * 
+ * @method pollForSubjectChanges
+ */
 Mask.CompositeMask.method("pollForSubjectChanges", function() {
   if (!flags.lockMaskUpdate) {
     if (currentWizard && currentWizard.currentStep.subject) {
@@ -203,10 +203,10 @@ Mask.CompositeMask.method("pollForSubjectChanges", function() {
 });
 
 /**
-    A Polling function to check if screen dimension has changed
-
-    @method pollForScreenChanges
-    **/
+ * A Polling function to check if screen dimension has changed
+ * 
+ * @method pollForScreenChanges
+ */
 Mask.CompositeMask.method("pollForScreenChanges", function() {
   if (Screen.hasChanged()) {
     Screen.updateInfo();
@@ -215,13 +215,13 @@ Mask.CompositeMask.method("pollForScreenChanges", function() {
 });
 
 /**
-    A part composing the mask
-
-    @class Part
-    @@initializer 
-    @param {Object} position                              The positioning information 
-    @param {Object} dimension                             The dimension information 
-    **/
+ * A part composing the mask
+ * 
+ * @class Part
+ * @@initializer 
+ * @param {Object} position The positioning information 
+ * @param {Object} dimension The dimension information 
+ */
 Mask.CompositeMask.Part = jazz
   .Class(function(position, dimension) {
     this.position = position;

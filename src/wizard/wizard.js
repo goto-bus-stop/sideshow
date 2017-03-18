@@ -1,10 +1,10 @@
 /**
-    Represents a tutorial
-
-    @class Wizard
-    @@initializer
-    @param {Object} wizardConfig                          The wizard configuration object                        
-    **/
+ * Represents a tutorial
+ * 
+ * @class Wizard
+ * @@initializer
+ * @param {Object} wizardConfig The wizard configuration object                        
+ */
 var Wizard = jazz.Class(function(wizardConfig) {
   this.name = wizardConfig.name;
   this.title = wizardConfig.title;
@@ -18,108 +18,108 @@ var Wizard = jazz.Class(function(wizardConfig) {
 });
 
 /**
-    A function to prepare the environment for running a wizard (e.g. redirecting to some screen)
-
-    @@field preparation
-    @type Function
-    **/
+ * A function to prepare the environment for running a wizard (e.g. redirecting to some screen)
+ * 
+ * @@field preparation
+ * @type Function
+ */
 Wizard.field("preparation");
 
 /**
-    An object with listeners to this wizard (e.g. beforeWizardStarts, afterWizardEnds)
-
-    @@field listeners
-    @type Object
-    **/
+ * An object with listeners to this wizard (e.g. beforeWizardStarts, afterWizardEnds)
+ * 
+ * @@field listeners
+ * @type Object
+ */
 Wizard.field("listeners");
 
 /**
-    A configuration flag that defines if the step position (e.g. 2/10, 3/15, 12/12) will be shown
-
-    @@field showStepPosition
-    @type boolean
-    **/
+ * A configuration flag that defines if the step position (e.g. 2/10, 3/15, 12/12) will be shown
+ * 
+ * @@field showStepPosition
+ * @type boolean
+ */
 Wizard.field("showStepPosition");
 
 /**
-    An array with related wizards names. These wizards are listed after the ending of the current wizard.
-
-    @@field relatedWizards
-    @type Array
-    **/
+ * An array with related wizards names. These wizards are listed after the ending of the current wizard.
+ * 
+ * @@field relatedWizards
+ * @type Array
+ */
 Wizard.field("relatedWizards");
 
 /**
-    The wizard unique name (used internally as an identifier)
-
-    @@field name
-    @type String
-    **/
+ * The wizard unique name (used internally as an identifier)
+ * 
+ * @@field name
+ * @type String
+ */
 Wizard.field("name");
 
 /**
-    The wizard title (will be shown in the list of available wizards)
-
-    @@field title
-    @type String
-    **/
+ * The wizard title (will be shown in the list of available wizards)
+ * 
+ * @@field title
+ * @type String
+ */
 Wizard.field("title");
 
 /**
-    The wizard description (will be shown in the list of available wizards)
-
-    @@field description
-    @type String
-    **/
+ * The wizard description (will be shown in the list of available wizards)
+ * 
+ * @@field description
+ * @type String
+ */
 Wizard.field("description");
 
 /**
-    The wizard estimated completion time (will be shown in the list of available wizards)
-
-    @@field estimatedTime
-    @type String
-    **/
+ * The wizard estimated completion time (will be shown in the list of available wizards)
+ * 
+ * @@field estimatedTime
+ * @type String
+ */
 Wizard.field("estimatedTime");
 
 /**
-    A collection of rules to infer whether a wizard should be available in a specific screen
-
-    @@field affects
-    @type Array
-    **/
+ * A collection of rules to infer whether a wizard should be available in a specific screen
+ * 
+ * @@field affects
+ * @type Array
+ */
 Wizard.field("affects");
 
 /**
-    The sequence of steps for this wizard
-
-    @@field storyline
-    @private
-    @type Object
-    **/
+ * The sequence of steps for this wizard
+ * 
+ * @@field storyline
+ * @private
+ * @type Object
+ */
 Wizard.field("_storyline");
 
 /**
-    Points to the current step object in a playing wizard
-
-    @@field currentStep
-    @type Object
-    **/
+ * Points to the current step object in a playing wizard
+ * 
+ * @@field currentStep
+ * @type Object
+ */
 Wizard.field("currentStep");
 
 /**
-    Sets the storyline for the wizard
-
-    @method storyLine
-    **/
+ * Sets the storyline for the wizard
+ * 
+ * @method storyLine
+ */
 Wizard.method("storyLine", function(storyline) {
   this._storyline = storyline;
 });
 
 /**
-    Runs the wizard
-
-    @method play
-    **/
+ * Runs the wizard
+ * 
+ * @method play
+ */
 Wizard.method("play", function() {
   var wiz = this;
 
@@ -162,12 +162,12 @@ Wizard.method("play", function() {
 });
 
 /**
-    Shows a specific step
-
-    @method showStep
-    @param {Object} step                                  The step to be shown
-    @param {Function} callback                            A callback function to be called
-    **/
+ * Shows a specific step
+ * 
+ * @method showStep
+ * @param {Object} step The step to be shown
+ * @param {Function} callback A callback function to be called
+ */
 Wizard.method("showStep", function(step, callback) {
   var wizard = this;
   flags.skippingStep = false;
@@ -280,11 +280,11 @@ Wizard.method("showStep", function(step, callback) {
 });
 
 /**
-    Shows the next step of the wizard
-
-    @method next 
-    @param {Function} callback                            A callback function to be called
-    **/
+ * Shows the next step of the wizard
+ * 
+ * @method next 
+ * @param {Function} callback A callback function to be called
+ */
 Wizard.method("next", function(callback, nextStep) {
   if (!flags.changingStep || flags.skippingStep) {
     flags.changingStep = true;
@@ -318,11 +318,11 @@ Wizard.method("next", function(callback, nextStep) {
 });
 
 /**
-    Hides the step
-
-    @method hideStep
-    @param {Function} callback                            A callback function to be called in the ending of the hiding process
-    **/
+ * Hides the step
+ * 
+ * @method hideStep
+ * @param {Function} callback A callback function to be called in the ending of the hiding process
+ */
 Wizard.method("hideStep", function(callback) {
   StepDescription.singleInstance.fadeOut(function() {
     DetailsPanel.singleInstance.hide();
@@ -337,21 +337,21 @@ Wizard.method("hideStep", function(callback) {
 });
 
 /**
-    Returns the position of the step passed as argument or (by default) the current step
-
-    @method getStepPosition
-    @param {Object} step                                  The step object to get position
-    **/
+ * Returns the position of the step passed as argument or (by default) the current step
+ * 
+ * @method getStepPosition
+ * @param {Object} step The step object to get position
+ */
 Wizard.method("getStepPosition", function(step) {
   return this._storyline.steps.indexOf(step || this.currentStep);
 });
 
 /**
-    Checks if a wizard should be shown in the current context (running each evaluator defined for this wizard)
-
-    @method isEligible
-    @return {boolean}                                     A boolean indicating if this wizard should be available in the current context
-    **/
+ * Checks if a wizard should be shown in the current context (running each evaluator defined for this wizard)
+ * 
+ * @method isEligible
+ * @return {boolean} A boolean indicating if this wizard should be available in the current context
+ */
 Wizard.method("isEligible", function() {
   var l = global.location;
 
@@ -385,22 +385,22 @@ Wizard.method("isEligible", function() {
 });
 
 /**
-    Checks if the current user already watched this wizard
-
-    @method isAlreadyWatched
-    @return {boolean}                                     A boolean indicating if the user watched this wizard
-    @@todo Implement this method...
-    **/
+ * Checks if the current user already watched this wizard
+ * 
+ * @method isAlreadyWatched
+ * @return {boolean} A boolean indicating if the user watched this wizard
+ * @@todo Implement this method...
+ */
 Wizard.method("isAlreadyWatched", function() {
   //ToDo
   return false;
 });
 
 /**
-    A Polling function to check if the current step is completed
-
-    @method pollForCheckCompletedStep
-    **/
+ * A Polling function to check if the current step is completed
+ * 
+ * @method pollForCheckCompletedStep
+ */
 Wizard.method("pollForCheckCompletedStep", function() {
   var conditions = this.currentStep.completingConditions;
   if (conditions && conditions.length > 0 && !flags.skippingStep) {

@@ -1,33 +1,33 @@
 /**
-    The panel that holds step description, is positionated over the biggest remaining space among the four parts of a composite mask
-
-    @class DetailsPanel
-    @@singleton
-    @extends FadableItem
-    **/
+ * The panel that holds step description, is positionated over the biggest remaining space among the four parts of a composite mask
+ * 
+ * @class DetailsPanel
+ * @@singleton
+ * @extends FadableItem
+ */
 var DetailsPanel = jazz.Class().extending(FadableItem).singleton;
 
 /**
-    An object holding dimension information for the Details Panel
-
-    @@field dimension
-    @type Object
-    **/
+ * An object holding dimension information for the Details Panel
+ * 
+ * @@field dimension
+ * @type Object
+ */
 DetailsPanel.field("dimension", {});
 
 /**
-    An object holding positioning information for the Details Panel
-
-    @@field position
-    @type Object
-    **/
+ * An object holding positioning information for the Details Panel
+ * 
+ * @@field position
+ * @type Object
+ */
 DetailsPanel.field("position", {});
 
 /**
-    Renders the Details Panel
-
-    @method render
-    **/
+ * Renders the Details Panel
+ * 
+ * @method render
+ */
 DetailsPanel.method("render", function() {
   this.$el = $("<div>")
     .addClass("sideshow-details-panel")
@@ -36,10 +36,10 @@ DetailsPanel.method("render", function() {
 });
 
 /**
-    Positionates the panel automatically, calculating the biggest available area and putting the panel over there
-
-    @method positionate
-    **/
+ * Positionates the panel automatically, calculating the biggest available area and putting the panel over there
+ * 
+ * @method positionate
+ */
 DetailsPanel.method("positionate", function() {
   var parts = Mask.CompositeMask.singleInstance.parts;
 

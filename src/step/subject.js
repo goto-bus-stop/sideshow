@@ -1,53 +1,53 @@
 /**
-    The current subject (the object being shown by the current wizard)
-
-    @class Subject
-    @static
-    **/
+ * The current subject (the object being shown by the current wizard)
+ * 
+ * @class Subject
+ * @static
+ */
 var Subject = {};
 
 /**
-    The current subject jQuery wrapped DOM element 
-
-    @@field obj
-    @static
-    @type Object
-    **/
+ * The current subject jQuery wrapped DOM element 
+ * 
+ * @@field obj
+ * @static
+ * @type Object
+ */
 Subject.obj = null;
 
 /**
-    The current subject dimension information
-
-    @@field position
-    @static
-    @type Object
-    **/
+ * The current subject dimension information
+ * 
+ * @@field position
+ * @static
+ * @type Object
+ */
 Subject.dimension = {};
 
 /**
-    The current subject positioning information
-
-    @@field position
-    @static
-    @type Object
-    **/
+ * The current subject positioning information
+ * 
+ * @@field position
+ * @static
+ * @type Object
+ */
 Subject.position = {};
 
 /**
-    The current subject border radius information
-
-    @@field borderRadius
-    @static
-    @type Object
-    **/
+ * The current subject border radius information
+ * 
+ * @@field borderRadius
+ * @static
+ * @type Object
+ */
 Subject.borderRadius = {};
 
 /**
-    Checks if the object has changed since the last checking
-
-    @method hasChanged
-    @return boolean
-    **/
+ * Checks if the object has changed since the last checking
+ * 
+ * @method hasChanged
+ * @return boolean
+ */
 Subject.hasChanged = function() {
   if (!this.obj) return false;
 
@@ -67,11 +67,11 @@ Subject.hasChanged = function() {
 };
 
 /**
-    Updates the information about the suject
-
-    @method updateInfo
-    @param {Object} config                                Dimension, positioning and border radius information
-    **/
+ * Updates the information about the suject
+ * 
+ * @method updateInfo
+ * @param {Object} config Dimension, positioning and border radius information
+ */
 Subject.updateInfo = function(config) {
   if (config === undefined) {
     this.position.x = this.obj.offset().left - $window.scrollLeft();

@@ -1,18 +1,18 @@
 /**
-    The main menu, where the available wizards are listed
-
-    @class WizardMenu
-    @static
-    **/
+ * The main menu, where the available wizards are listed
+ * 
+ * @class WizardMenu
+ * @static
+ */
 var WizardMenu = {};
 
 /**
-    Renders the wizard menu
-
-    @method render
-    @param {Array} wizards                                The wizards list
-    @static
-    **/
+ * Renders the wizard menu
+ * 
+ * @method render
+ * @param {Array} wizards The wizards list
+ * @static
+ */
 WizardMenu.render = function(wizards) {
   var $menu = $("<div>").addClass("sideshow-wizard-menu");
   this.$el = $menu;
@@ -64,12 +64,12 @@ WizardMenu.render = function(wizards) {
 };
 
 /**
-    Shows the wizard menu
-
-    @method show
-    @param {Array} wizards                                The wizards list
-    @static
-    **/
+ * Shows the wizard menu
+ * 
+ * @method show
+ * @param {Array} wizards The wizards list
+ * @static
+ */
 WizardMenu.show = function(wizards, title) {
   if (wizards.length == 1 && SS.config.autoSkipIntro)
     wizards[0].prepareAndPlay();
@@ -90,12 +90,12 @@ WizardMenu.show = function(wizards, title) {
 };
 
 /**
-    Hides the wizard menu
-
-    @method hide
-    @param {Function} callback                            The callback to be called after hiding the menu
-    @static
-    **/
+ * Hides the wizard menu
+ * 
+ * @method hide
+ * @param {Function} callback The callback to be called after hiding the menu
+ * @static
+ */
 WizardMenu.hide = function(callback) {
   var menu = this, $el = menu.$el;
 

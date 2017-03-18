@@ -1,50 +1,51 @@
 /**
-    A corner part composing the mask
-
-    @class CornerPart
-    @@initializer 
-    @param {Object} position                              The positioning information 
-    @param {Object} dimension                             The dimension information 
-    **/
+ * A corner part composing the mask
+ * 
+ * @class CornerPart
+ * @@initializer 
+ * @param {Object} position The positioning information 
+ * @param {Object} dimension The dimension information 
+ */
 Mask.CompositeMask.CornerPart = jazz.Class().extending(VisualItem);
 
 /**
-    @@alias CornerPart
-    @@to Mask.CompositeMask.CornerPart
-    **/
+ * @@alias CornerPart
+ * 
+ * @@to Mask.CompositeMask.CornerPart
+ */
 var CornerPart = Mask.CompositeMask.CornerPart;
 
 /**
-    An object holding positioning information for the mask corner part
-
-    @@field position
-    @type Object
-    **/
+ * An object holding positioning information for the mask corner part
+ * 
+ * @@field position
+ * @type Object
+ */
 CornerPart.field("position", {});
 
 /**
-    An object holding dimension information for the mask corner part
-
-    @@field position
-    @type Object
-    **/
+ * An object holding dimension information for the mask corner part
+ * 
+ * @@field position
+ * @type Object
+ */
 CornerPart.field("dimension", {});
 
 /**
-    An object holding border radius information for the mask corner part
-
-    @@field borderRadius
-    @type Object
-    **/
+ * An object holding border radius information for the mask corner part
+ * 
+ * @@field borderRadius
+ * @type Object
+ */
 CornerPart.field("borderRadius", 0);
 
 /**
-    Formats the SVG path for the corner part
-
+ * Formats the SVG path for the corner part
+ * 
     @method SVGPathPointsTemplate
-    @param {Number} borderRadius                          The corner part border radius
+    @param {Number} borderRadius The corner part border radius
     @static
-    **/
+ */
 CornerPart.static.SVGPathPointsTemplate = function(borderRadius) {
   return "m 0,0 0," +
     borderRadius +
@@ -58,12 +59,12 @@ CornerPart.static.SVGPathPointsTemplate = function(borderRadius) {
 };
 
 /**
-    Renders the SVG for the corner part
-
-    @method buildSVG
-    @param {Number} borderRadius                          The corner part border radius
-    @static
-    **/
+ * Renders the SVG for the corner part
+ * 
+ * @method buildSVG
+ * @param {Number} borderRadius The corner part border radius
+ * @static
+ */
 CornerPart.static.buildSVG = function(borderRadius) {
   function SVG(nodeName) {
     return document.createElementNS("http://www.w3.org/2000/svg", nodeName);
@@ -80,11 +81,11 @@ CornerPart.static.buildSVG = function(borderRadius) {
 };
 
 /**
-    Renders the mask corner part
-
-    @method render
-    @return {Object}                                      The corner part jQuery wrapped DOM element
-    **/
+ * Renders the mask corner part
+ * 
+ * @method render
+ * @return {Object} The corner part jQuery wrapped DOM element
+ */
 CornerPart.prototype.render = function() {
   this.$el = $("<div>")
     .addClass("sideshow-mask-corner-part")
@@ -96,12 +97,12 @@ CornerPart.prototype.render = function() {
 };
 
 /**
-    Updates the positioning and border radius of the mask corner part
-
-    @method update
-    @param {Object} position                              The positioning information 
-    @param {Object} borderRadius                          The border radius information 
-    **/
+ * Updates the positioning and border radius of the mask corner part
+ * 
+ * @method update
+ * @param {Object} position The positioning information 
+ * @param {Object} borderRadius The border radius information 
+ */
 CornerPart.prototype.update = function(position, borderRadius) {
   this.$el
     .css("left", position.x)

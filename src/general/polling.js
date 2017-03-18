@@ -1,35 +1,35 @@
 /**
-    Controls the polling functions needed by Sideshow
-
-    @class Polling
-    @static
-    **/
+ * Controls the polling functions needed by Sideshow
+ * 
+ * @class Polling
+ * @static
+ */
 var Polling = {};
 
 /**
-    The polling functions queue
-
-    @@field queue
-    @type Object
-    @static
-    **/
+ * The polling functions queue
+ * 
+ * @@field queue
+ * @type Object
+ * @static
+ */
 Polling.queue = [];
 
 /**
-    A flag that controls if the polling is locked
-
-    @@field lock
-    @type boolean
-    @static
-    **/
+ * A flag that controls if the polling is locked
+ * 
+ * @@field lock
+ * @type boolean
+ * @static
+ */
 Polling.lock = false;
 
 /**
-    Pushes a polling function in the queue
-
-    @method enqueue
-    @static
-    **/
+ * Pushes a polling function in the queue
+ * 
+ * @method enqueue
+ * @static
+ */
 Polling.enqueue = function() {
   var firstArg = arguments[0];
   var fn;
@@ -55,41 +55,41 @@ Polling.enqueue = function() {
 };
 
 /**
-    Removes a polling function from the queue
-
-    @method dequeue
-    @static
-    **/
+ * Removes a polling function from the queue
+ * 
+ * @method dequeue
+ * @static
+ */
 Polling.dequeue = function() {
   this.queue.splice(this.getFunctionIndex(arguments[0]), 1);
 };
 
 /**
-    Enables an specific polling function
-
-    @method enable
-    @static
-    **/
+ * Enables an specific polling function
+ * 
+ * @method enable
+ * @static
+ */
 Polling.enable = function() {
   this.queue[this.getFunctionIndex(arguments[0])].enabled = true;
 };
 
 /**
-    Disables an specific polling function, but preserving it in the polling queue 
-
-    @method disable
-    @static
-    **/
+ * Disables an specific polling function, but preserving it in the polling queue 
+ * 
+ * @method disable
+ * @static
+ */
 Polling.disable = function() {
   this.queue[this.getFunctionIndex(arguments[0])].enabled = false;
 };
 
 /**
-    Gets the position of a polling function in the queue based on its name or the function itself
-
-    @method getFunctionIndex
-    @static
-    **/
+ * Gets the position of a polling function in the queue based on its name or the function itself
+ * 
+ * @method getFunctionIndex
+ * @static
+ */
 Polling.getFunctionIndex = function() {
   var firstArg = arguments[0];
 
@@ -113,32 +113,32 @@ Polling.getFunctionIndex = function() {
 };
 
 /**
-    Unlocks the polling and starts the checking process
-
-    @method start
-    @static
-    **/
+ * Unlocks the polling and starts the checking process
+ * 
+ * @method start
+ * @static
+ */
 Polling.start = function() {
   this.lock = false;
   this.doPolling();
 };
 
 /**
-    Stops the polling process
-
-    @method stop
-    @static
-    **/
+ * Stops the polling process
+ * 
+ * @method stop
+ * @static
+ */
 Polling.stop = function() {
   this.lock = true;
 };
 
 /**
-    Clear the polling queue
-
-    @method clear
-    @static
-    **/
+ * Clear the polling queue
+ * 
+ * @method clear
+ * @static
+ */
 Polling.clear = function() {
   var lock = this.lock;
 
@@ -148,11 +148,11 @@ Polling.clear = function() {
 };
 
 /**
-    Starts the polling process  
-
-    @method doPolling
-    @static
-    **/
+ * Starts the polling process  
+ * 
+ * @method doPolling
+ * @static
+ */
 Polling.doPolling = function() {
   if (!this.lock) {
     //Using timeout to avoid the queue to not complete in a cycle

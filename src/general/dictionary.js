@@ -1,8 +1,8 @@
 /**
-    Strings Dictionary
-
-    @@object strings
-    **/
+ * Strings Dictionary
+ *
+ * @@object strings
+ */
 var strings = {
   availableWizards: {
     en: "Available Tutorials",

@@ -1,17 +1,17 @@
 /**
-    A visual item which holds fading in and out capabilities
-
-    @class FadableItem
-    @@abstract
-    @extends HidableItem
-    **/
+ * A visual item which holds fading in and out capabilities
+ * 
+ * @class FadableItem
+ * @@abstract
+ * @extends HidableItem
+ */
 var FadableItem = jazz.Class().extending(HidableItem).abstract;
 
 /**
-    Does a fade in transition for the visual item
-
-    @method fadeIn
-    **/
+ * Does a fade in transition for the visual item
+ * 
+ * @method fadeIn
+ */
 FadableItem.method("fadeIn", function(callback, linearTimingFunction) {
   var item = this;
   item.status = AnimationStatus.FADING_IN;
@@ -40,10 +40,10 @@ FadableItem.method("fadeIn", function(callback, linearTimingFunction) {
 });
 
 /**
-    Does a fade out transition for the visual item
-
-    @method fadeOut
-    **/
+ * Does a fade out transition for the visual item
+ * 
+ * @method fadeOut
+ */
 FadableItem.method("fadeOut", function(callback, linearTimingFunction) {
   var item = this;
   if (item.status != AnimationStatus.NOT_RENDERED) {
