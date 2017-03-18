@@ -4,13 +4,21 @@ import inject from "rollup-plugin-inject";
 
 export default {
   entry: "./src/general/global_object.js",
-  dest: "./distr/sideshow.js",
-  format: "umd",
-  moduleName: "Sideshow",
+  targets: [
+    {
+      dest: "./distr/sideshow.js",
+      format: "umd",
+      moduleName: "Sideshow"
+    },
+    {
+      dest: "./distr/sideshow.es.js",
+      format: "es"
+    }
+  ],
   banner: fs.readFileSync("./src/copyright_info.js"),
-  external: Object.keys(require('./package.json').dependencies),
+  external: Object.keys(require("./package.json").dependencies),
   globals: {
-    marked: 'marked'
+    marked: "marked"
   },
   plugins: [
     babel({
