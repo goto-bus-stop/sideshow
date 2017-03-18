@@ -3,7 +3,7 @@ import VisualItem from "./visual_item";
 
 /**
  * A visual item which can be shown and hidden
- * 
+ *
  * @class HidableItem
  * @@abstract
  * @extends VisualItem
@@ -11,7 +11,7 @@ import VisualItem from "./visual_item";
 export default class HidableItem extends VisualItem {
   /**
    * Shows the visual item
-   * 
+   *
    * @method show
    * @param {boolean} displayButKeepTransparent The item will hold space but keep invisible
    */

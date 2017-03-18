@@ -3,15 +3,15 @@ import Screen from "../general/screen";
 
 /**
  * The current subject (the object being shown by the current wizard)
- * 
+ *
  * @class Subject
  * @static
  */
 const Subject = {};
 
 /**
- * The current subject jQuery wrapped DOM element 
- * 
+ * The current subject jQuery wrapped DOM element
+ *
  * @@field obj
  * @static
  * @type Object
@@ -20,7 +20,7 @@ Subject.obj = null;
 
 /**
  * The current subject dimension information
- * 
+ *
  * @@field position
  * @static
  * @type Object
@@ -29,7 +29,7 @@ Subject.dimension = {};
 
 /**
  * The current subject positioning information
- * 
+ *
  * @@field position
  * @static
  * @type Object
@@ -38,7 +38,7 @@ Subject.position = {};
 
 /**
  * The current subject border radius information
- * 
+ *
  * @@field borderRadius
  * @static
  * @type Object
@@ -47,7 +47,7 @@ Subject.borderRadius = {};
 
 /**
  * Checks if the object has changed since the last checking
- * 
+ *
  * @method hasChanged
  * @return boolean
  */
@@ -71,7 +71,7 @@ Subject.hasChanged = function() {
 
 /**
  * Updates the information about the suject
- * 
+ *
  * @method updateInfo
  * @param {Object} config Dimension, positioning and border radius information
  */

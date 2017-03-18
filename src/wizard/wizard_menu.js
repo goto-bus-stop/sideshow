@@ -7,7 +7,7 @@ import { wizards } from "../general/state";
 
 /**
  * The main menu, where the available wizards are listed
- * 
+ *
  * @class WizardMenu
  * @static
  */
@@ -15,7 +15,7 @@ const WizardMenu = {};
 
 /**
  * Renders the wizard menu
- * 
+ *
  * @method render
  * @param {Array} wizards The wizards list
  * @static
@@ -29,7 +29,7 @@ WizardMenu.render = function(wizards) {
   if (wizards.length > 0) {
     const $wizardsList = $("<ul>");
 
-    //Extracting this function to avoid the JSHint warning W083
+    // Extracting this function to avoid the JSHint warning W083
     function setClick($wiz, wizard) {
       $wiz.click(function() {
         WizardMenu.hide(function() {
@@ -71,7 +71,7 @@ WizardMenu.render = function(wizards) {
 
 /**
  * Shows the wizard menu
- * 
+ *
  * @method show
  * @param {Array} wizards The wizards list
  * @static
@@ -100,7 +100,7 @@ WizardMenu.show = function(wizards, title) {
 
 /**
  * Hides the wizard menu
- * 
+ *
  * @method hide
  * @param {Function} callback The callback to be called after hiding the menu
  * @static

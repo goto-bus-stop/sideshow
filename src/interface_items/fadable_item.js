@@ -9,7 +9,7 @@ import HidableItem from "./hidable_item";
 
 /**
  * A visual item which holds fading in and out capabilities
- * 
+ *
  * @class FadableItem
  * @@abstract
  * @extends HidableItem
@@ -18,7 +18,7 @@ import HidableItem from "./hidable_item";
 export default class FadableItem extends HidableItem {
   /**
    * Does a fade in transition for the visual item
-   * 
+   *
    * @method fadeIn
    */
 
@@ -33,7 +33,7 @@ export default class FadableItem extends HidableItem {
     }
     this.$el.removeClass("sideshow-hidden");
 
-    //Needed hack to get CSS transition to work properly
+    // Needed hack to get CSS transition to work properly
     setTimeout(
       () => {
         this.$el.removeClass("sideshow-invisible");
@@ -52,12 +52,12 @@ export default class FadableItem extends HidableItem {
         );
       },
       20
-    ); //<-- Yeap, I'm really scheduling a timeout for 20 milliseconds... this is a dirty trick =)
+    ); // <-- Yeap, I'm really scheduling a timeout for 20 milliseconds... this is a dirty trick =)
   }
 
   /**
    * Does a fade out transition for the visual item
-   * 
+   *
    * @method fadeOut
    */
 

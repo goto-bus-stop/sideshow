@@ -4,7 +4,7 @@ var pollingDuration = 150;
 
 /**
  * Controls the polling functions needed by Sideshow
- * 
+ *
  * @class Polling
  * @static
  */
@@ -12,7 +12,7 @@ var Polling = {};
 
 /**
  * The polling functions queue
- * 
+ *
  * @@field queue
  * @type Object
  * @static
@@ -21,7 +21,7 @@ Polling.queue = [];
 
 /**
  * A flag that controls if the polling is locked
- * 
+ *
  * @@field lock
  * @type boolean
  * @static
@@ -30,7 +30,7 @@ Polling.lock = false;
 
 /**
  * Pushes a polling function in the queue
- * 
+ *
  * @method enqueue
  * @static
  */
@@ -38,9 +38,9 @@ Polling.enqueue = function(firstArg) {
   var fn;
   var name = "";
 
-  if (typeof firstArg == "function")
+  if (typeof firstArg === "function") {
     fn = firstArg;
-  else {
+  } else {
     name = arguments[0];
     fn = arguments[1];
   }
@@ -60,7 +60,7 @@ Polling.enqueue = function(firstArg) {
 
 /**
  * Removes a polling function from the queue
- * 
+ *
  * @method dequeue
  * @static
  */
@@ -70,7 +70,7 @@ Polling.dequeue = function(fn) {
 
 /**
  * Enables an specific polling function
- * 
+ *
  * @method enable
  * @static
  */
@@ -79,8 +79,8 @@ Polling.enable = function(fn) {
 };
 
 /**
- * Disables an specific polling function, but preserving it in the polling queue 
- * 
+ * Disables an specific polling function, but preserving it in the polling queue
+ *
  * @method disable
  * @static
  */
@@ -90,14 +90,14 @@ Polling.disable = function(fn) {
 
 /**
  * Gets the position of a polling function in the queue based on its name or the function itself
- * 
+ *
  * @method getFunctionIndex
  * @static
  */
 Polling.getFunctionIndex = function(firstArg) {
-  if (typeof firstArg == "function") {
+  if (typeof firstArg === "function") {
     return this.queue.map(p => p.fn).indexOf(firstArg);
-  } else if (typeof firstArg == "string") {
+  } else if (typeof firstArg === "string") {
     return this.queue.map(p => p.name).indexOf(firstArg);
   }
 
@@ -109,7 +109,7 @@ Polling.getFunctionIndex = function(firstArg) {
 
 /**
  * Unlocks the polling and starts the checking process
- * 
+ *
  * @method start
  * @static
  */
@@ -120,7 +120,7 @@ Polling.start = function() {
 
 /**
  * Stops the polling process
- * 
+ *
  * @method stop
  * @static
  */
@@ -130,7 +130,7 @@ Polling.stop = function() {
 
 /**
  * Clear the polling queue
- * 
+ *
  * @method clear
  * @static
  */
@@ -143,14 +143,14 @@ Polling.clear = function() {
 };
 
 /**
- * Starts the polling process  
- * 
+ * Starts the polling process
+ *
  * @method doPolling
  * @static
  */
 Polling.doPolling = function() {
   if (!this.lock) {
-    //Using timeout to avoid the queue to not complete in a cycle
+    // Using timeout to avoid the queue to not complete in a cycle
     setTimeout(
       () => {
         Polling.queue.forEach(pollingFunction => {

@@ -1,8 +1,8 @@
 var controlVariables = [];
 
 /**
- * Stores the variables used in step evaluators 
- * 
+ * Stores the variables used in step evaluators
+ *
  * @class ControlVariables
  * @static
  */
@@ -10,11 +10,11 @@ const ControlVariables = {};
 
 /**
  * Sets a variable value
- * 
+ *
  * @method set
  * @param {String} name The variable name
  * @param {String} value The variable value
- * @return {String} A formatted key=value pair representing the defined variable 
+ * @return {String} A formatted key=value pair representing the defined variable
  */
 ControlVariables.set = function(name, value) {
   let variable = {};
@@ -31,11 +31,11 @@ ControlVariables.set = function(name, value) {
 
 /**
  * Sets a variable if not defined yet
- * 
+ *
  * @method setIfUndefined
  * @param {String} name The variable name
  * @param {String} value The variable value
- * @return {String} A formatted key=value pair representing the defined variable 
+ * @return {String} A formatted key=value pair representing the defined variable
  */
 ControlVariables.setIfUndefined = function(name, value) {
   if (!this.isDefined(name)) return this.set(name, value);
@@ -43,7 +43,7 @@ ControlVariables.setIfUndefined = function(name, value) {
 
 /**
  * Checks if some variable is already defined
- * 
+ *
  * @method isDefined
  * @param {String} name The variable name
  * @return {boolean} A boolean indicating if the variable is already defined
@@ -54,7 +54,7 @@ ControlVariables.isDefined = function(name) {
 
 /**
  * Gets a variable value
- * 
+ *
  * @method get
  * @param {String} name The variable name
  * @return {any} The variable value
@@ -65,8 +65,8 @@ ControlVariables.get = function(name) {
 };
 
 /**
- * Gets a pair with name and value 
- * 
+ * Gets a pair with name and value
+ *
  * @method getNameValuePair
  * @param {String} name The variable name
  * @return {Object} A pair with the variable name and value
@@ -80,7 +80,7 @@ ControlVariables.getNameValuePair = function(name) {
 
 /**
  * Remove some variable from the control variables collection
- * 
+ *
  * @method remove
  * @param {String} name The variable name
  * @return {Object} A pair with the removed variable name and value
@@ -93,8 +93,8 @@ ControlVariables.remove = function(name) {
 };
 
 /**
- * Clear the control variables collection 
- * 
+ * Clear the control variables collection
+ *
  * @method clear
  */
 ControlVariables.clear = function() {

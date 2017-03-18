@@ -23,14 +23,14 @@ import {
 
 /**
  * The main class for Sideshow
- * 
- * @class SS 
+ *
+ * @class SS
  * @static
  */
 const SS = {
   /**
    * The current Sideshow version
-   * 
+   *
    * @property VERSION
    * @type String
    */
@@ -45,7 +45,7 @@ SS.ControlVariables = ControlVariables;
 
 /**
  * Initializes Sideshow
- * 
+ *
  * @method init
  * @static
  */
@@ -59,7 +59,7 @@ SS.init = function() {
 
 /**
  * Stops and Closes Sideshow
- * 
+ *
  * @method closes
  * @static
  */
@@ -99,8 +99,8 @@ SS.gotoStep = function(firstArg) {
 
   flags.skippingStep = true;
 
-  //First argument is the step position (1-based)
-  if (typeof firstArg == "number") {
+  // First argument is the step position (1-based)
+  if (typeof firstArg === "number") {
     if (firstArg <= steps.length) {
       destination = steps[firstArg - 1];
     } else {
@@ -109,8 +109,8 @@ SS.gotoStep = function(firstArg) {
         "There's no step in the storyline with position " + firstArg + "."
       );
     }
-  } else if (typeof firstArg == "string") {
-    //First argument is the step name
+  } else if (typeof firstArg === "string") {
+    // First argument is the step name
     destination = steps.filter(i => i.name === firstArg)[0];
 
     if (!destination) {
@@ -130,7 +130,7 @@ SS.gotoStep = function(firstArg) {
 
 /**
  * A trick to use the composite mask to simulate the behavior of a solid mask, setting an empty subject
- * 
+ *
  * @method setEmptySubject
  * @static
  */
@@ -157,7 +157,7 @@ SS.setEmptySubject = function() {
 
 /**
  * Sets the current subject
- * 
+ *
  * @method setSubject
  * @param {Object} subj
  * @static
@@ -187,7 +187,7 @@ SS.setSubject = function(subj, subjectChanged) {
 
 /**
  * Registers a wizard
- * 
+ *
  * @method registerWizard
  * @param {Object} wizardConfig
  * @return {Object} The wizard instance
@@ -201,7 +201,7 @@ SS.registerWizard = function(wizardConfig) {
 
 /**
  * Registers a wizard
- * 
+ *
  * @method registerWizard
  * @param {boolean} onlyNew Checks only recently added wizards
  * @return {Array} The eligible wizards list
@@ -224,14 +224,14 @@ SS.getElegibleWizards = function(onlyNew) {
 
 /**
  * Checks if there are eligible wizards, if exists, shows the wizard menu
- * 
+ *
  * @method showWizardsList
  * @param {boolean} onlyNew Checks only recently added wizards
  * @return {boolean} Returns a boolean indicating whether there is some wizard available
  * @static
  */
 SS.showWizardsList = function(firstArg, title) {
-  const onlyNew = typeof firstArg == "boolean" ? false : firstArg;
+  const onlyNew = typeof firstArg === "boolean" ? false : firstArg;
   const wizards = firstArg instanceof Array
     ? firstArg
     : this.getElegibleWizards(onlyNew);
@@ -242,8 +242,8 @@ SS.showWizardsList = function(firstArg, title) {
 };
 
 /**
- * Shows a list with the related wizards  
- * 
+ * Shows a list with the related wizards
+ *
  * @method showRelatedWizardsList
  * @param {Object} completedWizard The recently completed wizard
  * @return {boolean} Returns a boolean indicating whether there is some related wizard available
@@ -255,7 +255,7 @@ SS.showRelatedWizardsList = function(completedWizard) {
     return false;
   }
 
-  //Gets only related tutorials which are eligible or have a preparation function
+  // Gets only related tutorials which are eligible or have a preparation function
   const relatedWizards = wizards.filter(
     w =>
       relatedWizardsNames.indexOf(w.name) > -1 &&
@@ -274,7 +274,7 @@ SS.showRelatedWizardsList = function(completedWizard) {
 
 /**
  * The close button for the wizard
- * 
+ *
  * @class CloseButton
  * @@singleton
  * @extends FadableItem
@@ -282,7 +282,7 @@ SS.showRelatedWizardsList = function(completedWizard) {
 SS.CloseButton = class CloseButton extends FadableItem {
   /**
    * Renders the close button
-   * 
+   *
    * @method render
    */
 
@@ -300,7 +300,7 @@ SS.CloseButton.singleInstance = new SS.CloseButton();
 
 /**
  * Starts Sideshow
- * 
+ *
  * @method start
  * @param {Object} config The config object for Sideshow
  */

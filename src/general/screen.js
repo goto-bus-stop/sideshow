@@ -1,6 +1,6 @@
 /**
  * Represents the current available area in the browser
- * 
+ *
  * @class Screen
  * @static
  */
@@ -8,7 +8,7 @@ var Screen = {};
 
 /**
  * Object holding dimension information for the screen
- * 
+ *
  * @@field
  * @static
  * @type Object
@@ -17,7 +17,7 @@ Screen.dimension = {};
 
 /**
  * Checks if the screen dimension information has changed
- * 
+ *
  * @method hasChanged
  * @static
  * @return boolean
@@ -28,8 +28,8 @@ Screen.hasChanged = function() {
 };
 
 /**
- * Updates the dimension information for the screen 
- * 
+ * Updates the dimension information for the screen
+ *
  * @method updateInfo
  * @static
  */

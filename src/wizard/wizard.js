@@ -1,5 +1,5 @@
 import marked from "marked";
-import stripIndent from 'strip-indent';
+import stripIndent from "strip-indent";
 import SSException from "../general/exception";
 import Arrows from "../step/arrows";
 import CompositeMask from "../mask/composite_mask";

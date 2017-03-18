@@ -4,7 +4,7 @@ import Arrow from "./arrow";
 
 /**
  * Class representing all the current shown arrows
- * 
+ *
  * @class Arrows
  * @static
  */
@@ -14,7 +14,7 @@ Arrows.arrows = [];
 
 /**
  * Clear the currently defined arrows
- * 
+ *
  * @method clear
  * @static
  */
@@ -24,7 +24,7 @@ Arrows.clear = function() {
 
 /**
  * Sets the targets for arrows to point
- * 
+ *
  * @method setTargets
  * @static
  */
@@ -61,7 +61,7 @@ Arrows.recreateDOMReferences = function() {
 
 /**
  * Iterates over the arrows collection showing each arrow
- * 
+ *
  * @method show
  * @static
  */
@@ -73,7 +73,7 @@ Arrows.show = function() {
 
 /**
  * Iterates over the arrows collection hiding each arrow
- * 
+ *
  * @method hide
  * @static
  */
@@ -85,7 +85,7 @@ Arrows.hide = function() {
 
 /**
  * Iterates over the arrows collection fading in each arrow
- * 
+ *
  * @method fadeIn
  * @static
  */
@@ -97,7 +97,7 @@ Arrows.fadeIn = function() {
 
 /**
  * Iterates over the arrows collection fading out each arrow
- * 
+ *
  * @method fadeOut
  * @static
  */
@@ -113,7 +113,7 @@ Arrows.fadeOut = function() {
 
 /**
  * Iterates over the arrows collection repositionating each arrow
- * 
+ *
  * @method positionate
  * @static
  */
@@ -125,7 +125,7 @@ Arrows.positionate = function() {
 
 /**
  * Iterates over the arrows collection rendering each arrow
- * 
+ *
  * @method render
  * @static
  */
@@ -138,7 +138,7 @@ Arrows.render = function(arrowPosition = "top") {
 
 /**
  * A Polling function to check if arrows coordinates has changed
- * 
+ *
  * @method pollForArrowsChanges
  */
 Arrows.pollForArrowsChanges = function() {
