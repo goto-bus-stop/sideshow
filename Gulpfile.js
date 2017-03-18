@@ -16,13 +16,14 @@ const stylus = require("gulp-stylus");
 const fs = require("fs");
 const path = require("path");
 const prompt = require("gulp-prompt");
-const yuidoc = require("gulp-yuidoc");
 const zip = require("gulp-zip");
 const gzip = require("gulp-gzip");
 const tar = require("gulp-tar");
 const run = require("gulp-run");
 const wait = require("gulp-wait");
 const git = require("gift");
+const documentation = require("documentation");
+const streamArray = require("stream-array");
 const repo = git("./");
 const webserverPort = 8080;
 const isWin = /^win/.test(process.platform);
@@ -80,8 +81,15 @@ gulp.task("update-version", function() {
   updateVersionNumberReferences();
 });
 
-gulp.task("generate-docs", function() {
-  generateDocumentation();
+gulp.task("generate-docs", function(done) {
+  documentation.build("src/**/*.js", {}, (err, res) => {
+    if (err) return done(err);
+    documentation.formats.html(res, {}, (err, output) => {
+      if (err) return done(err);
+
+      streamArray(output).pipe(gulp.dest("./docs")).on("end", done);
+    });
+  });
 });
 
 gulp.task("prepare-build", ["update-version", "clean"], function() {
@@ -95,7 +103,7 @@ gulp.task("complete-build", function() {
     compileSideshowStylesheets();
     compileExamplesStylesheet();
     bundleScripts(function() {
-      generateDocumentation();
+      gulp.start("generate-docs");
     });
   }
 });
@@ -282,7 +290,6 @@ function updateVersionNumberReferences() {
       })(),
     appRoot = path.resolve("."),
     versionFilePath = path.join(appRoot, "VERSION"),
-    yuidocFilePath = path.join(appRoot, "yuidoc.json"),
     gemspecFilePath = path.join(appRoot, "sideshow.gemspec"),
     nuspecFilePath = path.join(appRoot, "sideshow.nuspec"),
     packageJsonFilePath = path.join(appRoot, "package.json"),
@@ -296,16 +303,6 @@ function updateVersionNumberReferences() {
     if (err) throw err;
 
     fs.writeFile(versionFilePath, "v" + version + "-" + name);
-  });
-
-  //yuidoc.json
-  fs.readFile(yuidocFilePath, "utf8", function(err, data) {
-    if (err) throw err;
-
-    var json = JSON.parse(data);
-    json.version = version;
-
-    fs.writeFile(yuidocFilePath, JSON.stringify(json, null, 4));
   });
 
   //package.json
@@ -381,13 +378,6 @@ function updateVersionNumberReferences() {
       data.replace(/(<version>)([\d.]+)(<\/version>)/, "$1" + version + "$3")
     );
   });
-}
-
-function generateDocumentation() {
-  return gulp
-    .src("./distr/sideshow.js")
-    .pipe(yuidoc())
-    .pipe(gulp.dest("./docs"));
 }
 
 function errorHandler(title) {
