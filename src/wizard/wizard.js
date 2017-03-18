@@ -1,4 +1,5 @@
 import marked from "marked";
+import stripIndent from 'strip-indent';
 import SSException from "../general/exception";
 import Arrows from "../step/arrows";
 import CompositeMask from "../mask/composite_mask";
@@ -246,7 +247,7 @@ export default class Wizard {
       DetailsPanel.singleInstance.positionate();
       //Sets the description properties (text, title and step position)
       const description = StepDescription.singleInstance;
-      const text = step.text;
+      const text = stripIndent(step.text);
       if (step.format == "html") {
         description.setHTML(text);
       } else if (step.format == "markdown") {

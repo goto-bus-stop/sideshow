@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import babel from "rollup-plugin-babel";
 import inject from "rollup-plugin-inject";
+import nodeResolve from "rollup-plugin-node-resolve";
+import commonjs from "rollup-plugin-commonjs";
 
 export default {
   entry: "./src/general/global_object.js",
@@ -26,6 +28,8 @@ export default {
       presets: [["env", { loose: true, modules: false }]],
       plugins: ["transform-class-properties", "external-helpers"]
     }),
+    nodeResolve(),
+    commonjs(),
     inject({
       global: require.resolve("./src/bridge/global"),
       $: require.resolve("./src/bridge/jquery"),
