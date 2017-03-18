@@ -2,7 +2,9 @@
   "name": "sideshow",
   "version": "0.4.3",
   "description": "Sideshow is a powerful javascript library which aims to reduce your user's learning curve by providing a way to create step-by-step interactive helps.",
-  "main": "",
+  "main": "./distr/sideshow.js",
+  "jsnext:main": "./distr/sideshow.es.js",
+  "module": "./distr/sideshow.es.js",
   "scripts": {
     "test": ""
   },
