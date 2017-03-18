@@ -1,4 +1,3 @@
-import marked from "marked";
 import stripIndent from "strip-indent";
 import SSException from "../general/exception";
 import Arrows from "../step/arrows";
@@ -12,6 +11,7 @@ import strings from "../general/dictionary";
 import { getString } from "../general/utility_functions";
 import SS from "../general/global_object";
 import { flags, currentWizard, setCurrentWizard } from "../general/state";
+import { hasParser, parse } from '../general/parsers'
 
 /**
  * Represents a tutorial
@@ -248,10 +248,8 @@ export default class Wizard {
       //Sets the description properties (text, title and step position)
       const description = StepDescription.singleInstance;
       const text = stripIndent(step.text);
-      if (step.format == "html") {
-        description.setHTML(text);
-      } else if (step.format == "markdown") {
-        description.setHTML(marked(text));
+      if (hasParser(step.format)) {
+        description.setHTML(parse(step.format, text))
       } else {
         description.setText(text);
       }

@@ -21,6 +21,7 @@ import {
   unregisterInnerHotkeys,
   removeDOMGarbage
 } from "./utility_functions";
+import { registerParser } from './parsers'
 
 /**
  * The main class for Sideshow
@@ -55,6 +56,11 @@ SS.init = function() {
   flags.lockMaskUpdate = true;
   CompositeMask.singleInstance.render();
 };
+
+/**
+ * Register a new format parser.
+ */
+SS.registerParser = registerParser
 
 /**
  * Stops and Closes Sideshow
