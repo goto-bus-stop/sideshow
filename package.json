@@ -26,6 +26,7 @@
     "@f/add-class": "^1.0.0",
     "@f/apply-styles": "^1.0.6",
     "@f/element-rect": "^1.0.0",
+    "@f/find": "^1.0.0",
     "@f/foreach-array": "^1.0.0",
     "@f/has": "^1.0.1",
     "@f/remove-class": "^1.0.0",

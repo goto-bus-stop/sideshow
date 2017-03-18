@@ -13,7 +13,7 @@ var Polling = {};
 /**
  * The polling functions queue
  *
- * @@field queue
+ * @field queue
  * @type Object
  * @static
  */
@@ -22,7 +22,7 @@ Polling.queue = [];
 /**
  * A flag that controls if the polling is locked
  *
- * @@field lock
+ * @field lock
  * @type boolean
  * @static
  */

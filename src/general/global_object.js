@@ -1,3 +1,4 @@
+import find from '@f/find'
 import foreach from "@f/foreach-array";
 import html from "bel";
 import Arrows from "../step/arrows";
@@ -117,7 +118,7 @@ SS.gotoStep = function(firstArg) {
     }
   } else if (typeof firstArg === "string") {
     // First argument is the step name
-    destination = steps.filter(i => i.name === firstArg)[0];
+    destination = find(steps, i => i.name === firstArg);
 
     if (!destination) {
       throw new SSException(
@@ -321,7 +322,7 @@ SS.start = function(config = {}) {
     if (listAll) {
       SS.showWizardsList(wizards.filter(w => w.isEligible() || w.preparation));
     } else if (wizardName) {
-      const wizard = wizards.filter(w => w.name === wizardName)[0];
+      const wizard = find(wizards, w => w.name === wizardName);
 
       if (!wizard) {
         throw new SSException(

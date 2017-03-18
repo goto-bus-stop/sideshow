@@ -13,126 +13,127 @@ import { wizards } from "../general/state";
  * @class WizardMenu
  * @static
  */
-const WizardMenu = {};
+class WizardMenu {
+  /**
+   * Renders the wizard menu
+   *
+   * @method render
+   * @param {Array} wizards The wizards list
+   */
 
-/**
- * Renders the wizard menu
- *
- * @method render
- * @param {Array} wizards The wizards list
- * @static
- */
-WizardMenu.render = function(wizards) {
-  let list;
-  if (wizards.length > 0) {
-    function wizardItem(wiz) {
-      let description = wiz.description;
-      description.length > 100 &&
-        (description = description.substr(0, 100) + "...");
+  render(wizards) {
+    const menu = this;
 
-      return html`
-        <li onclick=${onclick}>
-          <span class="sideshow-wizard-menu-item-estimated-time">
-            ${wiz.estimatedTime}
-          </span>
-          <h2>${wiz.title}</h2>
-          <span class="sideshow-wizard-menu-item-description">
-            ${description}
-          </span>
-        </li>
-      `;
+    let list;
+    if (wizards.length > 0) {
+      function wizardItem(wiz) {
+        let description = wiz.description;
+        description.length > 100 &&
+          (description = description.substr(0, 100) + "...");
 
-      function onclick() {
-        WizardMenu.hide(function() {
-          wiz.prepareAndPlay();
-        });
+        return html`
+          <li onclick=${onclick}>
+            <span class="sideshow-wizard-menu-item-estimated-time">
+              ${wiz.estimatedTime}
+            </span>
+            <h2>${wiz.title}</h2>
+            <span class="sideshow-wizard-menu-item-description">
+              ${description}
+            </span>
+          </li>
+        `;
+
+        function onclick() {
+          menu.hide(() => {
+            wiz.prepareAndPlay();
+          });
+        }
       }
+
+      list = html`
+        <ul>
+          ${wizards.map(wizardItem)}
+        </ul>
+      `;
+    } else {
+      list = html`
+        <div class="sideshow-no-wizards-available">
+          ${getString(strings.noAvailableWizards)}
+        </div>
+      `;
     }
 
-    list = html`
-      <ul>
-        ${wizards.map(wizardItem)}
-      </ul>
+    this.titleElement = html`
+      <h1 class="sideshow-wizard-menu-title" />
     `;
-  } else {
-    list = html`
-      <div class="sideshow-no-wizards-available">
-        ${getString(strings.noAvailableWizards)}
+
+    this.$el = html`
+      <div class="sideshow-wizard-menu">
+        ${this.titleElement}
+        ${list}
       </div>
     `;
+
+    document.body.appendChild(this.$el);
   }
 
-  this.titleElement = html`
-    <h1 class="sideshow-wizard-menu-title" />
-  `;
-
-  this.$el = html`
-    <div class="sideshow-wizard-menu">
-      ${this.titleElement}
-      ${list}
-    </div>
-  `;
-
-  document.body.appendChild(this.$el);
-};
-
-/**
- * Shows the wizard menu
- *
- * @method show
- * @param {Array} wizards The wizards list
- * @static
- */
-WizardMenu.show = function(wizards, title) {
-  if (wizards.length == 1 && SS.config.autoSkipIntro) {
-    wizards[0].prepareAndPlay();
-  } else {
-    SS.setEmptySubject();
-    CompositeMask.singleInstance.update(
-      Subject.position,
-      Subject.dimension,
-      Subject.borderRadius
-    );
-    CompositeMask.singleInstance.fadeIn();
-
-    WizardMenu.render(wizards);
-
-    if (title) {
-      this.setTitle(title);
+  /**
+   * Shows the wizard menu
+   *
+   * @method show
+   * @param {Array} wizards The wizards list
+   */
+  
+  show(wizards, title) {
+    if (wizards.length == 1 && SS.config.autoSkipIntro) {
+      wizards[0].prepareAndPlay();
     } else {
-      this.setTitle(getString(strings.availableWizards));
+      SS.setEmptySubject();
+      CompositeMask.singleInstance.update(
+        Subject.position,
+        Subject.dimension,
+        Subject.borderRadius
+      );
+      CompositeMask.singleInstance.fadeIn();
+
+      this.render(wizards);
+
+      if (title) {
+        this.setTitle(title);
+      } else {
+        this.setTitle(getString(strings.availableWizards));
+      }
     }
   }
-};
 
-/**
- * Hides the wizard menu
- *
- * @method hide
- * @param {Function} callback The callback to be called after hiding the menu
- * @static
- */
-WizardMenu.hide = function(callback) {
-  const $el = this.$el;
+  /**
+   * Hides the wizard menu
+   *
+   * @method hide
+   * @param {Function} callback The callback to be called after hiding the menu
+   */
+  hide(callback) {
+    const $el = this.$el;
 
-  if ($el) {
-    addClass("sideshow-menu-closed", $el);
+    if ($el) {
+      addClass("sideshow-menu-closed", $el);
+    }
+    setTimeout(
+      () => {
+        if ($el) {
+          $el.setAttribute("hidden", "hidden");
+        }
+        if (callback) {
+          callback();
+        }
+      },
+      600
+    );
   }
-  setTimeout(
-    () => {
-      if ($el) {
-        $el.setAttribute("hidden", "hidden");
-      }
-      if (callback) {
-        callback();
-      }
-    },
-    600
-  );
-};
 
-WizardMenu.setTitle = function(title) {
-  this.titleElement.textContent = title;
-};
+  setTitle(title) {
+    this.titleElement.textContent = title;
+  }
+}
 
-export default WizardMenu;
+export default new WizardMenu();
