@@ -56,7 +56,8 @@ export default class Arrow extends FadableItem {
    */
 
   positionate() {
-    var target = this.target, position = this.position;
+    const target = this.target;
+    const position = this.position;
 
     target.position = {
       x: target.$el.offset().left - $window.scrollLeft(),
@@ -67,23 +68,23 @@ export default class Arrow extends FadableItem {
       height: parsePxValue(target.$el.outerHeight())
     };
 
-    var coordinates = {
+    const coordinates = {
       // a dictionary with each of the coordinates used for positioning Arrow
       top: {
-        x: target.position.x + target.dimension.width / 2 - 20 + "px",
-        y: target.position.y - 30 + "px"
+        x: `${target.position.x + target.dimension.width / 2 - 20}px`,
+        y: `${target.position.y - 30}px`
       },
       right: {
-        x: target.position.x + target.dimension.width - 12 + "px",
-        y: target.position.y + target.dimension.height / 2 - 6 + "px"
+        x: `${target.position.x + target.dimension.width - 12}px`,
+        y: `${target.position.y + target.dimension.height / 2 - 6}px`
       },
       bottom: {
-        x: target.position.x + target.dimension.width / 2 - 35 + "px",
-        y: target.position.y + target.dimension.height + 2 + "px"
+        x: `${target.position.x + target.dimension.width / 2 - 35}px`,
+        y: `${target.position.y + target.dimension.height + 2}px`
       },
       left: {
-        x: target.position.x - 35 + "px",
-        y: target.position.y + target.dimension.height / 2 - 22 + "px"
+        x: `${target.position.x - 35}px`,
+        y: `${target.position.y + target.dimension.height / 2 - 22}px`
       }
     };
 

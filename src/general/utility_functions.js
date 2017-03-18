@@ -61,15 +61,16 @@ function innerHotkeysListener(e) {
  * @@function registerGlobalHotkeys
  */
 export function registerGlobalHotkeys(SS) {
-  $document.keyup(function(e) {
+  $document.keyup(e => {
     //F2
     if (e.keyCode == 113) {
-      if (e.shiftKey)
+      if (e.shiftKey) {
         SS.start({
           listAll: true
         });
-      else
+      } else {
         SS.start();
+      }
     }
   });
 }

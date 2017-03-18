@@ -24,12 +24,11 @@ export default class CompositeMask extends FadableItem {
    */
 
   init() {
-    var mask = this;
-    ["top", "left", "right", "bottom"].forEach(function(d) {
-      mask.parts[d] = new Part();
+    ["top", "left", "right", "bottom"].forEach(d => {
+      this.parts[d] = new Part();
     });
-    ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(function(d) {
-      mask.parts[d] = new CornerPart();
+    ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(d => {
+      this.parts[d] = new CornerPart();
     });
   }
 
@@ -49,16 +48,17 @@ export default class CompositeMask extends FadableItem {
    */
 
   render() {
-    var mask = this;
-    for (var p in this.parts) {
-      var part = this.parts[p];
-      if (part.render) part.render();
+    for (const i in this.parts) {
+      const part = this.parts[i];
+      if (part.render) {
+        part.render();
+      }
     }
     this.$el = $(".sideshow-mask-part, .sideshow-mask-corner-part");
     // if(!this.$el || this.$el.length === 0) this.$el = $(".sideshow-mask-part, .sideshow-mask-corner-part");
     SubjectMask.singleInstance.render();
-    ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(function(d) {
-      mask.parts[d].$el.addClass(d);
+    ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(d => {
+      this.parts[d].$el.addClass(d);
     });
     this.status = NOT_DISPLAYED;
   }
@@ -83,15 +83,15 @@ export default class CompositeMask extends FadableItem {
     }
 
     if (!Subject.isSubjectVisible(position, dimension)) {
-      var description = StepDescription.singleInstance;
-      var y = dimension.height > $window.height() - 50
+      const description = StepDescription.singleInstance;
+      let y = dimension.height > $window.height() - 50
         ? position.y
         : position.y - 25;
       y += $window.scrollTop();
 
-      doSmoothScroll(y, function() {
+      doSmoothScroll(y, () => {
         setTimeout(
-          function() {
+          () => {
             DetailsPanel.singleInstance.positionate();
             description.positionate();
             description.fadeIn();
@@ -117,11 +117,11 @@ export default class CompositeMask extends FadableItem {
   update(position, dimension, borderRadius) {
     SubjectMask.singleInstance.update(position, dimension, borderRadius);
     //Aliases
-    var left = position.x,
-      top = position.y,
-      width = dimension.width,
-      height = dimension.height,
-      br = borderRadius;
+    const left = position.x;
+    const top = position.y;
+    const width = dimension.width;
+    const height = dimension.height;
+    const br = borderRadius;
 
     //Updates the divs surrounding the subject
     this.parts.top.update(
@@ -205,8 +205,10 @@ export default class CompositeMask extends FadableItem {
   pollForSubjectChanges() {
     if (!flags.lockMaskUpdate) {
       if (currentWizard && currentWizard.currentStep.subject) {
-        var subject = $(currentWizard.currentStep.subject);
-        if (Subject.obj[0] !== subject[0]) SS.setSubject(subject, true);
+        const subject = $(currentWizard.currentStep.subject);
+        if (Subject.obj[0] !== subject[0]) {
+          SS.setSubject(subject, true);
+        }
       }
 
       if (Subject.hasChanged()) {

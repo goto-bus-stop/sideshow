@@ -17,8 +17,12 @@ export default class HidableItem extends VisualItem {
    */
 
   show(displayButKeepTransparent) {
-    if (!this.$el) this.render();
-    if (!displayButKeepTransparent) this.$el.removeClass("sideshow-invisible");
+    if (!this.$el) {
+      this.render();
+    }
+    if (!displayButKeepTransparent) {
+      this.$el.removeClass("sideshow-invisible");
+    }
     this.$el.removeClass("sideshow-hidden");
     this.status = VISIBLE;
   }
@@ -30,7 +34,9 @@ export default class HidableItem extends VisualItem {
    */
 
   hide(keepHoldingSpace) {
-    if (!keepHoldingSpace) this.$el.addClass("sideshow-hidden");
+    if (!keepHoldingSpace) {
+      this.$el.addClass("sideshow-hidden");
+    }
     this.$el.addClass("sideshow-invisible");
     this.status = NOT_DISPLAYED;
   }

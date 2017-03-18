@@ -29,25 +29,28 @@ Arrows.clear = function() {
  * @static
  */
 Arrows.setTargets = function(targets, targetsChanged) {
-  if (targets.constructor === String) targets = $(targets);
+  if (targets.constructor === String) {
+    targets = $(targets);
+  }
 
   if (targets instanceof $ && targets.length > 0) {
     targets.each(function() {
-      var arrow = new Arrow();
+      const arrow = new Arrow();
       arrow.target.$el = $(this);
       if (arrow.target.$el.is(":visible")) {
         Arrows.arrows.push(arrow);
         arrow.onceVisible = true;
       }
     });
-  } else if (!targetsChanged) throw new SSException("150", "Invalid targets.");
+  } else if (!targetsChanged) {
+    throw new SSException("150", "Invalid targets.");
+  }
 };
 
 Arrows.recreateDOMReferences = function() {
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
+  this.arrows.forEach(arrow => {
     arrow.$el.remove();
-  }
+  });
 
   Arrows.clear();
   Arrows.setTargets(currentWizard.currentStep.targets, true);
@@ -63,10 +66,9 @@ Arrows.recreateDOMReferences = function() {
  * @static
  */
 Arrows.show = function() {
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
+  this.arrows.forEach(arrow => {
     arrow.show();
-  }
+  });
 };
 
 /**
@@ -76,10 +78,9 @@ Arrows.show = function() {
  * @static
  */
 Arrows.hide = function() {
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
+  this.arrows.forEach(arrow => {
     arrow.hide();
-  }
+  });
 };
 
 /**
@@ -89,10 +90,9 @@ Arrows.hide = function() {
  * @static
  */
 Arrows.fadeIn = function() {
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
+  this.arrows.forEach(arrow => {
     arrow.fadeIn();
-  }
+  });
 };
 
 /**
@@ -102,13 +102,10 @@ Arrows.fadeIn = function() {
  * @static
  */
 Arrows.fadeOut = function() {
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
-    registerFadeOut(arrow);
-  }
+  this.arrows.forEach(registerFadeOut);
 
   function registerFadeOut(arrow) {
-    arrow.fadeOut(function() {
+    arrow.fadeOut(() => {
       arrow.destroy();
     });
   }
@@ -121,10 +118,9 @@ Arrows.fadeOut = function() {
  * @static
  */
 Arrows.positionate = function() {
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
+  this.arrows.forEach(arrow => {
     arrow.positionate();
-  }
+  });
 };
 
 /**
@@ -133,12 +129,11 @@ Arrows.positionate = function() {
  * @method render
  * @static
  */
-Arrows.render = function(arrowPosition) {
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
-    arrow.position = arrowPosition || "top";
+Arrows.render = function(arrowPosition = "top") {
+  this.arrows.forEach(arrow => {
+    arrow.position = arrowPosition;
     arrow.render();
-  }
+  });
 };
 
 /**
@@ -148,14 +143,18 @@ Arrows.render = function(arrowPosition) {
  */
 Arrows.pollForArrowsChanges = function() {
   var brokenReference = false;
-  for (var a = 0; a < this.arrows.length; a++) {
-    var arrow = this.arrows[a];
-    if (arrow.hasChanged()) arrow.positionate();
-    if (arrow.onceVisible && !arrow.target.$el.is(":visible"))
+  this.arrows.forEach(arrow => {
+    if (arrow.hasChanged()) {
+      arrow.positionate();
+    }
+    if (arrow.onceVisible && !arrow.target.$el.is(":visible")) {
       brokenReference = true;
-  }
+    }
+  });
 
-  if (brokenReference) this.recreateDOMReferences();
+  if (brokenReference) {
+    this.recreateDOMReferences();
+  }
 };
 
 export default Arrows;

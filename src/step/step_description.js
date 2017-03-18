@@ -117,14 +117,16 @@ export default class StepDescription extends FadableItem {
       .addClass("sideshow-hidden")
       .addClass("sideshow-invisible");
 
-    var stepPosition = $("<span>").addClass("sideshow-step-position");
+    const stepPosition = $("<span>").addClass("sideshow-step-position");
     this.$el.append(stepPosition);
-    if (currentWizard.showStepPosition === false) stepPosition.hide();
+    if (currentWizard.showStepPosition === false) {
+      stepPosition.hide();
+    }
 
     this.$el.append($("<h2>"));
     this.$el.append($("<div>").addClass("sideshow-step-text"));
     this.nextButton.render(this.$el);
-    this.nextButton.$el.click(function() {
+    this.nextButton.$el.click(() => {
       currentWizard.next();
     });
     DetailsPanel.singleInstance.$el.append(this.$el);
@@ -147,17 +149,20 @@ export default class StepDescription extends FadableItem {
    */
 
   positionate() {
-    var dp = DetailsPanel.singleInstance;
+    const dp = DetailsPanel.singleInstance;
 
-    if (dp.dimension.width >= 900) this.dimension.width = 900;
-    else this.dimension.width = dp.dimension.width * 0.9;
+    if (dp.dimension.width >= 900) {
+      this.dimension.width = 900;
+    } else {
+      this.dimension.width = dp.dimension.width * 0.9;
+    }
 
     this.$el.css("width", this.dimension.width);
 
-    var paddingLeftRight = (parsePxValue(this.$el.css("padding-left")) +
+    const paddingLeftRight = (parsePxValue(this.$el.css("padding-left")) +
       parsePxValue(this.$el.css("padding-right"))) /
       2;
-    var paddingTopBottom = (parsePxValue(this.$el.css("padding-top")) +
+    const paddingTopBottom = (parsePxValue(this.$el.css("padding-top")) +
       parsePxValue(this.$el.css("padding-bottom"))) /
       2;
 

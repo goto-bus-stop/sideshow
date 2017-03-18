@@ -23,25 +23,30 @@ export default class FadableItem extends HidableItem {
    */
 
   fadeIn(callback, linearTimingFunction) {
-    var item = this;
-    item.status = FADING_IN;
+    this.status = FADING_IN;
 
-    if (!item.$el) this.render();
-    if (linearTimingFunction)
-      item.$el.css("animation-timing-function", "linear");
-    item.$el.removeClass("sideshow-hidden");
+    if (!this.$el) {
+      this.render();
+    }
+    if (linearTimingFunction) {
+      this.$el.css("animation-timing-function", "linear");
+    }
+    this.$el.removeClass("sideshow-hidden");
 
     //Needed hack to get CSS transition to work properly
     setTimeout(
-      function() {
-        item.$el.removeClass("sideshow-invisible");
+      () => {
+        this.$el.removeClass("sideshow-invisible");
 
         setTimeout(
-          function() {
-            item.status = VISIBLE;
-            if (linearTimingFunction)
-              item.$el.css("animation-timing-function", "ease");
-            if (callback) callback();
+          () => {
+            this.status = VISIBLE;
+            if (linearTimingFunction) {
+              this.$el.css("animation-timing-function", "ease");
+            }
+            if (callback) {
+              callback();
+            }
           },
           600
         );
@@ -57,21 +62,24 @@ export default class FadableItem extends HidableItem {
    */
 
   fadeOut(callback, linearTimingFunction) {
-    var item = this;
-    if (item.status != NOT_RENDERED) {
-      item.status = FADING_OUT;
+    if (this.status != NOT_RENDERED) {
+      this.status = FADING_OUT;
 
-      if (linearTimingFunction)
-        item.$el.css("animation-timing-function", "linear");
-      item.$el.addClass("sideshow-invisible");
+      if (linearTimingFunction) {
+        this.$el.css("animation-timing-function", "linear");
+      }
+      this.$el.addClass("sideshow-invisible");
 
       setTimeout(
-        function() {
-          item.$el.addClass("sideshow-hidden");
-          item.status = NOT_DISPLAYED;
-          if (linearTimingFunction)
-            item.$el.css("animation-timing-function", "ease");
-          if (callback) callback();
+        () => {
+          this.$el.addClass("sideshow-hidden");
+          this.status = NOT_DISPLAYED;
+          if (linearTimingFunction) {
+            this.$el.css("animation-timing-function", "ease");
+          }
+          if (callback) {
+            callback();
+          }
         },
         600
       );

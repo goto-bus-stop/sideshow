@@ -50,23 +50,21 @@ export default class DetailsPanel extends FadableItem {
    */
 
   positionate() {
-    var parts = CompositeMask.singleInstance.parts;
+    const parts = CompositeMask.singleInstance.parts;
 
     //Considering the four parts surrounding the current subject, gets the biggest one
-    var sortedSides = [
+    const sortedSides = [
       [parts.top, "height"],
       [parts.right, "width"],
       [parts.bottom, "height"],
       [parts.left, "width"]
-    ].sort(function(a, b) {
-      return a[0].dimension[a[1]] - b[0].dimension[b[1]];
-    });
+    ].sort((a, b) => a[0].dimension[a[1]] - b[0].dimension[b[1]]);
 
     var biggestSide = sortedSides.slice(-1)[0];
 
-    for (var i = 2; i > 0; i--) {
-      var side = sortedSides[i];
-      var dimension = side[0].dimension;
+    for (let i = 2; i > 0; i--) {
+      const side = sortedSides[i];
+      const dimension = side[0].dimension;
       if (dimension.width > 250 && dimension.height > 250) {
         if (
           dimension.width + dimension.height >

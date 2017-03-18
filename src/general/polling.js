@@ -34,8 +34,7 @@ Polling.lock = false;
  * @method enqueue
  * @static
  */
-Polling.enqueue = function() {
-  var firstArg = arguments[0];
+Polling.enqueue = function(firstArg) {
   var fn;
   var name = "";
 
@@ -50,12 +49,13 @@ Polling.enqueue = function() {
     this.getFunctionIndex(fn) < 0 &&
     (name === "" || this.getFunctionIndex(name) < 0)
   ) {
-    this.queue.push({ name: name, fn: fn, enabled: true });
-  } else
+    this.queue.push({ name, fn, enabled: true });
+  } else {
     throw new SSException(
       "301",
       "The function is already in the polling queue."
     );
+  }
 };
 
 /**
@@ -64,8 +64,8 @@ Polling.enqueue = function() {
  * @method dequeue
  * @static
  */
-Polling.dequeue = function() {
-  this.queue.splice(this.getFunctionIndex(arguments[0]), 1);
+Polling.dequeue = function(fn) {
+  this.queue.splice(this.getFunctionIndex(fn), 1);
 };
 
 /**
@@ -74,8 +74,8 @@ Polling.dequeue = function() {
  * @method enable
  * @static
  */
-Polling.enable = function() {
-  this.queue[this.getFunctionIndex(arguments[0])].enabled = true;
+Polling.enable = function(fn) {
+  this.queue[this.getFunctionIndex(fn)].enabled = true;
 };
 
 /**
@@ -84,8 +84,8 @@ Polling.enable = function() {
  * @method disable
  * @static
  */
-Polling.disable = function() {
-  this.queue[this.getFunctionIndex(arguments[0])].enabled = false;
+Polling.disable = function(fn) {
+  this.queue[this.getFunctionIndex(fn)].enabled = false;
 };
 
 /**
@@ -94,21 +94,12 @@ Polling.disable = function() {
  * @method getFunctionIndex
  * @static
  */
-Polling.getFunctionIndex = function() {
-  var firstArg = arguments[0];
-
-  if (typeof firstArg == "function")
-    return this.queue
-      .map(function(p) {
-        return p.fn;
-      })
-      .indexOf(firstArg);
-  else if (typeof firstArg == "string")
-    return this.queue
-      .map(function(p) {
-        return p.name;
-      })
-      .indexOf(firstArg);
+Polling.getFunctionIndex = function(firstArg) {
+  if (typeof firstArg == "function") {
+    return this.queue.map(p => p.fn).indexOf(firstArg);
+  } else if (typeof firstArg == "string") {
+    return this.queue.map(p => p.name).indexOf(firstArg);
+  }
 
   throw new SSException(
     "302",
@@ -144,7 +135,7 @@ Polling.stop = function() {
  * @static
  */
 Polling.clear = function() {
-  var lock = this.lock;
+  const lock = this.lock;
 
   this.lock = true;
   this.queue = [];
@@ -161,11 +152,10 @@ Polling.doPolling = function() {
   if (!this.lock) {
     //Using timeout to avoid the queue to not complete in a cycle
     setTimeout(
-      function() {
-        for (var fn = 0; fn < Polling.queue.length; fn++) {
-          var pollingFunction = Polling.queue[fn];
+      () => {
+        Polling.queue.forEach(pollingFunction => {
           pollingFunction.enabled && pollingFunction.fn();
-        }
+        });
         Polling.doPolling();
       },
       pollingDuration

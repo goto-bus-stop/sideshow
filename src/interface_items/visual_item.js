@@ -31,8 +31,8 @@ export default class VisualItem {
    * @method render
    */
 
-  render($parent) {
-    ($parent || $body).append(this.$el);
+  render($parent = $body) {
+    $parent.append(this.$el);
     this.status = NOT_DISPLAYED;
   }
 

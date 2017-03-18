@@ -11,7 +11,7 @@ import { wizards } from "../general/state";
  * @class WizardMenu
  * @static
  */
-var WizardMenu = {};
+const WizardMenu = {};
 
 /**
  * Renders the wizard menu
@@ -21,13 +21,13 @@ var WizardMenu = {};
  * @static
  */
 WizardMenu.render = function(wizards) {
-  var $menu = $("<div>").addClass("sideshow-wizard-menu");
+  const $menu = $("<div>").addClass("sideshow-wizard-menu");
   this.$el = $menu;
-  var $title = $("<h1>").addClass("sideshow-wizard-menu-title");
+  const $title = $("<h1>").addClass("sideshow-wizard-menu-title");
   $menu.append($title);
 
   if (wizards.length > 0) {
-    var $wizardsList = $("<ul>");
+    const $wizardsList = $("<ul>");
 
     //Extracting this function to avoid the JSHint warning W083
     function setClick($wiz, wizard) {
@@ -38,27 +38,26 @@ WizardMenu.render = function(wizards) {
       });
     }
 
-    for (var w = 0; w < wizards.length; w++) {
-      var wiz = wizards[w];
-      var $wiz = $("<li>");
-      var $wizTitle = $("<h2>").text(wiz.title);
+    wizards.forEach(wiz => {
+      const $wiz = $("<li>");
+      const $wizTitle = $("<h2>").text(wiz.title);
 
       if (wiz.title || wiz.description) {
-        var description = wiz.description;
+        let description = wiz.description;
         description.length > 100 &&
           (description = description.substr(0, 100) + "...");
 
-        var $wizDescription = $("<span>")
+        const $wizDescription = $("<span>")
           .addClass("sideshow-wizard-menu-item-description")
           .text(description);
-        var $wizEstimatedTime = $("<span>")
+        const $wizEstimatedTime = $("<span>")
           .addClass("sideshow-wizard-menu-item-estimated-time")
           .text(wiz.estimatedTime);
         $wiz.append($wizEstimatedTime, $wizTitle, $wizDescription);
         $wizardsList.append($wiz);
       }
       setClick($wiz, wiz);
-    }
+    });
     $menu.append($wizardsList);
   } else {
     $("<div>")
@@ -78,9 +77,9 @@ WizardMenu.render = function(wizards) {
  * @static
  */
 WizardMenu.show = function(wizards, title) {
-  if (wizards.length == 1 && SS.config.autoSkipIntro)
+  if (wizards.length == 1 && SS.config.autoSkipIntro) {
     wizards[0].prepareAndPlay();
-  else {
+  } else {
     SS.setEmptySubject();
     CompositeMask.singleInstance.update(
       Subject.position,
@@ -91,8 +90,11 @@ WizardMenu.show = function(wizards, title) {
 
     WizardMenu.render(wizards);
 
-    if (title) this.setTitle(title);
-    else this.setTitle(getString(strings.availableWizards));
+    if (title) {
+      this.setTitle(title);
+    } else {
+      this.setTitle(getString(strings.availableWizards));
+    }
   }
 };
 
@@ -104,13 +106,19 @@ WizardMenu.show = function(wizards, title) {
  * @static
  */
 WizardMenu.hide = function(callback) {
-  var menu = this, $el = menu.$el;
+  const $el = this.$el;
 
-  $el && $el.addClass("sideshow-menu-closed");
+  if ($el) {
+    $el.addClass("sideshow-menu-closed");
+  }
   setTimeout(
-    function() {
-      $el && $el.hide();
-      if (callback) callback();
+    () => {
+      if ($el) {
+        $el.hide();
+      }
+      if (callback) {
+        callback();
+      }
     },
     600
   );

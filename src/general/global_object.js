@@ -27,7 +27,7 @@ import {
  * @class SS 
  * @static
  */
-var SS = {
+const SS = {
   /**
    * The current Sideshow version
    * 
@@ -84,12 +84,13 @@ SS.close = function() {
   Arrows.fadeOut();
 
   setTimeout(
-    function() {
+    () => {
       if (
         CompositeMask.singleInstance.status === VISIBLE ||
         CompositeMask.singleInstance.status === FADING_IN
-      )
+      ) {
         CompositeMask.singleInstance.fadeOut();
+      }
 
       SubjectMask.singleInstance.fadeOut();
     },
@@ -104,34 +105,35 @@ SS.close = function() {
   flags.running = false;
 };
 
-SS.gotoStep = function() {
-  var firstArg = arguments[0],
-    steps = currentWizard._storyline.steps,
-    destination;
+SS.gotoStep = function(firstArg) {
+  const steps = currentWizard._storyline.steps;
+  let destination;
 
   flags.skippingStep = true;
 
   //First argument is the step position (1-based)
   if (typeof firstArg == "number") {
-    if (firstArg <= steps.length) destination = steps[firstArg - 1];
-    else throw new SSException(
+    if (firstArg <= steps.length) {
+      destination = steps[firstArg - 1];
+    } else {
+      throw new SSException(
         "401",
         "There's no step in the storyline with position " + firstArg + "."
       );
+    }
   } else if (typeof firstArg == "string") {
     //First argument is the step name
-    destination = steps.filter(function(i) {
-      return i.name === firstArg;
-    })[0];
+    destination = steps.filter(i => i.name === firstArg)[0];
 
-    if (!destination)
+    if (!destination) {
       throw new SSException(
         "401",
         "There's no step in the storyline with name " + firstArg + "."
       );
+    }
   }
   setTimeout(
-    function() {
+    () => {
       currentWizard.next(null, destination);
     },
     100
@@ -173,20 +175,26 @@ SS.setEmptySubject = function() {
  * @static
  */
 SS.setSubject = function(subj, subjectChanged) {
-  if (subj.constructor === String) subj = $(subj);
+  if (subj.constructor === String) {
+    subj = $(subj);
+  }
 
   if (subj instanceof $ && subj.length > 0) {
     if (subj.length === 1) {
       Subject.obj = subj;
       Subject.updateInfo();
       flags.lockMaskUpdate = false;
-    } else
+    } else {
       throw new SSException(
         "101",
         "A subject must have only one element. Multiple elements by step will be supported in future versions of Sideshow."
       );
-  } else if (subjectChanged) SS.setEmptySubject();
-  else throw new SSException("100", "Invalid subject.");
+    }
+  } else if (subjectChanged) {
+    SS.setEmptySubject();
+  } else {
+    throw new SSException("100", "Invalid subject.");
+  }
 };
 
 /**
@@ -198,7 +206,7 @@ SS.setSubject = function(subj, subjectChanged) {
  * @static
  **/
 SS.registerWizard = function(wizardConfig) {
-  var wiz = new Wizard(wizardConfig);
+  const wiz = new Wizard(wizardConfig);
   wizards.push(wiz);
   return wiz;
 };
@@ -212,15 +220,16 @@ SS.registerWizard = function(wizardConfig) {
  * @static
  */
 SS.getElegibleWizards = function(onlyNew) {
-  var eligibleWizards = [];
-  var somethingNew = false;
-  for (var w = 0; w < wizards.length; w++) {
-    var wiz = wizards[w];
+  const eligibleWizards = [];
+  let somethingNew = false;
+  wizards.forEach(wiz => {
     if (wiz.isEligible()) {
-      if (!wiz.isAlreadyWatched()) somethingNew = true;
+      if (!wiz.isAlreadyWatched()) {
+        somethingNew = true;
+      }
       eligibleWizards.push(wiz);
     }
-  }
+  });
 
   return !onlyNew || somethingNew ? eligibleWizards : [];
 };
@@ -233,11 +242,9 @@ SS.getElegibleWizards = function(onlyNew) {
  * @return {boolean} Returns a boolean indicating whether there is some wizard available
  * @static
  */
-SS.showWizardsList = function() {
-  var firstArg = arguments[0];
-  var title = arguments[1];
-  var onlyNew = typeof firstArg == "boolean" ? false : firstArg;
-  var wizards = firstArg instanceof Array
+SS.showWizardsList = function(firstArg, title) {
+  const onlyNew = typeof firstArg == "boolean" ? false : firstArg;
+  const wizards = firstArg instanceof Array
     ? firstArg
     : this.getElegibleWizards(onlyNew);
 
@@ -255,15 +262,20 @@ SS.showWizardsList = function() {
  * @static
  */
 SS.showRelatedWizardsList = function(completedWizard) {
-  var relatedWizardsNames = completedWizard.relatedWizards;
-  if (!relatedWizardsNames) return false;
+  const relatedWizardsNames = completedWizard.relatedWizards;
+  if (!relatedWizardsNames) {
+    return false;
+  }
 
   //Gets only related tutorials which are eligible or have a preparation function
-  var relatedWizards = wizards.filter(function(w) {
-    return relatedWizardsNames.indexOf(w.name) > -1 &&
-      (w.isEligible() || w.preparation);
-  });
-  if (relatedWizards.length == 0) return false;
+  const relatedWizards = wizards.filter(
+    w =>
+      relatedWizardsNames.indexOf(w.name) > -1 &&
+      (w.isEligible() || w.preparation)
+  );
+  if (relatedWizards.length == 0) {
+    return false;
+  }
 
   Polling.clear();
   ControlVariables.clear();
@@ -290,7 +302,7 @@ SS.CloseButton = class CloseButton extends FadableItem {
     this.$el = $("<button>")
       .addClass("sideshow-close-button")
       .text(getString(strings.close));
-    this.$el.click(function() {
+    this.$el.click(() => {
       SS.close();
     });
     super.render();
@@ -304,34 +316,28 @@ SS.CloseButton.singleInstance = new SS.CloseButton();
  * @method start
  * @param {Object} config The config object for Sideshow
  */
-SS.start = function(config) {
-  config = config || {};
-
+SS.start = function(config = {}) {
   if (!flags.running) {
-    var onlyNew = "onlyNew" in config && !!config.onlyNew;
-    var listAll = "listAll" in config && !!config.listAll;
-    var wizardName = config.wizardName;
+    const onlyNew = "onlyNew" in config && !!config.onlyNew;
+    const listAll = "listAll" in config && !!config.listAll;
+    const wizardName = config.wizardName;
 
-    if (listAll)
-      SS.showWizardsList(
-        wizards.filter(function(w) {
-          return w.isEligible() || w.preparation;
-        })
-      );
-    else if (wizardName) {
-      var wizard = wizards.filter(function(w) {
-        return w.name === wizardName;
-      })[0];
+    if (listAll) {
+      SS.showWizardsList(wizards.filter(w => w.isEligible() || w.preparation));
+    } else if (wizardName) {
+      const wizard = wizards.filter(w => w.name === wizardName)[0];
 
-      if (!wizard)
+      if (!wizard) {
         throw new SSException(
           "205",
-          "There's no wizard with name '" + wizardName + "'."
+          `There's no wizard with name '${wizardName}'.`
         );
+      }
 
       wizard.prepareAndPlay();
-    } else
+    } else {
       SS.showWizardsList(onlyNew);
+    }
 
     this.CloseButton.singleInstance.render();
     this.CloseButton.singleInstance.fadeIn();
@@ -339,7 +345,7 @@ SS.start = function(config) {
     registerInnerHotkeys();
     flags.running = true;
 
-    Polling.enqueue("check_composite_mask_screen_changes", function() {
+    Polling.enqueue("check_composite_mask_screen_changes", () => {
       CompositeMask.singleInstance.pollForScreenChanges();
     });
   }

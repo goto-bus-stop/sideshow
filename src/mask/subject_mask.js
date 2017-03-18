@@ -36,14 +36,8 @@ export default class SubjectMask extends FadableItem {
       .css("height", dimension.height)
       .css(
         "border-radius",
-        borderRadius.leftTop +
-          "px " +
-          borderRadius.rightTop +
-          "px " +
-          borderRadius.leftBottom +
-          "px " +
-          borderRadius.rightBottom +
-          "px "
+        `${borderRadius.leftTop}px ${borderRadius.rightTop}px ` +
+          `${borderRadius.leftBottom}px ${borderRadius.rightBottom}px`
       );
   }
 }

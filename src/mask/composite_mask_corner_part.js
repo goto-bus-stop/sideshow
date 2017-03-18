@@ -46,15 +46,7 @@ export default class CornerPart extends VisualItem {
    */
 
   static SVGPathPointsTemplate(borderRadius) {
-    return "m 0,0 0," +
-      borderRadius +
-      " C 0," +
-      borderRadius * 0.46 +
-      " " +
-      borderRadius * 0.46 +
-      ",0 " +
-      borderRadius +
-      ",0";
+    return `m 0,0 0,${borderRadius} C 0,${borderRadius * 0.46} ${borderRadius * 0.46},0 ${borderRadius},0`;
   }
 
   /**
@@ -70,9 +62,9 @@ export default class CornerPart extends VisualItem {
       return document.createElementNS("http://www.w3.org/2000/svg", nodeName);
     }
 
-    var bezierPoints = this.SVGPathPointsTemplate(borderRadius);
-    var $svg = $(SVG("svg"));
-    var $path = $(SVG("path"));
+    const bezierPoints = this.SVGPathPointsTemplate(borderRadius);
+    const $svg = $(SVG("svg"));
+    const $path = $(SVG("path"));
 
     $path.attr("d", bezierPoints);
     $svg.append($path);

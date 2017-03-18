@@ -7,7 +7,7 @@ import Screen from "../general/screen";
  * @class Subject
  * @static
  */
-var Subject = {};
+const Subject = {};
 
 /**
  * The current subject jQuery wrapped DOM element 

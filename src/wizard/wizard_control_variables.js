@@ -17,15 +17,16 @@ const ControlVariables = {};
  * @return {String} A formatted key=value pair representing the defined variable 
  */
 ControlVariables.set = function(name, value) {
-  var variable = {};
+  let variable = {};
   if (this.isDefined(name)) {
     variable = this.getNameValuePair(name);
-  } else
+  } else {
     controlVariables.push(variable);
+  }
 
   variable.name = name;
   variable.value = value;
-  return name + "=" + value;
+  return `${name}=${value}`;
 };
 
 /**
@@ -59,7 +60,7 @@ ControlVariables.isDefined = function(name) {
  * @return {any} The variable value
  */
 ControlVariables.get = function(name) {
-  var pair = this.getNameValuePair(name);
+  const pair = this.getNameValuePair(name);
   return pair ? pair.value : undefined;
 };
 
@@ -71,8 +72,8 @@ ControlVariables.get = function(name) {
  * @return {Object} A pair with the variable name and value
  */
 ControlVariables.getNameValuePair = function(name) {
-  for (var i = 0; i < controlVariables.length; i++) {
-    var variable = controlVariables[i];
+  for (let i = 0; i < controlVariables.length; i++) {
+    const variable = controlVariables[i];
     if (variable.name === name) return variable;
   }
 };
