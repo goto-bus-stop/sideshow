@@ -1,11 +1,11 @@
-	/**
+/**
 	Sideshow Settings
 
 	@@object config
 	**/
-	SS.config = {};
+SS.config = {};
 
-	/**
+/**
 	Application route to persists user preferences
 
 	@@field userPreferencesRoute
@@ -13,30 +13,30 @@
 	@@unused
 	@@todo Implement persistence logic
 	**/
-	SS.config.userPreferencesRoute = null;
+SS.config.userPreferencesRoute = null;
 
-	/**
+/**
 	Logged in user
 
 	@@field loggedInUser
 	@type String
 	@@unused
 	**/
-	SS.config.loggedInUser = null;
+SS.config.loggedInUser = null;
 
-	/**
+/**
 	Chosen language for sideshow interface
 
 	@@field language
 	@type String
 	**/
-	SS.config.language = "en";
+SS.config.language = "en";
 
-	/**
+/**
 	Defines if the intro screen (the tutorial list) will be	skipped when there's just one 
 	tutorial available. This way, when Sideshow is invoked, the first step is directly shown.
 
 	@@field autoSkipIntro
 	@type boolean
 	**/
-	SS.config.autoSkipIntro = false;
+SS.config.autoSkipIntro = false;
