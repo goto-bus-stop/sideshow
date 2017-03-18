@@ -21,3 +21,5 @@ bower_components/
 *.gem
 
 .idea/*
+sideshow.tar.gz
+sideshow.zip
