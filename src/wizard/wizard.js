@@ -1,3 +1,4 @@
+import marked from "marked";
 import SSException from "../general/exception";
 import Arrows from "../step/arrows";
 import CompositeMask from "../mask/composite_mask";
@@ -250,7 +251,7 @@ export default class Wizard {
       if (step.format == "html") {
         description.setHTML(text);
       } else if (step.format == "markdown") {
-        description.setHTML(new markdown.Converter().makeHtml(text));
+        description.setHTML(marked(text));
       } else {
         description.setText(text);
       }

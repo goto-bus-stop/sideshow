@@ -214,7 +214,7 @@ function compileExamplesStylesheet() {
     .pipe(gulp.dest("examples/stylesheets"));
 }
 
-function bundleScripts(endCallback) {
+function bundleScripts(endCallback = () => {}) {
   const rollupPath = require.resolve("rollup/bin/rollup");
   require("child_process").exec(`node ${rollupPath} -c`, err => {
     if (err) {
@@ -227,21 +227,7 @@ function bundleScripts(endCallback) {
       .pipe(rename({ suffix: ".min" }))
       .pipe(uglify())
       .pipe(gulp.dest("./distr/"))
-      .on("end", function() {
-        //adding copyright message in the expanded version
-        gulp
-          .src(["./src/copyright_info.js", "./distr/sideshow.js"])
-          .pipe(concat("sideshow.js"))
-          .pipe(gulp.dest("./distr/"));
-
-        //adding copyright message in the minified version
-        gulp
-          .src(["./src/copyright_info.js", "./distr/sideshow.min.js"])
-          .pipe(concat("sideshow.min.js"))
-          .pipe(gulp.dest("./distr/"));
-
-        if (endCallback) endCallback();
-      });
+      .on("end", endCallback);
   });
 }
 

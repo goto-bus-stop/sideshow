@@ -58,5 +58,8 @@
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-inject": "^2.0.0"
+  },
+  "dependencies": {
+    "marked": "^0.3.6"
   }
 }

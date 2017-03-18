@@ -7,6 +7,11 @@ export default {
   dest: "./distr/sideshow.js",
   format: "umd",
   moduleName: "Sideshow",
+  banner: fs.readFileSync("./src/copyright_info.js"),
+  external: Object.keys(require('./package.json').dependencies),
+  globals: {
+    marked: 'marked'
+  },
   plugins: [
     babel({
       babelrc: false,
@@ -16,7 +21,6 @@ export default {
     inject({
       global: require.resolve("./src/bridge/global"),
       $: require.resolve("./src/bridge/jquery"),
-      markdown: require.resolve("./src/bridge/markdown"),
       $body: require.resolve("./src/bridge/body"),
       $document: require.resolve("./src/bridge/document"),
       $window: require.resolve("./src/bridge/window")
