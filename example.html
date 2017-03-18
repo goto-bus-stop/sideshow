@@ -67,13 +67,14 @@
     <script src="distr/sideshow.js"></script>
 
     <!--Scripts for this page-->
+    <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
     <script src="examples/scripts/sideshow.config.js"></script>
     <script src="examples/scripts/tutorials/introducing_sideshow.js"></script>
     <script src="http://localhost:35729/livereload.js?snipver=1"></script>
     <script>
-       $("#run_example").click(function(){
+       document.querySelector("#run_example").onclick = function() {
          Sideshow.start({ listAll: true });
-       });
+       };
     </script>
 </body>
 </html>
