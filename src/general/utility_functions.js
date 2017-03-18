@@ -1,30 +1,6 @@
 import SS from "./global_object";
 
 /**
- * Shows a warning  in a pre-defined format
- * 
- * @@function showWarning
- * @param {String} code                                  The warning code
- * @param {String} message                               The warning message
- */
-export function showWarning(code, message) {
-  console.warn(
-    "[SIDESHOW_W#" + ("00000000" + code).substr(-8) + "] " + message
-  );
-}
-
-/**
- *  Shows a deprecation warning in a pre-defined format
- * 
- * @@function showDeprecationWarning
- * @param {String} message                               The warning message
- */
-
-export function showDeprecationWarning(message) {
-  console.warn("[DEPRECATION_WARNING] " + message);
-}
-
-/**
  * Parses a string in the format "#px" in a number
  * 
  * @@function parsePxValue

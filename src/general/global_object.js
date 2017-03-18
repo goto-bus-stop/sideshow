@@ -104,38 +104,6 @@ SS.close = function() {
   flags.running = false;
 };
 
-/**
- * @deprecated
- * @method runWizard
- * @static
- */
-SS.runWizard = function(name) {
-  showDeprecationWarning(
-    "This method is deprecated and will be removed until the next major version of Sideshow."
-  );
-
-  var wiz = wizards.filter(function(w) {
-    return w.name === name;
-  })[0];
-  setCurrentWizard(wiz);
-  if (wiz) {
-    if (wiz.isEligible())
-      wiz.play();
-    else if (wiz.preparation)
-      wiz.preparation(function() {
-        setTimeout(
-          function() {
-            wiz.play();
-          },
-          1000
-        );
-      });
-    else
-      throw new SSException("204", "This wizard hasn't preparation.");
-  } else
-    throw new SSException("205", "There's no wizard with name " + name + ".");
-};
-
 SS.gotoStep = function() {
   var firstArg = arguments[0],
     steps = currentWizard._storyline.steps,
