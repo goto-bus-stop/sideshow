@@ -245,9 +245,8 @@ export default class Wizard {
       //Repositionate the details panel depending on the remaining space in the screen
       DetailsPanel.singleInstance.positionate();
       //Sets the description properties (text, title and step position)
-      var description = StepDescription.singleInstance;
-      var text = step.text;
-      text = text instanceof Function ? SS.heredoc(text) : text;
+      const description = StepDescription.singleInstance;
+      const text = step.text;
       if (step.format == "html") {
         description.setHTML(text);
       } else if (step.format == "markdown") {
@@ -258,7 +257,7 @@ export default class Wizard {
 
       description.setTitle(step.title);
       description.setStepPosition(
-        this.getStepPosition() + 1 + "/" + this._storyline.steps.length
+        `${this.getStepPosition() + 1}/${this._storyline.steps.length}`
       );
       //If this step doesn't have its own passing conditions/evaluators, or the flag "showNextButton" is true, then, the button is visible
       if (
@@ -266,7 +265,7 @@ export default class Wizard {
         step.autoContinue === false ||
         !(step.completingConditions && step.completingConditions.length > 0)
       ) {
-        var nextStep = this._storyline.steps[this.getStepPosition() + 1];
+        const nextStep = this._storyline.steps[this.getStepPosition() + 1];
         if (nextStep) {
           description.nextButton.setText(
             getString(strings.next) +

@@ -58,18 +58,6 @@ SS.init = function() {
 };
 
 /**
- * Receives a function with just a multiline comment as body and converts to a here-document string
- *  
- * @method heredoc
- * @param {Function} fn A function without body but a multiline comment
- * @return {String} A multiline string
- * @static
- */
-SS.heredoc = function(fn) {
-  return fn.toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1];
-};
-
-/**
  * Stops and Closes Sideshow
  * 
  * @method closes
