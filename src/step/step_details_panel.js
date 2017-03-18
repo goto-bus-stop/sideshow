@@ -1,4 +1,4 @@
-import FadableItem from "../interface_itens/fadable_item";
+import FadableItem from "../interface_items/fadable_item";
 import CompositeMask from "../mask/composite_mask";
 import { parsePxValue } from "../general/utility_functions";
 import Screen from "../general/screen";

@@ -1,5 +1,5 @@
 import { parsePxValue } from "../general/utility_functions";
-import FadableItem from "../interface_itens/fadable_item";
+import FadableItem from "../interface_items/fadable_item";
 
 /**
  * A single arrow for pointing individual items in current subject 

@@ -1,4 +1,4 @@
-import FadableItem from "../interface_itens/fadable_item";
+import FadableItem from "../interface_items/fadable_item";
 
 /**
  * Controls the mask that covers the subject during a step transition

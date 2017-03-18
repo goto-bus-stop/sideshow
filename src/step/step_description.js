@@ -1,4 +1,4 @@
-import FadableItem from "../interface_itens/fadable_item";
+import FadableItem from "../interface_items/fadable_item";
 import { parsePxValue } from "../general/utility_functions";
 import { currentWizard } from "../general/state";
 import StepDescriptionNextButton from "./step_description_next_button";

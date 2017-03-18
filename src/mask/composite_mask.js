@@ -1,4 +1,4 @@
-import FadableItem from "../interface_itens/fadable_item";
+import FadableItem from "../interface_items/fadable_item";
 import StepDescription from "../step/step_description";
 import Screen from "../general/screen";
 import { flags, currentWizard } from "../general/state";

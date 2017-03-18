@@ -1,4 +1,4 @@
-import HidableItem from "../interface_itens/hidable_item";
+import HidableItem from "../interface_items/hidable_item";
 
 /**
  * Step next button 

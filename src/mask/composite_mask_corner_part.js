@@ -1,4 +1,4 @@
-import VisualItem from "../interface_itens/visual_item";
+import VisualItem from "../interface_items/visual_item";
 
 /**
  * A corner part composing the mask
