@@ -301,9 +301,9 @@ Sideshow.registerWizard({
 
         \`Source code example\`
 
-        ![Fortes Informática Logo](examples/images/fortes-logo.png)
+        ![Fortes Informática Logo](./images/fortes-logo.png)
 			`,
-      format: "marked" // Use a more advanced markdown parser for this one.
+      format: "markdown"
     },
     {
       title: "Events",
@@ -371,7 +371,7 @@ Sideshow.registerWizard({
           (or any element with a \`grid\` class attribute) in the page, if so,
           the tutorial is eligible for the current page.
 			`,
-      format: "markdown"
+      format: "marked" // Use a more advanced markdown parser for this one.
     },
     {
       title: "That's (NOT) all, folks!",
