@@ -15,6 +15,10 @@ module.exports = {
       }
     },
     {
+      dest: './distr/sideshow.cjs.js',
+      format: 'cjs'
+    },
+    {
       dest: "./distr/sideshow.es.js",
       format: "es"
     }
