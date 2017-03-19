@@ -1,4 +1,4 @@
-import addClass from "@f/remove-class";
+import addClass from "@f/add-class";
 import removeClass from "@f/remove-class";
 import { VISIBLE, NOT_DISPLAYED } from "../general/AnimationStatus";
 import VisualItem from "./visual_item";

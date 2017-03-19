@@ -26,8 +26,7 @@ export function parsePxValue(value) {
  */
 export function getString(stringKeyValuePair) {
   if (!(SS.config.language in stringKeyValuePair)) {
-    showWarning(
-      "2001",
+    console.warn(
       "String not found for the selected language, getting the first available."
     );
     return stringKeyValuePair[Object.keys(stringKeyValuePair)[0]];
@@ -56,7 +55,7 @@ export function unregisterInnerHotkeys() {
 
 function innerHotkeysListener(e) {
   // Esc or F1
-  if (e.keyCode == 27 || e.keyCode == 112) SS.close();
+  if (e.keyCode === 27 || e.keyCode === 112) SS.close();
 }
 
 /**
@@ -67,7 +66,7 @@ function innerHotkeysListener(e) {
 export function registerGlobalHotkeys(SS) {
   document.addEventListener("keyup", e => {
     // F2
-    if (e.keyCode == 113) {
+    if (e.keyCode === 113) {
       if (e.shiftKey) {
         SS.start({ listAll: true });
       } else {

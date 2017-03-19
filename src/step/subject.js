@@ -56,7 +56,7 @@ Subject.hasChanged = function() {
   if (!this.obj) return false;
 
   const offset = elementRect(this.obj, document.documentElement);
-  const style = getComputedStyle(this.obj);
+  const style = window.getComputedStyle(this.obj);
 
   return offset.left - window.pageXOffset !== this.position.x ||
     offset.top - window.pageYOffset !== this.position.y ||
@@ -80,7 +80,7 @@ Subject.hasChanged = function() {
 Subject.updateInfo = function(config) {
   if (!config) {
     const offset = elementRect(this.obj, document.documentElement);
-    const style = getComputedStyle(this.obj);
+    const style = window.getComputedStyle(this.obj);
 
     this.position.x = offset.left - window.pageXOffset;
     this.position.y = offset.top - window.pageYOffset;

@@ -5,8 +5,32 @@ import Subject from "../step/subject";
 import strings from "../general/dictionary";
 import SS from "../general/global_object";
 import { getString } from "../general/utility_functions";
-import { wizards } from "../general/state";
 import clockIcon from "../icons/clock";
+
+function WizardItem(menu, wizard) {
+  let description = wizard.description;
+  description.length > 100 &&
+    (description = description.substr(0, 100) + "...");
+
+  return html`
+    <li onclick=${onclick}>
+      <span class="sideshow-wizard-menu-item-estimated-time">
+        ${clockIcon()}
+        ${wizard.estimatedTime}
+      </span>
+      <h2>${wizard.title}</h2>
+      <span class="sideshow-wizard-menu-item-description">
+        ${description}
+      </span>
+    </li>
+  `;
+
+  function onclick() {
+    menu.hide(() => {
+      wizard.prepareAndPlay();
+    });
+  }
+}
 
 /**
  * The main menu, where the available wizards are listed
@@ -23,38 +47,11 @@ class WizardMenu {
    */
 
   render(wizards) {
-    const menu = this;
-
     let list;
     if (wizards.length > 0) {
-      function wizardItem(wiz) {
-        let description = wiz.description;
-        description.length > 100 &&
-          (description = description.substr(0, 100) + "...");
-
-        return html`
-          <li onclick=${onclick}>
-            <span class="sideshow-wizard-menu-item-estimated-time">
-              ${clockIcon()}
-              ${wiz.estimatedTime}
-            </span>
-            <h2>${wiz.title}</h2>
-            <span class="sideshow-wizard-menu-item-description">
-              ${description}
-            </span>
-          </li>
-        `;
-
-        function onclick() {
-          menu.hide(() => {
-            wiz.prepareAndPlay();
-          });
-        }
-      }
-
       list = html`
         <ul>
-          ${wizards.map(wizardItem)}
+          ${wizards.map(wizard => WizardItem(this, wizard))}
         </ul>
       `;
     } else {
@@ -87,7 +84,7 @@ class WizardMenu {
    */
 
   show(wizards, title) {
-    if (wizards.length == 1 && SS.config.autoSkipIntro) {
+    if (wizards.length === 1 && SS.config.autoSkipIntro) {
       wizards[0].prepareAndPlay();
     } else {
       SS.setEmptySubject();

@@ -272,7 +272,7 @@ SS.showRelatedWizardsList = function(completedWizard) {
       relatedWizardsNames.indexOf(w.name) > -1 &&
       (w.isEligible() || w.preparation)
   );
-  if (relatedWizards.length == 0) {
+  if (relatedWizards.length === 0) {
     return false;
   }
 
