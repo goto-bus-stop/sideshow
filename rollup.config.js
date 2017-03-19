@@ -26,15 +26,7 @@ module.exports = {
   banner: fs.readFileSync("./src/copyright_info.js"),
   external: Object.keys(require("./package.json").dependencies),
   plugins: [
-    babel({
-      babelrc: false,
-      presets: [["env", { loose: true, modules: false }]],
-      plugins: [
-        "transform-class-properties",
-        "external-helpers",
-        ["yo-yoify", { useImport: true }]
-      ]
-    }),
+    babel(),
     nodeResolve(),
     commonjs()
   ]

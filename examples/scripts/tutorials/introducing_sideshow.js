@@ -1,3 +1,5 @@
+import Sideshow from "@goto-bus-stop/sideshow";
+
 // A Sideshow Tutorial Example
 // This tutorial introduces the Sideshow basics to the newcomer
 
@@ -301,7 +303,7 @@ Sideshow.registerWizard({
 
         ![Fortes Informática Logo](examples/images/fortes-logo.png)
 			`,
-      format: "markdown"
+      format: "marked" // Use a more advanced markdown parser for this one.
     },
     {
       title: "Events",

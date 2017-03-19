@@ -3,9 +3,8 @@
 <head>
     <meta charset="utf-8">
     <title>Sideshow Interactive Help Example</title>
-    <link rel="stylesheet" href="distr/fonts/sideshow-fontface.min.css">
-    <link rel="stylesheet" href="distr/stylesheets/sideshow.min.css">
-    <link rel="stylesheet" href="examples/stylesheets/example.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,600italic,400italic">
+    <link rel="stylesheet" href="./stylesheets/example.min.css">
 </head>
 <body>
     <!--[if lt IE 10]>
@@ -13,7 +12,7 @@
     <![endif]-->
     <header>
         <div id="header_content" class="main-content">
-           <img src="examples/images/sideshow-logo.png">
+           <img src="./images/sideshow-logo.png">
            <button id="run_example">Run Example</button>
            <div id="introducing_sideshow">
              Sideshow is a powerful javascript library which aims to <em>reduce your user's learning curve</em> by providing a way to create <em>step-by-step interactive helps</em>. Explain the features of your application, control your end-user's interaction with your UI, emphasize what you're explaining in each step by masking it. 
@@ -26,7 +25,7 @@
         <div id="bttf">
            <h1>Keep Calm and Generate 1.21 Gigawatts</h1>
             <figure>
-                <img src="examples/images/doc_brown.png" id="dr_brown" draggable="true">
+                <img src="./images/doc_brown.png" id="dr_brown" draggable="true">
             </figure>
            Bacon ipsum dolor sit amet biltong shankle flank ball tip drumstick jerky beef ribs tri-tip chicken boudin sausage. Turducken biltong meatball, doner pork beef tongue ground round drumstick kevin pork loin landjaeger pork belly andouille turkey. Jowl ground round ribeye capicola kielbasa, shoulder leberkas. Pork belly leberkas meatball, ribeye ball tip rump ham pig spare ribs ground round biltong capicola pork chop bresaola strip steak. Doner biltong tongue rump prosciutto venison sirloin ground round flank meatloaf pork loin shankle.
         </div>
@@ -45,7 +44,7 @@
         <hr>
         <div id="godfather1">
            <h1>Leave the Gun. Take the Cannoli.</h1>
-           <img src="examples/images/clemenza.jpg">
+           <img src="./images/clemenza.jpg">
            <div class="columns-text">
              <p>
               Swine hamburger flank drumstick, beef capicola tongue landjaeger. Andouille shankle turkey corned beef, ribeye meatball tri-tip t-bone pancetta. Pork tenderloin t-bone turducken tongue biltong shoulder corned beef. Pork loin bacon fatback kielbasa, tail venison tongue flank swine pancetta beef ribs pork chop boudin ground round doner.
@@ -57,24 +56,14 @@
         </div>
     </div>
     <a href="https://github.com/fortesinformatica/sideshow">
-       <img class="forkme" src="examples/images/forkme.png" alt="Fork me on GitHub">
+       <img class="forkme" src="./images/forkme.png" alt="Fork me on GitHub">
     </a>
     <footer>
        Sideshow is available under <a href="https://raw2.github.com/fortesinformatica/sideshow/master/LICENSE">Apache License 2.0</a>. Copyright 2013-2014 <a href="http://www2.fortesinformatica.com.br/" target="_blank"> Fortes Informática</a>.
     </footer>
-    <!--Scripts required for Sideshow to work properly-->
-    <script src="node_modules/marked/marked.min.js"></script>
-    <script src="distr/sideshow.js"></script>
-
     <!--Scripts for this page-->
     <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
-    <script src="examples/scripts/sideshow.config.js"></script>
-    <script src="examples/scripts/tutorials/introducing_sideshow.js"></script>
+    <script src="./scripts/bundle.js"></script>
     <script src="http://localhost:35729/livereload.js?snipver=1"></script>
-    <script>
-       document.querySelector("#run_example").onclick = function() {
-         Sideshow.start({ listAll: true });
-       };
-    </script>
 </body>
 </html>

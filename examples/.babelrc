@@ -10,12 +10,6 @@
   ],
   "plugins": [
     "transform-class-properties",
-    "external-helpers",
-    [
-      "yo-yoify",
-      {
-        "useImport": true
-      }
-    ]
+    "external-helpers"
   ]
 }
