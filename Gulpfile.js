@@ -9,15 +9,9 @@ const del = require("del");
 const serve = require("serve");
 const rollup = require("rollup").rollup;
 const stylus = require("gulp-stylus");
-const path = require("path");
-const zip = require("gulp-zip");
-const gzip = require("gulp-gzip");
-const tar = require("gulp-tar");
 const documentation = require("documentation");
 const streamArray = require("stream-array");
 const runSequence = require("run-sequence");
-const isWin = /^win/.test(process.platform);
-const appRoot = path.resolve(".");
 
 // Sideshow's main stylesheet
 gulp.task("style:main", () =>
@@ -109,16 +103,3 @@ gulp.task("generate-docs", done => {
 gulp.task("complete-build", ["examples:style", "style"], cb => {
   runSequence("build-scripts", "generate-docs", cb);
 });
-
-gulp.task("compress:zip", () =>
-  gulp
-    .src(["./distr/**/*", "./examples/**/*", "example.html"])
-    .pipe(zip("sideshow.zip"))
-    .pipe(gulp.dest("./")));
-
-gulp.task("compress:tgz", () =>
-  gulp
-    .src(["./distr/**/*", "./examples/**/*", "example.html"])
-    .pipe(tar("sideshow.tar"))
-    .pipe(gzip())
-    .pipe(gulp.dest("./")));
