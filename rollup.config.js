@@ -24,6 +24,5 @@ module.exports = {
     }
   ],
   banner: fs.readFileSync("./src/copyright_info.js"),
-  external: Object.keys(require("./package.json").dependencies),
   plugins: [babel(), nodeResolve(), commonjs()]
 };

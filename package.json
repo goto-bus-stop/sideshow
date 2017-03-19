@@ -24,7 +24,7 @@
   ],
   "author": "Fortes Informática",
   "license": "Apache 2",
-  "devDependencies": {
+  "dependencies": {
     "@f/add-class": "^1.0.0",
     "@f/apply-styles": "^1.0.6",
     "@f/element-rect": "^1.0.0",
@@ -34,11 +34,15 @@
     "@f/remove-class": "^1.0.0",
     "@f/remove-element": "^1.0.0",
     "@f/scroll-to": "^0.2.0",
+    "bel": "^4.5.1",
+    "snarkdown": "^1.2.2",
+    "strip-indent": "^2.0.0"
+  },
+  "devDependencies": {
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-yo-yoify": "^0.3.2",
     "babel-preset-env": "^1.2.2",
-    "bel": "^4.5.1",
     "cssnano": "^3.10.0",
     "del": "^2.2.2",
     "documentation": "^4.0.0-beta.18",
@@ -58,11 +62,6 @@
     "rollup-plugin-uglify": "^1.0.1",
     "run-sequence": "^1.2.2",
     "serve": "^5.0.3",
-    "snarkdown": "^1.2.2",
-    "stream-array": "^1.1.2",
-    "strip-indent": "^2.0.0"
-  },
-  "dependencies": {
-    "marked": "^0.3.6"
+    "stream-array": "^1.1.2"
   }
 }
