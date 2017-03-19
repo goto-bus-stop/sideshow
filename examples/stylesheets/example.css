@@ -1,103 +1,111 @@
-@import '../../../stylesheets/sideshow';
+/* Import Sideshow CSS. */
+@import '@goto-bus-stop/sideshow';
 
-//Variables
-sideshow-example-base-color = #E4E4E4;
-sideshow-example-base-color-dark = darken(sideshow-example-base-color, 20); 
-sideshow-example-base-color-darkest = darken(sideshow-example-base-color, 40); 
-sideshow-example-secondary-color = #C30; 
-sideshow-example-secondary-color-dark = darken(sideshow-example-secondary-color, 15); 
-sideshow-example-secondary-color-lighter = lighten(sideshow-example-secondary-color, 10);
-
-//Layout rules
-*{
-	font-family: Open Sans Light;
+/* Variables */
+:root {
+  --base-color: #E4E4E4;
+  --base-color-dark: color(var(--base-color) lightness(- 20%));
+  --base-color-darkest: color(var(--base-color) lightness(- 40%));
+  --secondary-color: #C30;
+  --secondary-color-dark: color(var(--secondary-color) lightness(- 15%));
+  --secondary-color-lighter: color(var(--secondary-color) lightness(- 10%));
 }
 
-header{
+/* Layout rules */
+* {
+	font-family: 'Open Sans Light';
+}
+
+body {
+  margin: 0;
+  height: 100%;
+}
+
+header {
 	width: 100%;
 	height: 350px;
 	padding-top: 20px;
-	background-color: sideshow-example-base-color;
+	background-color: var(--base-color);
 }
 
-body{
+body {
 	padding-bottom: 40px;
 }
 
-#header_content{
+#header_content {
 	height: 100%;
 }
 
-#introducing_sideshow{
+#introducing_sideshow {
 	position: absolute;
 	z-index: 10;
 	right: 0;
 	top: 80px;
 	width: 330px;
 	text-align: right;
-	color: sideshow-example-secondary-color-dark;
+	color: var(--secondary-color-dark);
 }
 
-#introducing_sideshow em{
+#introducing_sideshow em {
 	color: #FFF;
 	font-style: normal;
-	background-color: sideshow-example-secondary-color;
+	background-color: var(--secondary-color);
 	line-height: 25px;
 }
 
-header img{
+header img {
 	position: absolute;
 	top: 20px;
 }
 
-.main-content{
+.main-content {
 	position: relative;
 	width: 920px;
 	margin: auto;
 }
 
-#run_example{
+#run_example {
 	border-radius: 4px;
 	transition: background-color 300ms ease, border-bottom-width 100ms ease;
 
-	border: solid 1px darken(sideshow-example-base-color, 80);
+	border: solid 1px color(var(--base-color) lightness(- 80%));
 	border-bottom-width: 5px;
 	font-size: 26px;
 	padding: 10px;
 	padding-right: 15px;
 	padding-left: 20px;
-	background-color: sideshow-example-secondary-color-dark;
+	background-color: var(--secondary-color-dark);
 	color: #FFF;
 	position: absolute;
 	left: 0;
 	bottom: 50px;
 
-	&:before{
+	&:before {
 		margin-right: 10px;
 		font-size: 26px;
 	}
 
-	&:after{
+	&:after {
 		content: '';
 		display: inline-block;
 		width: 5px;
 	}
 
-	&:hover{
-		background-color: sideshow-example-secondary-color;
-		&:after{
+	&:hover {
+		background-color: var(--secondary-color);
+		&:after {
 			content: "!";
 		}
 	}
 
-	&:active{
+	&:active {
 		background-color: #777;
 		border-bottom-width: 1px;
 		outline-width: 0;
 	}
 }
 
-.forkme{
+.forkme {
 	position: absolute;
 	top: 0; 
 	right: 0; 
@@ -105,7 +113,7 @@ header img{
 	z-index: 9;
 }
 
-.browsehappy{
+.browsehappy {
 	background-color: #700;
 	color: #FFF;
 	display: block;
@@ -113,39 +121,39 @@ header img{
 	line-height: 50px;
 	padding-left: 30px;
 	height: 50px;
-	a{
+	& a {
 		color: #FFF;
 	}
-	&:before{
+	&:before {
 		margin-right: 5px;
 	}
 }
 
-#wrapper{
+#wrapper {
 	padding-top: 20px;
-	h1, h2, h3{
-		font-family: Open Sans Semibold;
+	& h1, & h2, & h3 {
+		font-family: 'Open Sans Semibold';
 		font-weight: normal;
 	}
 
-	h1{
+	& h1 {
 		font-size: 22px;
 		text-transform: uppercase;
 	}
 }
 
-footer{
+footer {
 	position: fixed;
 	bottom: 0;
 	left: 0;
 	right: 0;
 	padding-right: 10px;
 	height: 30px;
-	background-color: rgba(#FFF, 0.8); 
+	background-color: color(#fff alpha(80%)); 
 	font-size: 12px;
 	text-align: right;
-	a{
-		font-family: Open Sans Semibold;
+	& a {
+		font-family: 'Open Sans Semibold';
 		color: #333;
 		text-decoration: none;
 	}
@@ -153,10 +161,10 @@ footer{
 
 /*Fake content*/
 
-#bttf{
+#bttf {
 	width: 500px;
 	display: inline-block;
-	figure{
+	& figure {
 		height: 195px;
 		width: 195px;
 		float: left;
@@ -165,85 +173,87 @@ footer{
 	}
 }
 
-#dr_brown{
+#dr_brown {
 	width: 195px;
 }
 
-#red_square{
+#red_square {
 	border-radius: 4px;
 	position: absolute;
 	left: 230px;
 	top: 50px;
-	background-color: rgba(#700, 0.7);
+	background-color: color(#700 alpha(70%));
 	width: 195px;
 	height: 195px;
 	padding: 25px;
 	display: none;
 }
 
-#survey{
+#survey {
 	display: inline-block;
 	vertical-align: top;
 	margin-left: 50px;
-	#first_name{
+	& #first_name {
 		width: 220px; 
 	}
 
-	#last_name{
+	& #last_name {
 		width: 220px; 
 	}
 
-	#email{
+	& #email {
 		width: 280px; 
 	}
 }
 
-#godfather1{
-	img{
+#godfather1 {
+	& img {
 		float: left;
 		width: 280px;
 		margin-right: 10px;
 		margin-bottom: 10px;
 	}
 
-	.columns-text{
+	& .columns-text {
 		display: block;
 		columns: 3;
 		column-width: 120px; 
 		column-gap: 15px;
 		column-count: 3;
-		p:first-of-type{
-			&:first-letter{
+
+		& p:first-of-type {
+			margin-top: 0;
+
+			&:first-letter {
 				font-size: 65px;
 				font-family: georgia;
 				float: left;
 				line-height: 60px;
 			}
-			margin-top: 0;
 		}
 	}
 }
 
-#wrapper{
-	input[type=text]{
+#wrapper {
+	& input[type=text] {
 		border-radius: 3px;
-		border: solid 1px sideshow-example-base-color-dark;
+		border: solid 1px var(--base-color-dark);
 		padding: 5px;
 	}
 
-	button{
+	& button {
 		border-radius: 3px;
 		font-family: Open Sans Semibold;
-		border: solid 1px sideshow-example-secondary-color-dark;
+		border: solid 1px var(--secondary-color-dark);
 		padding: 5px;
 		margin: 0;
-		background-color: sideshow-example-secondary-color-lighter;
+		background-color: var(--secondary-color-lighter);
 		color: #FFF;
 	}
 
-	hr{
+	& hr {
 		border-width: 0;
-		border-top: double 4px sideshow-example-base-color-dark;
+		border-top: double 4px var(--base-color-dark);
 		width: 60%;
 		margin-top: 30px;
 		margin-bottom: 30px;
@@ -254,16 +264,16 @@ fieldset {
 	padding: 0; 
 	border: 0;
 	
-	label{
+	& label {
 		display: block;
 		margin-bottom: 5px;
 	}
 
-	ul{
+	& ul {
 		padding: 0;
 	}
 
-	> ul > li{
+	& > ul > li{
 		list-style-type: none;
 		margin-bottom: 15px;
 	}

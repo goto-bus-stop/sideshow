@@ -1,46 +1,28 @@
 // All Requires
 const gulp = require("gulp");
-const autoprefixer = require("gulp-autoprefixer");
-const cssnano = require("gulp-cssnano");
+const postcss = require("gulp-postcss");
 const uglify = require("gulp-uglify");
 const rename = require("gulp-rename");
 const livereload = require("gulp-livereload");
 const del = require("del");
 const serve = require("serve");
 const rollup = require("rollup").rollup;
-const stylus = require("gulp-stylus");
 const documentation = require("documentation");
 const streamArray = require("stream-array");
 const runSequence = require("run-sequence");
 
 // Sideshow's main stylesheet
-gulp.task("style:main", () =>
+gulp.task("style", () =>
   gulp
-    .src("stylesheets/sideshow.styl")
-    .pipe(stylus())
-    .pipe(autoprefixer())
-    .pipe(cssnano({ safe: true }))
-    .pipe(rename("sideshow.min.css"))
-    .pipe(gulp.dest("distr/stylesheets")));
-
-gulp.task("style:font", () =>
-  gulp
-    .src("stylesheets/sideshow-fontface.styl")
-    .pipe(stylus())
-    .pipe(autoprefixer())
-    .pipe(cssnano({ safe: true }))
-    .pipe(rename("sideshow-fontface.min.css"))
-    .pipe(gulp.dest("distr/fonts")));
-
-gulp.task("style", ["style:main", "style:font"]);
+    .src("stylesheets/sideshow.css")
+    .pipe(postcss())
+    .pipe(gulp.dest("distr")));
 
 // Examples pages Style task
 gulp.task("examples:style", () =>
   gulp
-    .src("examples/stylesheets/styl/example.styl")
-    .pipe(stylus())
-    .pipe(autoprefixer())
-    .pipe(cssnano({ safe: true }))
+    .src("examples/stylesheets/example.css")
+    .pipe(postcss(require('./examples/postcss.config').plugins))
     .pipe(rename("example.min.css"))
     .pipe(gulp.dest("examples/stylesheets")));
 

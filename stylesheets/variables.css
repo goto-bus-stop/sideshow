@@ -1,0 +1,33 @@
+:root {
+  /* Colors */
+  --sideshow-light-color: #fff;
+  --sideshow-standout-color: #da4435;
+  --sideshow-button-background-color: #da4435;
+  --sideshow-button-foreground-color: var(--sideshow-light-color);
+
+  --sideshow-mask-background-color: #222;
+  --sideshow-step-description-background-color: color(var(--sideshow-mask-background-color) lightness(+ 10%));
+  --sideshow-step-description-title-color: var(--sideshow-light-color);
+  --sideshow-step-position-color: color(var(--sideshow-mask-background-color) lightness(+ 40%));
+  --sideshow-step-text-color: var(--sideshow-light-color);
+  --sideshow-wizard-menu-item-foreground-color: var(--sideshow-light-color);
+  --sideshow-wizard-menu-title-color: var(--sideshow-light-color);
+  --sideshow-wizard-menu-item-hover-foreground-color: var(--sideshow-standout-color);
+  --sideshow-subject-arrow-color: var(--sideshow-standout-color);
+  --sideshow-close-button-foreground-color: var(--sideshow-light-color);
+
+  /* Animation */
+  --sideshow-fast-transition-duration: 150ms;
+  --sideshow-default-transition-duration: 300ms;
+  --sideshow-long-transition-duration: 600ms;
+
+  /* Fonts */
+  --sideshow-default-font-size: 12px;
+  --sideshow-medium-font-size: 16px;
+  --sideshow-big-font-size: 20px;
+  --sideshow-default-light-font-family: 'Open Sans Light';
+  --sideshow-default-semibold-font-family: 'Open Sans Semibold';
+
+  /* Others */
+  --sideshow-mask-opacity: 0.95;
+}
