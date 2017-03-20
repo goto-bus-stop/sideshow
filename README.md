@@ -7,6 +7,13 @@
 
 [Documentation and Live example](http://fortesinformatica.github.io/Sideshow)
 
+[Install](#install) -
+[Usage](#usage) -
+[Configuration](#configuration) -
+[Creating a Tutorial](#creating-a-tutorial) -
+[Invoking Sideshow](#invoking-sideshow) -
+[License](#license-and-copyright)
+
 Sideshow is a powerful javascript library which aims to reduce your user's
 learning curve by providing a way to create step-by-step interactive helps.
 
@@ -17,33 +24,71 @@ learning curve by providing a way to create step-by-step interactive helps.
    form, the whole screen, and so forth) by surrounding it with a fully
    adaptable mask.
 
+## Install
+
+```bash
+npm install --save @goto-bus-stop/sideshow
+```
+
 ## Usage
 
-All the files needed to use Sideshow are located under the `distr` folder.
+With CommonJS (like in Browserify) do:
 
-  1. In your HTML, include Sideshow script and the stylesheet.
+```js
+const Sideshow = require("@goto-bus-stop/sideshow");
+```
 
-     **Note**: The stylesheet must be in the `head` and all the scripts
-     (including your own Tutorial scripts) in the bottom of your `body` tag.
+And include the CSS somehow. [Sheetify](https://github.com/stackcss/sheetify) is good:
 
-     **Note 2**: See the [`examples/`](./examples/) directory for a real example.
+```js
+const css = require("sheetify");
+css("@goto-bus-stop/sideshow");
+```
 
-  2. Create (and also add a reference in your HTML) a `sideshow.config.js` file
-     with this content:
+With ES Modules (like in Webpack or Rollup) do:
 
-     ```js
-     Sideshow.config.language = "en";
-     Sideshow.init();
-     ```
+```js
+import Sideshow from "@goto-bus-stop/sideshow";
+```
 
-     **Note**: For now, Sideshow only supports `en` (american english), `pt-br`
-     (brazilian portuguese), `es` (spanish, translated by Luis Alfaro de la
-     Fuente, thanks!) and `fr`.
+And include the CSS somehow. In Webpack with [css-loader](https://github.com/webpack/css-loader)
+this works:
 
-  3. Create your tutorials and import each one in your HTML after the Sideshow
-     script.
+```js
+import "@goto-bus-stop/sideshow/distr/sideshow.css";
+```
 
-### Creating a Tutorial
+In plain HTML without a bundler, do:
+
+```html
+<!-- In the head: -->
+<link rel="stylesheet" href="https://unpkg.com/@goto-bus-stop/sideshow/distr/sideshow.min.css">
+
+<!-- In the body: -->
+<script src="https://unpkg.com/@goto-bus-stop/sideshow/distr/sideshow.min.js"></script>
+<script>
+  // `Sideshow` is available!
+  Sideshow.init();
+</script>
+```
+
+## Configuration
+
+Optionally configure Sideshow before calling `Sideshow.init()`:
+
+```js
+// Defaults:
+Sideshow.config.language = "en";
+Sideshow.config.autoSkipIntro = false;
+
+Sideshow.init();
+```
+
+**Note**: For now, Sideshow only supports `en` (American English), `pt-br`
+(Brazilian Portuguese), `es` (Spanish, translated by Luis Alfaro de la Fuente,
+thanks!) and `fr` (French).
+
+## Creating a Tutorial
 
 ```js
 Sideshow.registerWizard({
@@ -102,7 +147,7 @@ Sideshow.registerWizard({
 });
 ```
 
-###Using Markdown
+### Using Markdown
 
 ```js
 Sideshow.registerWizard({
@@ -320,7 +365,6 @@ Sideshow.config.autoSkipIntro = true;
 //...other configuration options
 Sideshow.init();
 ```
-
 
 ## Invoking Sideshow
 
