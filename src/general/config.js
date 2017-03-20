@@ -6,25 +6,6 @@
 const config = {};
 
 /**
- * Application route to persists user preferences
- *
- * @field userPreferencesRoute
- * @type String
- * @unused
- * @todo Implement persistence logic
- */
-config.userPreferencesRoute = null;
-
-/**
- * Logged in user
- *
- * @field loggedInUser
- * @type String
- * @unused
- */
-config.loggedInUser = null;
-
-/**
  * Chosen language for sideshow interface
  *
  * @field language
