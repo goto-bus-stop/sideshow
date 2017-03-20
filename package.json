@@ -8,7 +8,9 @@
   "module": "./distr/sideshow.es.js",
   "style": "./distr/sideshow.css",
   "scripts": {
-    "test": ""
+    "test": "",
+    "dev": "gulp dev",
+    "prod": "gulp full"
   },
   "repository": {
     "type": "git",

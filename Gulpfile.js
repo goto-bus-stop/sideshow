@@ -75,8 +75,8 @@ gulp.task("clean", () => del(["distr/*.js", "docs/**/*"]));
 gulp.task("watch", () => {
   gulp.watch("src/**/*.js", gulp.series("scripts", "examples:scripts"));
   gulp.watch("stylesheets/**/*.css", gulp.series("style", "examples:style"));
-  gulp.watch("examples/scripts/**/*.js", () => gulp.start("examples:scripts"));
-  gulp.watch("examples/stylesheets/**/*.css", () => gulp.start("examples:style"));
+  gulp.watch("examples/scripts/**/*.js", gulp.series("examples:scripts"));
+  gulp.watch("examples/stylesheets/**/*.css", gulp.series("examples:style"));
 
   // Create LiveReload server
   livereload.listen();
