@@ -24,6 +24,7 @@ import {
 } from "./utility_functions";
 import { registerParser } from "./parsers";
 import closeIcon from "../icons/close";
+import { version as pkgVersion } from "../../package.json";
 
 /**
  * The main class for Sideshow
@@ -39,7 +40,7 @@ const SS = {
    * @type String
    */
   get VERSION() {
-    return "0.4.3";
+    return pkgVersion;
   },
 
   config
