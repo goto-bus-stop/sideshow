@@ -17,6 +17,7 @@ export default class SubjectMask extends FadableItem {
     this.$el = html`
       <div class="sideshow-subject-mask" />
     `;
+
     super.render();
   }
 

@@ -22,7 +22,7 @@ gulp.task("style", () =>
 gulp.task("examples:style", () =>
   gulp
     .src("examples/stylesheets/example.css")
-    .pipe(postcss(require('./examples/postcss.config').plugins))
+    .pipe(postcss(require("./examples/postcss.config").plugins))
     .pipe(rename("example.min.css"))
     .pipe(gulp.dest("examples/stylesheets")));
 
