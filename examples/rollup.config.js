@@ -2,7 +2,6 @@ const alias = require("rollup-plugin-alias");
 const babel = require("rollup-plugin-babel");
 const nodeResolve = require("rollup-plugin-node-resolve");
 const commonjs = require("rollup-plugin-commonjs");
-const uglify = require("rollup-plugin-uglify");
 
 module.exports = {
   entry: "./scripts/example.js",
@@ -14,7 +13,6 @@ module.exports = {
     }),
     babel({ include: "./scripts/**/*.js" }),
     nodeResolve(),
-    commonjs(),
-    uglify()
+    commonjs()
   ]
 };

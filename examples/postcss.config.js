@@ -2,7 +2,6 @@ const path = require("path");
 const imports = require("postcss-import");
 const defaultResolve = require("postcss-import/lib/resolve-id");
 const cssnext = require("postcss-cssnext");
-const cssnano = require("cssnano");
 
 module.exports = {
   plugins: [
@@ -15,10 +14,6 @@ module.exports = {
 
         return defaultResolve(id, basedir, opts);
       }
-    }),
-    cssnano({
-      safe: true,
-      autoprefixer: false
     })
   ]
 };

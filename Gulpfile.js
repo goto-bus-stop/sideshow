@@ -1,4 +1,5 @@
 // All Requires
+const path = require("path");
 const gulp = require("gulp");
 const postcss = require("gulp-postcss");
 const cssnano = require("cssnano");
@@ -22,60 +23,81 @@ gulp.task("style", () =>
     .pipe(rename({ suffix: ".min" }))
     .pipe(gulp.dest("distr")));
 
-// Examples pages Style task
-gulp.task("examples:style", () =>
-  gulp
-    .src("examples/stylesheets/example.css")
-    .pipe(postcss(require("./examples/postcss.config").plugins))
-    .pipe(rename("example.min.css"))
-    .pipe(gulp.dest("examples/stylesheets")));
-
-gulp.task("bundle:rollup", () => {
+gulp.task("scripts:rollup", () => {
   const config = require("./rollup.config");
   return rollup(config).then(bundle =>
     Promise.all(config.targets.map(bundle.write, bundle)));
 });
 
-gulp.task("bundle:minify", ["bundle:rollup"], () =>
+gulp.task("scripts:minify", ["scripts:rollup"], () =>
   gulp
     .src("./distr/sideshow.js")
     .pipe(rename({ suffix: ".min" }))
     .pipe(uglify())
     .pipe(gulp.dest("./distr/")));
 
-gulp.task("bundle-scripts", ["bundle:rollup", "bundle:minify"]);
+gulp.task("scripts", ["scripts:rollup", "scripts:minify"]);
+
+gulp.task("sideshow", ["scripts", "style"]);
+
+// Examples
+gulp.task("examples:style", () =>
+  gulp
+    .src("examples/stylesheets/example.css")
+    .pipe(postcss(require("./examples/postcss.config").plugins))
+    .pipe(rename("bundle.css"))
+    .pipe(gulp.dest("./examples/stylesheets"))
+    .pipe(postcss([cssnano({ safe: true })]))
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(gulp.dest("./examples/stylesheets"))
+    .pipe(livereload()));
+
+gulp.task("examples:rollup", () => {
+  const config = require("./examples/rollup.config");
+  config.entry = path.join("./examples", config.entry);
+  config.dest = path.join("./examples", config.dest);
+
+  return rollup(config).then(bundle => bundle.write(config));
+});
+
+gulp.task("examples:minify", ["examples:rollup"], () =>
+  gulp
+    .src("./examples/bundle.js")
+    .pipe(rename({ suffix: ".min" }))
+    .pipe(uglify())
+    .pipe(gulp.dest("./examples"))
+    .pipe(livereload()));
+
+gulp.task("examples:scripts", ["examples:rollup", "examples:minify"]);
+
+gulp.task("examples", ["examples:style", "examples:scripts"]);
 
 // Clean task
 gulp.task("clean", () => del(["distr/*.js", "docs/**/*"]));
 
 // Watch Task
 gulp.task("watch", () => {
-  gulp.watch("src/**/*.js", ["bundle-scripts"]);
-  gulp.watch("stylesheets/**/*.styl", ["style", "examples:style"]);
-  gulp.watch("examples/stylesheets/styl/**/*.styl", ["examples:style"]);
+  gulp.watch("src/**/*.js", ["scripts", "examples:scripts"]);
+  gulp.watch("stylesheets/**/*.css", ["style", "examples:style"]);
+  gulp.watch("examples/scripts/**/*.js", ["examples:scripts"]);
+  gulp.watch("examples/stylesheets/**/*.css", ["examples:style"]);
 
   // Create LiveReload server
   livereload.listen();
 
-  // Watch any files in distr/, reload on change
-  gulp
-    .watch(["examples/stylesheets/example.min.css", "distr/**"])
-    .on("change", () => {
-      livereload.changed();
-    });
+  gulp.watch("examples/index.html", () => {
+    livereload.changed("examples/index.html");
+  });
 });
 
 // Webserver task
 gulp.task("webserver", () => {
-  serve(__dirname);
+  serve(path.join(__dirname, "examples"));
 });
 
-// Default task
-gulp.task("default", cb => {
-  runSequence(["examples:style", "style", "watch"], "webserver", cb);
-});
+// Docs
 
-gulp.task("generate-docs", done => {
+gulp.task("docs", done => {
   documentation.build("src/**/*.js", {}, (err, res) => {
     if (err) return done(err);
     documentation.formats.html(res, {}, (err, output) => {
@@ -87,5 +109,11 @@ gulp.task("generate-docs", done => {
 });
 
 gulp.task("complete-build", ["examples:style", "style"], cb => {
-  runSequence("build-scripts", "generate-docs", cb);
+  runSequence("scripts", "docs", cb);
+});
+
+gulp.task("default", ["sideshow", "examples"]);
+
+gulp.task("dev", cb => {
+  runSequence(["default", "watch", "webserver"], cb);
 });
