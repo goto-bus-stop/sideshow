@@ -4,7 +4,9 @@ import html from "bel";
 const defaultStyles = {
   width: "1em",
   fill: "currentColor",
-  verticalAlign: "sub"
+  verticalAlign: "sub",
+  // The icons were taken from an SVG icon font so they're upside down. 🙈
+  transform: "scaleY(-1)"
 };
 
 export default function makeIcon(path, props = {}) {
