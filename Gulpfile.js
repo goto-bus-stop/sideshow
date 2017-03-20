@@ -45,10 +45,10 @@ gulp.task("examples:style", () =>
     .src("examples/stylesheets/example.css")
     .pipe(postcss(require("./examples/postcss.config").plugins))
     .pipe(rename("bundle.css"))
-    .pipe(gulp.dest("./examples/stylesheets"))
+    .pipe(gulp.dest("./examples"))
     .pipe(postcss([cssnano({ safe: true })]))
     .pipe(rename({ suffix: ".min" }))
-    .pipe(gulp.dest("./examples/stylesheets"))
+    .pipe(gulp.dest("./examples"))
     .pipe(livereload()));
 
 gulp.task("examples:rollup", () => {
@@ -58,10 +58,10 @@ gulp.task("examples:rollup", () => {
 
 gulp.task("examples:minify", () =>
   gulp
-    .src("./examples/scripts/bundle.js")
+    .src("./examples/bundle.js")
     .pipe(rename({ suffix: ".min" }))
     .pipe(uglify())
-    .pipe(gulp.dest("./examples/scripts"))
+    .pipe(gulp.dest("./examples"))
     .pipe(livereload()));
 
 gulp.task("examples:scripts", gulp.series("examples:rollup", "examples:minify"));

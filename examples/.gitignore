@@ -1,4 +1,4 @@
-scripts/bundle.js
-scripts/bundle.min.js
-stylesheets/bundle.css
-stylesheets/bundle.min.css
+bundle.js
+bundle.min.js
+bundle.css
+bundle.min.css
