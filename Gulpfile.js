@@ -11,7 +11,6 @@ const serve = require("serve");
 const rollup = require("rollup").rollup;
 const documentation = require("documentation");
 const streamArray = require("stream-array");
-const runSequence = require("run-sequence");
 
 // Sideshow's main stylesheet
 gulp.task("style", () =>
@@ -29,16 +28,16 @@ gulp.task("scripts:rollup", () => {
     Promise.all(config.targets.map(bundle.write, bundle)));
 });
 
-gulp.task("scripts:minify", ["scripts:rollup"], () =>
+gulp.task("scripts:minify", () =>
   gulp
     .src("./distr/sideshow.js")
     .pipe(rename({ suffix: ".min" }))
     .pipe(uglify())
     .pipe(gulp.dest("./distr/")));
 
-gulp.task("scripts", ["scripts:rollup", "scripts:minify"]);
+gulp.task("scripts", gulp.series("scripts:rollup", "scripts:minify"));
 
-gulp.task("sideshow", ["scripts", "style"]);
+gulp.task("sideshow", gulp.series("scripts", "style"));
 
 // Examples
 gulp.task("examples:style", () =>
@@ -54,33 +53,30 @@ gulp.task("examples:style", () =>
 
 gulp.task("examples:rollup", () => {
   const config = require("./examples/rollup.config");
-  config.entry = path.join("./examples", config.entry);
-  config.dest = path.join("./examples", config.dest);
-
   return rollup(config).then(bundle => bundle.write(config));
 });
 
-gulp.task("examples:minify", ["examples:rollup"], () =>
+gulp.task("examples:minify", () =>
   gulp
-    .src("./examples/bundle.js")
+    .src("./examples/scripts/bundle.js")
     .pipe(rename({ suffix: ".min" }))
     .pipe(uglify())
-    .pipe(gulp.dest("./examples"))
+    .pipe(gulp.dest("./examples/scripts"))
     .pipe(livereload()));
 
-gulp.task("examples:scripts", ["examples:rollup", "examples:minify"]);
+gulp.task("examples:scripts", gulp.series("examples:rollup", "examples:minify"));
 
-gulp.task("examples", ["examples:style", "examples:scripts"]);
+gulp.task("examples", gulp.parallel("examples:style", "examples:scripts"));
 
 // Clean task
 gulp.task("clean", () => del(["distr/*.js", "docs/**/*"]));
 
 // Watch Task
 gulp.task("watch", () => {
-  gulp.watch("src/**/*.js", ["scripts", "examples:scripts"]);
-  gulp.watch("stylesheets/**/*.css", ["style", "examples:style"]);
-  gulp.watch("examples/scripts/**/*.js", ["examples:scripts"]);
-  gulp.watch("examples/stylesheets/**/*.css", ["examples:style"]);
+  gulp.watch("src/**/*.js", gulp.series("scripts", "examples:scripts"));
+  gulp.watch("stylesheets/**/*.css", gulp.series("style", "examples:style"));
+  gulp.watch("examples/scripts/**/*.js", () => gulp.start("examples:scripts"));
+  gulp.watch("examples/stylesheets/**/*.css", () => gulp.start("examples:style"));
 
   // Create LiveReload server
   livereload.listen();
@@ -108,12 +104,7 @@ gulp.task("docs", done => {
   });
 });
 
-gulp.task("complete-build", ["examples:style", "style"], cb => {
-  runSequence("scripts", "docs", cb);
-});
+gulp.task("default", gulp.series("sideshow", "examples"));
+gulp.task("full", gulp.series("clean", "default", "docs"));
 
-gulp.task("default", ["sideshow", "examples"]);
-
-gulp.task("dev", cb => {
-  runSequence(["default", "watch", "webserver"], cb);
-});
+gulp.task("dev", gulp.parallel("default", "watch", "webserver"));

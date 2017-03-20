@@ -47,11 +47,12 @@
     "del": "^2.2.2",
     "documentation": "^4.0.0-beta.18",
     "gift": "^0.5.0",
-    "gulp": "^3.8.7",
+    "gulp": "gulpjs/gulp#4.0",
     "gulp-livereload": "^3.8.1",
     "gulp-postcss": "^6.3.0",
     "gulp-rename": "^1.2.0",
     "gulp-uglify": "^2.1.0",
+    "marked": "^0.3.6",
     "postcss-cssnext": "^2.10.0",
     "postcss-import": "^9.1.0",
     "rollup": "^0.41.6",
@@ -59,7 +60,6 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-node-resolve": "^2.0.0",
-    "run-sequence": "^1.2.2",
     "serve": "^5.0.3",
     "stream-array": "^1.1.2"
   }

@@ -1,12 +1,12 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "loose": true,
-        "modules": false
+    ["env", {
+      "loose": true,
+      "modules": false,
+      "targets": {
+        "uglify": true
       }
-    ]
+    }]
   ],
   "plugins": [
     "transform-class-properties",
