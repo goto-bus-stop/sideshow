@@ -23,7 +23,7 @@
     "step-by-step"
   ],
   "author": "Fortes Informática",
-  "license": "Apache 2",
+  "license": "Apache-2.0",
   "dependencies": {
     "@f/add-class": "^1.0.0",
     "@f/apply-styles": "^1.0.6",
