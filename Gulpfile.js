@@ -1,6 +1,7 @@
 // All Requires
 const gulp = require("gulp");
 const postcss = require("gulp-postcss");
+const cssnano = require("cssnano");
 const uglify = require("gulp-uglify");
 const rename = require("gulp-rename");
 const livereload = require("gulp-livereload");
@@ -16,6 +17,9 @@ gulp.task("style", () =>
   gulp
     .src("stylesheets/sideshow.css")
     .pipe(postcss())
+    .pipe(gulp.dest("distr"))
+    .pipe(postcss([cssnano({ safe: true })]))
+    .pipe(rename({ suffix: ".min" }))
     .pipe(gulp.dest("distr")));
 
 // Examples pages Style task
