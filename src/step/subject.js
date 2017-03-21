@@ -60,8 +60,8 @@ Subject.hasChanged = function() {
 
   return offset.left - window.pageXOffset !== this.position.x ||
     offset.top - window.pageYOffset !== this.position.y ||
-    this.obj.clientWidth !== this.dimension.width ||
-    this.obj.clientHeight !== this.dimension.height ||
+    this.obj.offsetWidth !== this.dimension.width ||
+    this.obj.offsetHeight !== this.dimension.height ||
     parsePxValue(style.borderTopLeftRadius) !== this.borderRadius.leftTop ||
     parsePxValue(style.borderTopRightRadius) !== this.borderRadius.rightTop ||
     parsePxValue(style.borderBottomLeftRadius) !==
@@ -79,13 +79,13 @@ Subject.hasChanged = function() {
  */
 Subject.updateInfo = function(config) {
   if (!config) {
-    const offset = elementRect(this.obj, document.documentElement);
+    const rect = elementRect(this.obj, document.documentElement);
     const style = window.getComputedStyle(this.obj);
 
-    this.position.x = offset.left - window.pageXOffset;
-    this.position.y = offset.top - window.pageYOffset;
-    this.dimension.width = this.obj.clientWidth;
-    this.dimension.height = this.obj.clientHeight;
+    this.position.x = rect.left - window.pageXOffset;
+    this.position.y = rect.top - window.pageYOffset;
+    this.dimension.width = rect.width;
+    this.dimension.height = rect.height;
     this.borderRadius.leftTop = parsePxValue(style.borderTopLeftRadius);
     this.borderRadius.rightTop = parsePxValue(style.borderTopRightRadius);
     this.borderRadius.leftBottom = parsePxValue(style.borderBottomLeftRadius);

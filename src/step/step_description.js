@@ -179,7 +179,7 @@ export default class StepDescription extends FadableItem {
       parsePxValue(this.$el.style.paddingBottom)) /
       2;
 
-    this.dimension.height = parsePxValue(this.$el.clientHeight);
+    this.dimension.height = parsePxValue(this.$el.offsetHeight);
 
     // Checks if the description dimension overflow the available space in the details panel
     if (
@@ -187,7 +187,7 @@ export default class StepDescription extends FadableItem {
     ) {
       this.dimension.width = window.innerWidth * 0.9;
       applyStyles(this.$el, { width: this.dimension.width });
-      this.dimension.height = parsePxValue(this.$el.clientHeight);
+      this.dimension.height = parsePxValue(this.$el.offsetHeight);
 
       this.position.x = (window.innerWidth - this.dimension.width) / 2;
       this.position.y = (window.innerHeight - this.dimension.height) / 2;

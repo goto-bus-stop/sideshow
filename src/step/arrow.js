@@ -73,8 +73,8 @@ export default class Arrow extends FadableItem {
       y: offset.top - window.pageYOffset
     };
     target.dimension = {
-      width: parsePxValue(target.$el.clientWidth),
-      height: parsePxValue(target.$el.clientHeight)
+      width: target.$el.offsetWidth,
+      height: target.$el.offsetHeight
     };
 
     const coordinates = {
@@ -135,8 +135,8 @@ export default class Arrow extends FadableItem {
   hasChanged() {
     const offset = elementRect(this.target.$el, document.documentElement);
 
-    return this.target.dimension.width !== this.target.$el.clientWidth ||
-      this.target.dimension.height !== this.target.$el.clientHeight ||
+    return this.target.dimension.width !== this.target.$el.offsetWidth ||
+      this.target.dimension.height !== this.target.$el.offsetHeight ||
       this.target.position.y !== offset.top - window.pageYOffset ||
       this.target.position.x !== offset.left - window.pageXOffset;
   }
