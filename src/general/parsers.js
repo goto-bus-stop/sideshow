@@ -11,6 +11,7 @@ const parsers = {
 /**
  * Check if a parser exists for the given format.
  *
+ * @private
  * @param {string} format Format name.
  * @return {bool} Whether a parser exists.
  */
@@ -21,6 +22,7 @@ export function hasParser(format) {
 /**
  * Parse the text as the given format.
  *
+ * @private
  * @param {string} format Format name.
  * @param {string} text Input text.
  * @return {string} HTML output of the parser.

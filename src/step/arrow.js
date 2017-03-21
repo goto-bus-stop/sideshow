@@ -14,7 +14,7 @@ export default class Arrow extends FadableItem {
   /**
    * The jQuery wrapped object which will be pointed by this arrow
    *
-   * @@field target
+   * @field target
    * @type Object
    */
 
@@ -23,7 +23,7 @@ export default class Arrow extends FadableItem {
   /**
    * The position of the arrow. Valid values are "top", "right", "bottom" or "left". Defaults to "top"
    *
-   * @@field position
+   * @field position
    * @type String
    */
 
@@ -32,7 +32,7 @@ export default class Arrow extends FadableItem {
   /**
    * Flag created to set if the arrow was visible once, this is used for recreating references to the targets DOM objects
    *
-   * @@field onceVisible
+   * @field onceVisible
    * @type Object
    */
 

@@ -47,7 +47,7 @@ export function registerInnerHotkeys() {
 /**
  * Unregisters hotkeys used when running Sideshow
  *
- * @function Unregisters
+ * @function unregisterInnerHotkeys
  */
 export function unregisterInnerHotkeys() {
   document.removeEventListener("keyup", innerHotkeysListener);
