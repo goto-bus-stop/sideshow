@@ -1,5 +1,7 @@
 # @goto-bus-stop/sideshow
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/goto-bus-stop/sideshow.svg)](https://greenkeeper.io/)
+
 ![Sideshow Logo](./examples/images/sideshow-logo.png)
 ========
 [![Node.js devDependency Status](https://david-dm.org/goto-bus-stop/sideshow/dev-status.svg)](https://david-dm.org/goto-bus-stop/sideshow#info=devDependencies)
