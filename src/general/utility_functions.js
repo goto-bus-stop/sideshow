@@ -1,6 +1,6 @@
 import remove from "@f/remove-element";
 import foreach from "@f/foreach-array";
-import SS from "./global_object";
+import Sideshow from "./global_object";
 
 /**
  * Parses a string in the format "#px" in a number
@@ -25,14 +25,14 @@ export function parsePxValue(value) {
  * @return String The string value in the current language
  */
 export function getString(stringKeyValuePair) {
-  if (!(SS.config.language in stringKeyValuePair)) {
+  if (!(Sideshow.config.language in stringKeyValuePair)) {
     console.warn(
       "String not found for the selected language, getting the first available."
     );
     return stringKeyValuePair[Object.keys(stringKeyValuePair)[0]];
   }
 
-  return stringKeyValuePair[SS.config.language];
+  return stringKeyValuePair[Sideshow.config.language];
 }
 
 /**
@@ -55,7 +55,7 @@ export function unregisterInnerHotkeys() {
 
 function innerHotkeysListener(e) {
   // Esc or F1
-  if (e.keyCode === 27 || e.keyCode === 112) SS.close();
+  if (e.keyCode === 27 || e.keyCode === 112) Sideshow.close();
 }
 
 /**
@@ -63,14 +63,14 @@ function innerHotkeysListener(e) {
  *
  * @function registerGlobalHotkeys
  */
-export function registerGlobalHotkeys(SS) {
+export function registerGlobalHotkeys(sideshow) {
   document.addEventListener("keyup", e => {
     // F2
     if (e.keyCode === 113) {
       if (e.shiftKey) {
-        SS.start({ listAll: true });
+        sideshow.start({ listAll: true });
       } else {
-        SS.start();
+        sideshow.start();
       }
     }
   });

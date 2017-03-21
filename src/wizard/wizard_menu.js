@@ -3,7 +3,7 @@ import html from "bel";
 import CompositeMask from "../mask/composite_mask";
 import Subject from "../step/subject";
 import strings from "../general/dictionary";
-import SS from "../general/global_object";
+import Sideshow from "../general/global_object";
 import { getString } from "../general/utility_functions";
 import clockIcon from "../icons/clock";
 
@@ -84,10 +84,10 @@ class WizardMenu {
    */
 
   show(wizards, title) {
-    if (wizards.length === 1 && SS.config.autoSkipIntro) {
+    if (wizards.length === 1 && Sideshow.config.autoSkipIntro) {
       wizards[0].prepareAndPlay();
     } else {
-      SS.setEmptySubject();
+      Sideshow.setEmptySubject();
       CompositeMask.singleInstance.update(
         Subject.position,
         Subject.dimension,

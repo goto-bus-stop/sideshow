@@ -7,7 +7,7 @@ import StepDescription from "../step/step_description";
 import Screen from "../general/screen";
 import { flags, currentWizard } from "../general/state";
 import { NOT_DISPLAYED } from "../general/AnimationStatus";
-import SS from "../general/global_object";
+import Sideshow from "../general/global_object";
 import Subject from "../step/subject";
 import DetailsPanel from "../step/step_details_panel";
 import Part from "./composite_mask_part";
@@ -20,7 +20,7 @@ import SubjectMask from "./subject_mask";
 export default class CompositeMask extends FadableItem {
   /**
    * Initializes the composite mask
-   * 
+   *
    * @method init
    */
 
@@ -35,7 +35,7 @@ export default class CompositeMask extends FadableItem {
 
   /**
    * The parts composing the mask
-   * 
+   *
    * @@field parts
    * @type Object
    */
@@ -43,8 +43,8 @@ export default class CompositeMask extends FadableItem {
   parts = {};
 
   /**
-   * Renders the composite mask 
-   * 
+   * Renders the composite mask
+   *
    * @method render
    */
 
@@ -68,7 +68,7 @@ export default class CompositeMask extends FadableItem {
 
   /**
    * Checks if the subject is fully visible, if not, scrolls 'til it became fully visible
-   * 
+   *
    * @method scrollIfNecessary
    * @param {Object} position An object representing the positioning info for the mask
    * @param {Object} dimension An object representing the dimension info for the mask
@@ -99,7 +99,7 @@ export default class CompositeMask extends FadableItem {
 
   /**
    * Updates the positioning and dimension of each part composing the whole mask, according to the subject coordinates
-   * 
+   *
    * @method update
    * @param {Object} position An object representing the positioning info for the mask
    * @param {Object} dimension An object representing the dimension info for the mask
@@ -148,7 +148,7 @@ export default class CompositeMask extends FadableItem {
 
   /**
    * A Polling function to check if subject coordinates has changed
-   * 
+   *
    * @method pollForSubjectChanges
    */
 
@@ -159,7 +159,7 @@ export default class CompositeMask extends FadableItem {
           currentWizard.currentStep.subject
         );
         if (Subject.obj !== subject) {
-          SS.setSubject(subject, true);
+          Sideshow.setSubject(subject, true);
         }
       }
 
@@ -172,7 +172,7 @@ export default class CompositeMask extends FadableItem {
 
   /**
    * A Polling function to check if screen dimension has changed
-   * 
+   *
    * @method pollForScreenChanges
    */
 

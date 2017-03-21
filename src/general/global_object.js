@@ -29,10 +29,10 @@ import { version as pkgVersion } from "../../package.json";
 /**
  * The main class for Sideshow
  *
- * @class SS
+ * @class Sideshow
  * @static
  */
-const SS = {
+const Sideshow = {
   /**
    * The current Sideshow version
    *
@@ -52,8 +52,8 @@ const SS = {
  * @method init
  * @static
  */
-SS.init = function() {
-  registerGlobalHotkeys(SS);
+Sideshow.init = function() {
+  registerGlobalHotkeys(Sideshow);
   Polling.start();
   CompositeMask.singleInstance.init();
   flags.lockMaskUpdate = true;
@@ -63,7 +63,7 @@ SS.init = function() {
 /**
  * Register a new format parser.
  */
-SS.registerParser = registerParser;
+Sideshow.registerParser = registerParser;
 
 /**
  * Stops and Closes Sideshow
@@ -71,7 +71,7 @@ SS.registerParser = registerParser;
  * @method closes
  * @static
  */
-SS.close = function() {
+Sideshow.close = function() {
   if (!currentWizard) {
     WizardMenu.hide();
   }
@@ -102,7 +102,7 @@ SS.close = function() {
   flags.running = false;
 };
 
-SS.gotoStep = function(firstArg) {
+Sideshow.gotoStep = function(firstArg) {
   const steps = currentWizard._storyline.steps;
   let destination;
 
@@ -143,7 +143,7 @@ SS.gotoStep = function(firstArg) {
  * @method setEmptySubject
  * @static
  */
-SS.setEmptySubject = function() {
+Sideshow.setEmptySubject = function() {
   flags.lockMaskUpdate = true;
   Subject.obj = null;
   Subject.updateInfo({
@@ -171,7 +171,7 @@ SS.setEmptySubject = function() {
  * @param {Object} subj
  * @static
  */
-SS.setSubject = function(subj, subjectChanged) {
+Sideshow.setSubject = function(subj, subjectChanged) {
   if (typeof subj === "string") {
     subj = document.querySelectorAll(subj);
   }
@@ -188,7 +188,7 @@ SS.setSubject = function(subj, subjectChanged) {
       );
     }
   } else if (subjectChanged) {
-    SS.setEmptySubject();
+    Sideshow.setEmptySubject();
   } else {
     throw new SSException("100", "Invalid subject.");
   }
@@ -202,7 +202,7 @@ SS.setSubject = function(subj, subjectChanged) {
  * @return {Object} The wizard instance
  * @static
  **/
-SS.registerWizard = function(wizardConfig) {
+Sideshow.registerWizard = function(wizardConfig) {
   const wiz = new Wizard(wizardConfig);
   wizards.push(wiz);
   return wiz;
@@ -216,7 +216,7 @@ SS.registerWizard = function(wizardConfig) {
  * @return {Array} The eligible wizards list
  * @static
  */
-SS.getElegibleWizards = function(onlyNew) {
+Sideshow.getElegibleWizards = function(onlyNew) {
   const eligibleWizards = [];
   let somethingNew = false;
   foreach(
@@ -242,7 +242,7 @@ SS.getElegibleWizards = function(onlyNew) {
  * @return {boolean} Returns a boolean indicating whether there is some wizard available
  * @static
  */
-SS.showWizardsList = function(firstArg, title) {
+Sideshow.showWizardsList = function(firstArg, title) {
   const onlyNew = typeof firstArg === "boolean" ? false : firstArg;
   const wizards = firstArg instanceof Array
     ? firstArg
@@ -261,7 +261,7 @@ SS.showWizardsList = function(firstArg, title) {
  * @return {boolean} Returns a boolean indicating whether there is some related wizard available
  * @static
  */
-SS.showRelatedWizardsList = function(completedWizard) {
+Sideshow.showRelatedWizardsList = function(completedWizard) {
   const relatedWizardsNames = completedWizard.relatedWizards;
   if (!relatedWizardsNames) {
     return false;
@@ -278,7 +278,7 @@ SS.showRelatedWizardsList = function(completedWizard) {
   }
 
   Polling.clear();
-  SS.showWizardsList(relatedWizards, getString(strings.relatedWizards));
+  Sideshow.showWizardsList(relatedWizards, getString(strings.relatedWizards));
 
   return true;
 };
@@ -290,7 +290,7 @@ SS.showRelatedWizardsList = function(completedWizard) {
  * @@singleton
  * @extends FadableItem
  */
-SS.CloseButton = class CloseButton extends FadableItem {
+Sideshow.CloseButton = class CloseButton extends FadableItem {
   /**
    * Renders the close button
    *
@@ -299,7 +299,7 @@ SS.CloseButton = class CloseButton extends FadableItem {
 
   render() {
     this.$el = html`
-      <button onclick=${() => SS.close()} class="sideshow-close-button">
+      <button onclick=${() => Sideshow.close()} class="sideshow-close-button">
         ${closeIcon()}
         ${getString(strings.close)}
       </button>
@@ -308,7 +308,7 @@ SS.CloseButton = class CloseButton extends FadableItem {
     super.render();
   }
 };
-SS.CloseButton.singleInstance = new SS.CloseButton();
+Sideshow.CloseButton.singleInstance = new Sideshow.CloseButton();
 
 /**
  * Starts Sideshow
@@ -316,14 +316,14 @@ SS.CloseButton.singleInstance = new SS.CloseButton();
  * @method start
  * @param {Object} config The config object for Sideshow
  */
-SS.start = function(config = {}) {
+Sideshow.start = function(config = {}) {
   if (!flags.running) {
     const onlyNew = "onlyNew" in config && !!config.onlyNew;
     const listAll = "listAll" in config && !!config.listAll;
     const wizardName = config.wizardName;
 
     if (listAll) {
-      SS.showWizardsList(wizards.filter(w => w.isEligible() || w.preparation));
+      Sideshow.showWizardsList(wizards.filter(w => w.isEligible() || w.preparation));
     } else if (wizardName) {
       const wizard = find(wizards, w => w.name === wizardName);
 
@@ -336,7 +336,7 @@ SS.start = function(config = {}) {
 
       wizard.prepareAndPlay();
     } else {
-      SS.showWizardsList(onlyNew);
+      Sideshow.showWizardsList(onlyNew);
     }
 
     this.CloseButton.singleInstance.render();
@@ -351,4 +351,4 @@ SS.start = function(config = {}) {
   }
 };
 
-export default SS;
+export default Sideshow;

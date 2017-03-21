@@ -9,21 +9,21 @@ import Subject from "../step/subject";
 import Polling from "../general/polling";
 import strings from "../general/dictionary";
 import { getString } from "../general/utility_functions";
-import SS from "../general/global_object";
+import Sideshow from "../general/global_object";
 import { flags, currentWizard, setCurrentWizard } from "../general/state";
 import { hasParser, parse } from "../general/parsers";
 
 /**
  * Represents a tutorial
- * 
+ *
  * @class Wizard
  * @@initializer
- * @param {Object} wizardConfig The wizard configuration object                        
+ * @param {Object} wizardConfig The wizard configuration object
  */
 export default class Wizard {
   /**
    * A function to prepare the environment for running a wizard (e.g. redirecting to some screen)
-   * 
+   *
    * @@field preparation
    * @type Function
    */
@@ -32,7 +32,7 @@ export default class Wizard {
 
   /**
    * An object with listeners to this wizard (e.g. beforeWizardStarts, afterWizardEnds)
-   * 
+   *
    * @@field listeners
    * @type Object
    */
@@ -41,7 +41,7 @@ export default class Wizard {
 
   /**
    * A configuration flag that defines if the step position (e.g. 2/10, 3/15, 12/12) will be shown
-   * 
+   *
    * @@field showStepPosition
    * @type boolean
    */
@@ -50,7 +50,7 @@ export default class Wizard {
 
   /**
    * An array with related wizards names. These wizards are listed after the ending of the current wizard.
-   * 
+   *
    * @@field relatedWizards
    * @type Array
    */
@@ -59,7 +59,7 @@ export default class Wizard {
 
   /**
    * The wizard unique name (used internally as an identifier)
-   * 
+   *
    * @@field name
    * @type String
    */
@@ -68,7 +68,7 @@ export default class Wizard {
 
   /**
    * The wizard title (will be shown in the list of available wizards)
-   * 
+   *
    * @@field title
    * @type String
    */
@@ -77,7 +77,7 @@ export default class Wizard {
 
   /**
    * The wizard description (will be shown in the list of available wizards)
-   * 
+   *
    * @@field description
    * @type String
    */
@@ -86,7 +86,7 @@ export default class Wizard {
 
   /**
    * The wizard estimated completion time (will be shown in the list of available wizards)
-   * 
+   *
    * @@field estimatedTime
    * @type String
    */
@@ -95,7 +95,7 @@ export default class Wizard {
 
   /**
    * A collection of rules to infer whether a wizard should be available in a specific screen
-   * 
+   *
    * @@field affects
    * @type Array
    */
@@ -104,7 +104,7 @@ export default class Wizard {
 
   /**
    * The sequence of steps for this wizard
-   * 
+   *
    * @@field storyline
    * @private
    * @type Object
@@ -114,7 +114,7 @@ export default class Wizard {
 
   /**
    * Points to the current step object in a playing wizard
-   * 
+   *
    * @@field currentStep
    * @type Object
    */
@@ -135,7 +135,7 @@ export default class Wizard {
 
   /**
    * Sets the storyline for the wizard
-   * 
+   *
    * @method storyLine
    */
 
@@ -145,7 +145,7 @@ export default class Wizard {
 
   /**
    * Runs the wizard
-   * 
+   *
    * @method play
    */
 
@@ -193,7 +193,7 @@ export default class Wizard {
 
   /**
    * Shows a specific step
-   * 
+   *
    * @method showStep
    * @param {Object} step The step to be shown
    * @param {Function} callback A callback function to be called
@@ -228,8 +228,8 @@ export default class Wizard {
 
     if (flags.changingStep && !flags.skippingStep) {
       //Sets the current subject and updates its dimension and position
-      if (step.subject) SS.setSubject(step.subject);
-      else SS.setEmptySubject();
+      if (step.subject) Sideshow.setSubject(step.subject);
+      else Sideshow.setEmptySubject();
       //Updates the mask
       CompositeMask.singleInstance.update(
         Subject.position,
@@ -309,8 +309,8 @@ export default class Wizard {
 
   /**
    * Shows the next step of the wizard
-   * 
-   * @method next 
+   *
+   * @method next
    * @param {Function} callback A callback function to be called
    */
 
@@ -341,7 +341,7 @@ export default class Wizard {
           if (listeners && listeners.afterWizardEnds)
             listeners.afterWizardEnds();
 
-          if (!SS.showRelatedWizardsList(completedWizard)) SS.close();
+          if (!Sideshow.showRelatedWizardsList(completedWizard)) Sideshow.close();
         }
       });
     }
@@ -349,7 +349,7 @@ export default class Wizard {
 
   /**
    * Hides the step
-   * 
+   *
    * @method hideStep
    * @param {Function} callback A callback function to be called in the ending of the hiding process
    */
@@ -369,7 +369,7 @@ export default class Wizard {
 
   /**
    * Returns the position of the step passed as argument or (by default) the current step
-   * 
+   *
    * @method getStepPosition
    * @param {Object} step The step object to get position
    */
@@ -380,7 +380,7 @@ export default class Wizard {
 
   /**
    * Checks if a wizard should be shown in the current context (running each evaluator defined for this wizard)
-   * 
+   *
    * @method isEligible
    * @return {boolean} A boolean indicating if this wizard should be available in the current context
    */
@@ -419,7 +419,7 @@ export default class Wizard {
 
   /**
    * Checks if the current user already watched this wizard
-   * 
+   *
    * @method isAlreadyWatched
    * @return {boolean} A boolean indicating if the user watched this wizard
    * @@todo Implement this method...
@@ -432,7 +432,7 @@ export default class Wizard {
 
   /**
    * A Polling function to check if the current step is completed
-   * 
+   *
    * @method pollForCheckCompletedStep
    */
 
