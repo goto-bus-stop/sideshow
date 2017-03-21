@@ -17,8 +17,6 @@ import config from "./config";
 import {
   registerGlobalHotkeys,
   getString,
-  registerInnerHotkeys,
-  unregisterInnerHotkeys,
   removeDOMGarbage
 } from "./utility_functions";
 import { registerParser } from "./parsers";
@@ -38,11 +36,21 @@ class Sideshow {
    * @property VERSION
    * @type String
    */
+
   get VERSION() {
     return pkgVersion;
   }
 
+  /**
+   * @field config
+   */
+
   config = config;
+
+  /**
+   * @field closeButton
+   * @private
+   */
 
   closeButton = new CloseButton({
     onClose: () => this.close()
@@ -52,8 +60,8 @@ class Sideshow {
    * Initializes Sideshow
    *
    * @method init
-   * @static
    */
+
   init() {
     registerGlobalHotkeys(Sideshow);
     Polling.start();
@@ -64,15 +72,18 @@ class Sideshow {
 
   /**
    * Register a new format parser.
+   *
+   * @method registerParser
    */
+
   registerParser = registerParser;
 
   /**
    * Stops and Closes Sideshow
    *
    * @method closes
-   * @static
    */
+
   close() {
     if (!currentWizard) {
       WizardMenu.hide();
@@ -99,11 +110,28 @@ class Sideshow {
 
     removeDOMGarbage();
     Polling.clear();
-    unregisterInnerHotkeys();
+    document.removeEventListener("keyup", this.onEscapePress);
     setCurrentWizard(null);
     flags.running = false;
   }
 
+  /**
+   * Event handler to close the tutorial when the Esc or F1 keys are pressed.
+   *
+   * @method onEscapePress
+   * @private
+   */
+
+  onEscapePress = (event) => {
+    // Esc or F1
+    if (event.keyCode === 27 || event.keyCode === 112) {
+      this.close();
+    }
+  };
+
+  /**
+   * Jump to a step.
+   */
   gotoStep(firstArg) {
     const steps = currentWizard._storyline.steps;
     let destination;
@@ -143,8 +171,8 @@ class Sideshow {
    * A trick to use the composite mask to simulate the behavior of a solid mask, setting an empty subject
    *
    * @method setEmptySubject
-   * @static
    */
+
   setEmptySubject() {
     flags.lockMaskUpdate = true;
     Subject.obj = null;
@@ -171,8 +199,8 @@ class Sideshow {
    *
    * @method setSubject
    * @param {Object} subj
-   * @static
    */
+
   setSubject(subj, subjectChanged) {
     if (typeof subj === "string") {
       subj = document.querySelectorAll(subj);
@@ -203,6 +231,7 @@ class Sideshow {
    * @param {Object} wizardConfig
    * @return {Object} The wizard instance
    */
+
   registerWizard(wizardConfig) {
     const wiz = new Wizard(wizardConfig);
     wizards.push(wiz);
@@ -215,8 +244,8 @@ class Sideshow {
    * @method registerWizard
    * @param {boolean} onlyNew Checks only recently added wizards
    * @return {Array} The eligible wizards list
-   * @static
    */
+
   getElegibleWizards(onlyNew) {
     const eligibleWizards = [];
     let somethingNew = false;
@@ -241,8 +270,8 @@ class Sideshow {
    * @method showWizardsList
    * @param {boolean} onlyNew Checks only recently added wizards
    * @return {boolean} Returns a boolean indicating whether there is some wizard available
-   * @static
    */
+
   showWizardsList(firstArg, title) {
     const onlyNew = typeof firstArg === "boolean" ? false : firstArg;
     const wizards = firstArg instanceof Array
@@ -260,8 +289,8 @@ class Sideshow {
    * @method showRelatedWizardsList
    * @param {Object} completedWizard The recently completed wizard
    * @return {boolean} Returns a boolean indicating whether there is some related wizard available
-   * @static
    */
+
   showRelatedWizardsList(completedWizard) {
     const relatedWizardsNames = completedWizard.relatedWizards;
     if (!relatedWizardsNames) {
@@ -290,6 +319,7 @@ class Sideshow {
    * @method start
    * @param {Object} config The config object for Sideshow
    */
+
   start(config = {}) {
     if (!flags.running) {
       const onlyNew = "onlyNew" in config && !!config.onlyNew;
@@ -318,7 +348,8 @@ class Sideshow {
       document.body.appendChild(this.closeButton.render());
       this.closeButton.fadeIn();
 
-      registerInnerHotkeys();
+      document.addEventListener("keyup", this.onEscapePress);
+
       flags.running = true;
 
       Polling.enqueue("check_composite_mask_screen_changes", () => {

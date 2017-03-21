@@ -36,29 +36,6 @@ export function getString(stringKeyValuePair) {
 }
 
 /**
- * Registers hotkeys to be used when running Sideshow
- *
- * @function registerInnerHotkeys
- */
-export function registerInnerHotkeys() {
-  document.addEventListener("keyup", innerHotkeysListener);
-}
-
-/**
- * Unregisters hotkeys used when running Sideshow
- *
- * @function unregisterInnerHotkeys
- */
-export function unregisterInnerHotkeys() {
-  document.removeEventListener("keyup", innerHotkeysListener);
-}
-
-function innerHotkeysListener(e) {
-  // Esc or F1
-  if (e.keyCode === 27 || e.keyCode === 112) Sideshow.close();
-}
-
-/**
  * Registers global hotkeys
  *
  * @function registerGlobalHotkeys
