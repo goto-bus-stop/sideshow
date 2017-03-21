@@ -197,8 +197,7 @@ export default class Wizard {
    * @param {Function} callback A callback function to be called
    */
 
-  showStep(step, callback) {
-    var wizard = this;
+  showStep(step, callback = () => {}) {
     flags.skippingStep = false;
 
     Arrows.clear();
@@ -207,27 +206,30 @@ export default class Wizard {
       this.currentStep &&
       this.currentStep.listeners &&
       this.currentStep.listeners.afterStep
-    )
+    ) {
       this.currentStep.listeners.afterStep();
-
-    function skipStep(wiz) {
-      flags.skippingStep = true;
-      wizard.next();
     }
 
-    if (step && step.listeners && step.listeners.beforeStep)
+    if (step && step.listeners && step.listeners.beforeStep) {
       step.listeners.beforeStep();
+    }
 
     //The shown step is, of course, the current
     this.currentStep = step;
 
-    //If the step has a skipIf evaluator and it evaluates to true, we'll skip to the next step!
-    if (step.skipIf && step.skipIf()) skipStep(this);
+    // If the step has a skipIf evaluator and it evaluates to true, we'll skip to the next step!
+    if (step.skipIf && step.skipIf()) {
+      flags.skippingStep = true;
+      this.next();
+    }
 
     if (flags.changingStep && !flags.skippingStep) {
       //Sets the current subject and updates its dimension and position
-      if (step.subject) Sideshow.setSubject(step.subject);
-      else Sideshow.setEmptySubject();
+      if (step.subject) {
+        Sideshow.setSubject(step.subject);
+      } else {
+        Sideshow.setEmptySubject();
+      }
       //Updates the mask
       CompositeMask.singleInstance.update(
         Subject.position,
@@ -235,8 +237,8 @@ export default class Wizard {
         Subject.borderRadius
       );
 
-      var sm = SubjectMask.singleInstance;
-      sm.fadeOut(function() {
+      const sm = SubjectMask.singleInstance;
+      sm.fadeOut(() => {
         if (step.lockSubject) sm.show(true);
       });
       //The details panel (that wraps the step description and arrow) is shown
@@ -274,7 +276,9 @@ export default class Wizard {
         }
         description.nextButton.show();
 
-        if (step.autoContinue === false) description.nextButton.disable();
+        if (step.autoContinue === false) {
+          description.nextButton.disable();
+        }
       } else {
         description.nextButton.hide();
       }
@@ -295,12 +299,11 @@ export default class Wizard {
         )
       ) {
         description.positionate();
-        //Do a simple fade in for the description box
+        // Do a simple fade in for the description box
         description.fadeIn();
       }
 
-      //If a callback is passed, call it
-      if (callback) callback();
+      callback();
       flags.changingStep = false;
     }
   }
@@ -312,35 +315,35 @@ export default class Wizard {
    * @param {Function} callback A callback function to be called
    */
 
-  next(callback, nextStep) {
+  next(callback = () => {}, nextStep) {
     if (!flags.changingStep || flags.skippingStep) {
       flags.changingStep = true;
-      var currentStep = this.currentStep;
+      const currentStep = this.currentStep;
       nextStep = nextStep ||
         this._storyline.steps[this.getStepPosition(this.currentStep) + 1];
-      var self = this;
 
-      this.hideStep(function() {
-        if (nextStep)
-          self.showStep(nextStep, function() {
-            if (callback) callback();
-          });
-        else {
+      this.hideStep(() => {
+        if (nextStep) {
+          this.showStep(nextStep, callback);
+        } else {
           if (
             currentStep &&
             currentStep.listeners &&
             currentStep.listeners.afterStep
-          )
+          ) {
             currentStep.listeners.afterStep();
+          }
 
-          var completedWizard = currentWizard;
+          const completedWizard = currentWizard;
           setCurrentWizard(null);
-          var listeners = self.listeners;
-          if (listeners && listeners.afterWizardEnds)
+          const listeners = this.listeners;
+          if (listeners && listeners.afterWizardEnds) {
             listeners.afterWizardEnds();
+          }
 
-          if (!Sideshow.showRelatedWizardsList(completedWizard))
+          if (!Sideshow.showRelatedWizardsList(completedWizard)) {
             Sideshow.close();
+          }
         }
       });
     }
@@ -354,7 +357,7 @@ export default class Wizard {
    */
 
   hideStep(callback) {
-    StepDescription.singleInstance.fadeOut(function() {
+    StepDescription.singleInstance.fadeOut(() => {
       DetailsPanel.singleInstance.hide();
     });
     Arrows.fadeOut();
