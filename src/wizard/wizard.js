@@ -1,4 +1,3 @@
-import stripIndent from "strip-indent";
 import SSException from "../general/exception";
 import Arrows from "../step/arrows";
 import CompositeMask from "../mask/composite_mask";
@@ -11,7 +10,6 @@ import strings from "../general/dictionary";
 import { getString } from "../general/utility_functions";
 import Sideshow from "../general/global_object";
 import { flags, currentWizard, setCurrentWizard } from "../general/state";
-import { hasParser, parse } from "../general/parsers";
 
 /**
  * Represents a tutorial
@@ -247,14 +245,8 @@ export default class Wizard {
       DetailsPanel.singleInstance.positionate();
       //Sets the description properties (text, title and step position)
       const description = StepDescription.singleInstance;
-      const text = stripIndent(step.text);
-      if (hasParser(step.format)) {
-        description.setHTML(parse(step.format, text));
-      } else {
-        description.setText(text);
-      }
+      description.update(step);
 
-      description.setTitle(step.title);
       description.setStepPosition(
         `${this.getStepPosition() + 1}/${this._storyline.steps.length}`
       );

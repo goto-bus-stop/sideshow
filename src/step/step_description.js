@@ -1,6 +1,8 @@
 import applyStyles from "@f/apply-styles";
 import html from "bel";
+import stripIndent from "strip-indent";
 import FadableItem from "../interface_items/fadable_item";
+import { hasParser, parse } from "../general/parsers";
 import { parsePxValue } from "../general/utility_functions";
 import { currentWizard } from "../general/state";
 import StepDescriptionNextButton from "./step_description_next_button";
@@ -200,6 +202,17 @@ export default class StepDescription extends FadableItem {
       left: this.position.x - paddingLeftRight,
       top: this.position.y - paddingTopBottom
     });
+  }
+
+  update(step) {
+    const text = stripIndent(step.text);
+    if (hasParser(step.format)) {
+      this.setHTML(parse(step.format, text));
+    } else {
+      this.setText(text);
+    }
+
+    this.setTitle(step.title);
   }
 }
 
