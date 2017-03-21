@@ -1,6 +1,6 @@
 import SSException from "../general/exception";
 
-var pollingDuration = 150;
+const pollingDuration = 150;
 
 /**
  * Controls the polling functions needed by Sideshow
@@ -8,159 +8,165 @@ var pollingDuration = 150;
  * @class Polling
  * @static
  */
-var Polling = {};
+class Polling {
+  /**
+   * The polling functions queue
+   *
+   * @field queue
+   * @type Object
+   * @static
+   */
 
-/**
- * The polling functions queue
- *
- * @field queue
- * @type Object
- * @static
- */
-Polling.queue = [];
+  queue = [];
 
-/**
- * A flag that controls if the polling is locked
- *
- * @field lock
- * @type boolean
- * @static
- */
-Polling.lock = false;
+  /**
+   * A flag that controls if the polling is locked
+   *
+   * @field lock
+   * @type boolean
+   * @static
+   */
 
-/**
- * Pushes a polling function in the queue
- *
- * @method enqueue
- * @static
- */
-Polling.enqueue = function(firstArg) {
-  var fn;
-  var name = "";
+  lock = false;
 
-  if (typeof firstArg === "function") {
-    fn = firstArg;
-  } else {
-    name = arguments[0];
-    fn = arguments[1];
+  /**
+   * Pushes a polling function in the queue
+   *
+   * @method enqueue
+   * @static
+   */
+
+  enqueue(name, fn) {
+    if (typeof name === "function") {
+      fn = name;
+      name = "";
+    }
+
+    if (
+      this.getFunctionIndex(fn) < 0 &&
+      (name === "" || this.getFunctionIndex(name) < 0)
+    ) {
+      this.queue.push({ name, fn, enabled: true });
+    } else {
+      throw new SSException(
+        "301",
+        "The function is already in the polling queue."
+      );
+    }
   }
 
-  if (
-    this.getFunctionIndex(fn) < 0 &&
-    (name === "" || this.getFunctionIndex(name) < 0)
-  ) {
-    this.queue.push({ name, fn, enabled: true });
-  } else {
+  /**
+   * Removes a polling function from the queue
+   *
+   * @method dequeue
+   * @static
+   */
+
+  dequeue(fn) {
+    this.queue.splice(this.getFunctionIndex(fn), 1);
+  }
+
+  /**
+   * Enables an specific polling function
+   *
+   * @method enable
+   * @static
+   */
+
+  enable(fn) {
+    this.queue[this.getFunctionIndex(fn)].enabled = true;
+  }
+
+  /**
+   * Disables an specific polling function, but preserving it in the polling queue
+   *
+   * @method disable
+   * @static
+   */
+
+  disable(fn) {
+    this.queue[this.getFunctionIndex(fn)].enabled = false;
+  }
+
+  /**
+   * Gets the position of a polling function in the queue based on its name or the function itself
+   *
+   * @method getFunctionIndex
+   * @static
+   */
+
+  getFunctionIndex(fn) {
+    if (typeof fn === "function") {
+      return this.queue.map(p => p.fn).indexOf(fn);
+    } else if (typeof fn === "string") {
+      return this.queue.map(p => p.name).indexOf(fn);
+    }
+
     throw new SSException(
-      "301",
-      "The function is already in the polling queue."
+      "302",
+      "Invalid argument for getFunctionIndex method. Expected a string (the polling function name) or a function (the polling function itself)."
     );
   }
-};
 
-/**
- * Removes a polling function from the queue
- *
- * @method dequeue
- * @static
- */
-Polling.dequeue = function(fn) {
-  this.queue.splice(this.getFunctionIndex(fn), 1);
-};
+  /**
+   * Unlocks the polling and starts the checking process
+   *
+   * @method start
+   * @static
+   */
 
-/**
- * Enables an specific polling function
- *
- * @method enable
- * @static
- */
-Polling.enable = function(fn) {
-  this.queue[this.getFunctionIndex(fn)].enabled = true;
-};
-
-/**
- * Disables an specific polling function, but preserving it in the polling queue
- *
- * @method disable
- * @static
- */
-Polling.disable = function(fn) {
-  this.queue[this.getFunctionIndex(fn)].enabled = false;
-};
-
-/**
- * Gets the position of a polling function in the queue based on its name or the function itself
- *
- * @method getFunctionIndex
- * @static
- */
-Polling.getFunctionIndex = function(firstArg) {
-  if (typeof firstArg === "function") {
-    return this.queue.map(p => p.fn).indexOf(firstArg);
-  } else if (typeof firstArg === "string") {
-    return this.queue.map(p => p.name).indexOf(firstArg);
+  start() {
+    this.lock = false;
+    this.doPolling();
   }
 
-  throw new SSException(
-    "302",
-    "Invalid argument for getFunctionIndex method. Expected a string (the polling function name) or a function (the polling function itself)."
-  );
-};
+  /**
+   * Stops the polling process
+   *
+   * @method stop
+   * @static
+   */
 
-/**
- * Unlocks the polling and starts the checking process
- *
- * @method start
- * @static
- */
-Polling.start = function() {
-  this.lock = false;
-  this.doPolling();
-};
-
-/**
- * Stops the polling process
- *
- * @method stop
- * @static
- */
-Polling.stop = function() {
-  this.lock = true;
-};
-
-/**
- * Clear the polling queue
- *
- * @method clear
- * @static
- */
-Polling.clear = function() {
-  const lock = this.lock;
-
-  this.lock = true;
-  this.queue = [];
-  this.lock = lock;
-};
-
-/**
- * Starts the polling process
- *
- * @method doPolling
- * @static
- */
-Polling.doPolling = function() {
-  if (!this.lock) {
-    // Using timeout to avoid the queue to not complete in a cycle
-    setTimeout(
-      () => {
-        Polling.queue.forEach(pollingFunction => {
-          pollingFunction.enabled && pollingFunction.fn();
-        });
-        Polling.doPolling();
-      },
-      pollingDuration
-    );
+  stop() {
+    this.lock = true;
   }
-};
 
-export default Polling;
+  /**
+   * Clear the polling queue
+   *
+   * @method clear
+   * @static
+   */
+
+  clear() {
+    const lock = this.lock;
+
+    this.lock = true;
+    this.queue = [];
+    this.lock = lock;
+  }
+
+  /**
+   * Starts the polling process
+   *
+   * @method doPolling
+   * @static
+   */
+
+  doPolling() {
+    if (!this.lock) {
+      // Using timeout to avoid the queue to not complete in a cycle
+      setTimeout(
+        () => {
+          this.queue.forEach(pollingFunction => {
+            pollingFunction.enabled && pollingFunction.fn();
+          });
+          this.doPolling();
+        },
+        pollingDuration
+      );
+    }
+  }
+}
+
+export default new Polling();
