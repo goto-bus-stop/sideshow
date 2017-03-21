@@ -3,15 +3,15 @@ import HidableItem from "../interface_items/hidable_item";
 import playIcon from "../icons/play";
 
 /**
- * Step next button 
- * 
+ * Step next button
+ *
  * @class StepDescriptionNextButton
  * @extends HidableItem
  */
 export default class StepDescriptionNextButton extends HidableItem {
   /**
    * The text for the next button
-   * 
+   *
    * @@field _text
    * @private
    */
@@ -20,7 +20,7 @@ export default class StepDescriptionNextButton extends HidableItem {
 
   /**
    * Disables the next button
-   * 
+   *
    * @method disable
    */
 
@@ -30,7 +30,7 @@ export default class StepDescriptionNextButton extends HidableItem {
 
   /**
    * Enables the next button
-   * 
+   *
    * @method enable
    */
 
@@ -40,7 +40,7 @@ export default class StepDescriptionNextButton extends HidableItem {
 
   /**
    * Sets the text for the next button
-   * 
+   *
    * @method setText
    * @param {String} text The text for the next button
    */
@@ -52,12 +52,11 @@ export default class StepDescriptionNextButton extends HidableItem {
 
   /**
    * Renders the Next Button
-   * 
+   *
    * @method render
-   * @param {Object} $stepDescriptionEl The jQuery wrapped DOM element for the Step Description panel
    */
 
-  render($stepDescriptionEl) {
+  render() {
     this.labelElement = html`<span />`;
     this.$el = html`
       <button class="sideshow-next-step-button">
@@ -66,6 +65,8 @@ export default class StepDescriptionNextButton extends HidableItem {
       </button>
     `;
 
-    super.render($stepDescriptionEl);
+    super.render();
+
+    return this.$el;
   }
 }

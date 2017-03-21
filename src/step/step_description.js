@@ -8,7 +8,7 @@ import DetailsPanel from "./step_details_panel";
 
 /**
  * Represents a panel holding the step description
- * 
+ *
  * @class StepDescription
  * @extends FadableItem
  * @initializer
@@ -16,7 +16,7 @@ import DetailsPanel from "./step_details_panel";
 export default class StepDescription extends FadableItem {
   /**
    * The step description text content
-   * 
+   *
    * @field text
    * @type String
    */
@@ -25,7 +25,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * The title text for the step description panel
-   * 
+   *
    * @field title
    * @type String
    */
@@ -34,7 +34,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * An object holding dimension information for the Step Description panel
-   * 
+   *
    * @field dimension
    * @type Object
    */
@@ -43,7 +43,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * An object holding positioning information for the Step Description panel
-   * 
+   *
    * @field position
    * @type Object
    */
@@ -51,8 +51,8 @@ export default class StepDescription extends FadableItem {
   position = {};
 
   /**
-   * An object representing the next button for a step description panel 
-   * 
+   * An object representing the next button for a step description panel
+   *
    * @field nextButton
    * @type Object
    */
@@ -61,7 +61,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * Sets the text for the step description panel
-   * 
+   *
    * @method setText
    * @param {String} text The text for the step description panel
    */
@@ -73,7 +73,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * Sets the HTML content for the step description panel
-   * 
+   *
    * @method setHTML
    * @param {String} text The HTML content for step description panel
    */
@@ -85,7 +85,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * Sets the title for the step description panel
-   * 
+   *
    * @method setTitle
    * @param {String} title The text for the step description panel
    */
@@ -97,7 +97,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * Sets the title for the step description panel
-   * 
+   *
    * @method setStepPosition
    * @param {String} title The text for the step description panel
    */
@@ -109,7 +109,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * Renders the step description panel
-   * 
+   *
    * @method render
    */
 
@@ -128,24 +128,26 @@ export default class StepDescription extends FadableItem {
       <h2 />
     `;
 
+    const nextButton = this.nextButton.render();
+    nextButton.addEventListener("click", () => {
+      currentWizard.next();
+    });
+
     this.$el = html`
       <div class="sideshow-step-description sideshow-hidden sideshow-invisible">
         ${this.stepPositionElement}
         ${this.titleElement}
         ${this.textElement}
+        ${nextButton}
       </div>
     `;
 
-    this.nextButton.render(this.$el);
-    this.nextButton.$el.addEventListener("click", () => {
-      currentWizard.next();
-    });
-    DetailsPanel.singleInstance.$el.appendChild(this.$el);
+    return this.$el;
   }
 
   /**
    * Shows the step description panel
-   * 
+   *
    * @method show
    */
 
@@ -155,7 +157,7 @@ export default class StepDescription extends FadableItem {
 
   /**
    * Positionates the step description panel
-   * 
+   *
    * @method positionate
    */
 

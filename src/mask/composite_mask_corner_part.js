@@ -9,7 +9,7 @@ import VisualItem from "../interface_items/visual_item";
 export default class CornerPart extends VisualItem {
   /**
    * An object holding positioning information for the mask corner part
-   * 
+   *
    * @field position
    * @type Object
    */
@@ -18,7 +18,7 @@ export default class CornerPart extends VisualItem {
 
   /**
    * An object holding dimension information for the mask corner part
-   * 
+   *
    * @field position
    * @type Object
    */
@@ -27,7 +27,7 @@ export default class CornerPart extends VisualItem {
 
   /**
    * An object holding border radius information for the mask corner part
-   * 
+   *
    * @field borderRadius
    * @type Object
    */
@@ -36,7 +36,7 @@ export default class CornerPart extends VisualItem {
 
   /**
    * Formats the SVG path for the corner part
-   * 
+   *
    * @method SVGPathPointsTemplate
    * @param {Number} borderRadius The corner part border radius
    * @static
@@ -48,7 +48,7 @@ export default class CornerPart extends VisualItem {
 
   /**
    * Renders the SVG for the corner part
-   * 
+   *
    * @method buildSVG
    * @param {Number} borderRadius The corner part border radius
    * @static
@@ -71,27 +71,28 @@ export default class CornerPart extends VisualItem {
 
   /**
    * Renders the mask corner part
-   * 
+   *
    * @method render
    * @return {Object} The corner part jQuery wrapped DOM element
    */
 
-  render(parent) {
+  render() {
     this.$el = html`
       <div class="sideshow-mask-corner-part">
         ${CornerPart.buildSVG(this.borderRadius)}
       </div>
     `;
 
-    super.render(parent);
+    super.render();
+    return this.$el;
   }
 
   /**
    * Updates the positioning and border radius of the mask corner part
-   * 
+   *
    * @method update
-   * @param {Object} position The positioning information 
-   * @param {Object} borderRadius The border radius information 
+   * @param {Object} position The positioning information
+   * @param {Object} borderRadius The border radius information
    */
 
   update(position, borderRadius) {

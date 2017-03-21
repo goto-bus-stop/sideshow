@@ -58,6 +58,8 @@ Arrows.setTargets = function(targets, targetsChanged) {
 };
 
 Arrows.recreateDOMReferences = function() {
+  const parent = this.arrows[0] ? this.arrows[0].$el.parentNode : document.body;
+
   foreach(
     arrow => {
       remove(arrow.$el);
@@ -67,7 +69,7 @@ Arrows.recreateDOMReferences = function() {
 
   Arrows.clear();
   Arrows.setTargets(currentWizard.currentStep.targets, true);
-  Arrows.render();
+  parent.appendChild(Arrows.render());
   Arrows.positionate();
   Arrows.show();
 };
@@ -143,10 +145,12 @@ Arrows.positionate = function() {
  * @static
  */
 Arrows.render = function(arrowPosition = "top") {
+  const fragment = document.createDocumentFragment();
   this.arrows.forEach(arrow => {
     arrow.position = arrowPosition;
-    arrow.render();
+    fragment.appendChild(arrow.render());
   });
+  return fragment;
 };
 
 /**

@@ -169,9 +169,7 @@ export default class Wizard {
     if (steps.length === 0)
       throw new SSException("202", "A storyline must have at least one step.");
 
-    DetailsPanel.singleInstance.render();
-
-    StepDescription.singleInstance.render();
+    document.body.appendChild(DetailsPanel.singleInstance.render());
 
     var listeners = this.listeners;
     if (listeners && listeners.beforeWizardStarts)
@@ -283,7 +281,7 @@ export default class Wizard {
 
       if (step.targets && step.targets.length > 0) {
         Arrows.setTargets(step.targets);
-        Arrows.render(step.arrowPosition);
+        document.body.appendChild(Arrows.render(step.arrowPosition));
         Arrows.positionate();
         Arrows.fadeIn();
       }
@@ -341,7 +339,8 @@ export default class Wizard {
           if (listeners && listeners.afterWizardEnds)
             listeners.afterWizardEnds();
 
-          if (!Sideshow.showRelatedWizardsList(completedWizard)) Sideshow.close();
+          if (!Sideshow.showRelatedWizardsList(completedWizard))
+            Sideshow.close();
         }
       });
     }

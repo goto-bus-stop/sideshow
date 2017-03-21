@@ -4,10 +4,11 @@ import FadableItem from "../interface_items/fadable_item";
 import CompositeMask from "../mask/composite_mask";
 import { parsePxValue } from "../general/utility_functions";
 import Screen from "../general/screen";
+import StepDescription from "./step_description";
 
 /**
  * The panel that holds step description, is positionated over the biggest remaining space among the four parts of a composite mask
- * 
+ *
  * @class DetailsPanel
  * @singleton
  * @extends FadableItem
@@ -16,7 +17,7 @@ import Screen from "../general/screen";
 export default class DetailsPanel extends FadableItem {
   /**
    * An object holding dimension information for the Details Panel
-   * 
+   *
    * @field dimension
    * @type Object
    */
@@ -25,7 +26,7 @@ export default class DetailsPanel extends FadableItem {
 
   /**
    * An object holding positioning information for the Details Panel
-   * 
+   *
    * @field position
    * @type Object
    */
@@ -34,20 +35,24 @@ export default class DetailsPanel extends FadableItem {
 
   /**
    * Renders the Details Panel
-   * 
+   *
    * @method render
    */
 
   render() {
     this.$el = html`
-      <div class="sideshow-details-panel sideshow-hidden" />
+      <div class="sideshow-details-panel sideshow-hidden">
+        ${StepDescription.singleInstance.render()}
+      </div>
     `;
     super.render();
+
+    return this.$el;
   }
 
   /**
    * Positionates the panel automatically, calculating the biggest available area and putting the panel over there
-   * 
+   *
    * @method positionate
    */
 

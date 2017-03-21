@@ -57,7 +57,7 @@ Sideshow.init = function() {
   Polling.start();
   CompositeMask.singleInstance.init();
   flags.lockMaskUpdate = true;
-  CompositeMask.singleInstance.render();
+  document.body.appendChild(CompositeMask.singleInstance.render());
 };
 
 /**
@@ -78,7 +78,7 @@ Sideshow.close = function() {
 
   DetailsPanel.singleInstance.fadeOut();
 
-  this.CloseButton.singleInstance.fadeOut();
+  CloseButton.singleInstance.fadeOut();
   Arrows.fadeOut();
 
   setTimeout(
@@ -290,7 +290,7 @@ Sideshow.showRelatedWizardsList = function(completedWizard) {
  * @@singleton
  * @extends FadableItem
  */
-Sideshow.CloseButton = class CloseButton extends FadableItem {
+class CloseButton extends FadableItem {
   /**
    * Renders the close button
    *
@@ -306,9 +306,13 @@ Sideshow.CloseButton = class CloseButton extends FadableItem {
     `;
 
     super.render();
+
+    return this.$el;
   }
-};
-Sideshow.CloseButton.singleInstance = new Sideshow.CloseButton();
+}
+CloseButton.singleInstance = new CloseButton();
+
+Sideshow.CloseButton = CloseButton;
 
 /**
  * Starts Sideshow
@@ -323,7 +327,9 @@ Sideshow.start = function(config = {}) {
     const wizardName = config.wizardName;
 
     if (listAll) {
-      Sideshow.showWizardsList(wizards.filter(w => w.isEligible() || w.preparation));
+      Sideshow.showWizardsList(
+        wizards.filter(w => w.isEligible() || w.preparation)
+      );
     } else if (wizardName) {
       const wizard = find(wizards, w => w.name === wizardName);
 
@@ -339,8 +345,8 @@ Sideshow.start = function(config = {}) {
       Sideshow.showWizardsList(onlyNew);
     }
 
-    this.CloseButton.singleInstance.render();
-    this.CloseButton.singleInstance.fadeIn();
+    document.body.appendChild(CloseButton.singleInstance.render());
+    CloseButton.singleInstance.fadeIn();
 
     registerInnerHotkeys();
     flags.running = true;

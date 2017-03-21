@@ -9,7 +9,7 @@ import VisualItem from "../interface_items/visual_item";
 export default class Part extends VisualItem {
   /**
    * An object holding positioning information for the mask part
-   * 
+   *
    * @field position
    * @type Object
    */
@@ -18,7 +18,7 @@ export default class Part extends VisualItem {
 
   /**
    * An object holding dimension information for the mask part
-   * 
+   *
    * @field position
    * @type Object
    */
@@ -27,23 +27,25 @@ export default class Part extends VisualItem {
 
   /**
    * Renders the mask part
-   * 
+   *
    * @method render
    */
 
-  render(parent) {
+  render() {
     this.$el = html`
       <div class="sideshow-mask-part" />
     `;
-    super.render(parent);
+    super.render();
+
+    return this.$el;
   }
 
   /**
    * Updates the dimension and positioning of the subject mask part
-   * 
+   *
    * @method update
-   * @param {Object} position The positioning information 
-   * @param {Object} dimension The dimension information 
+   * @param {Object} position The positioning information
+   * @param {Object} dimension The dimension information
    */
 
   update(position, dimension) {

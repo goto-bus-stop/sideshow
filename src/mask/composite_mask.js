@@ -49,21 +49,28 @@ export default class CompositeMask extends FadableItem {
    */
 
   render() {
-    this.$el = html`<div class="sideshow-hidden sideshow-invisible" />`;
-
+    const parts = [];
     for (const i in this.parts) {
       const part = this.parts[i];
       if (part.render) {
-        part.render(this.$el);
+        parts.push(part.render());
       }
     }
-    SubjectMask.singleInstance.render();
+
+    this.$el = html`
+      <div class="sideshow-hidden sideshow-invisible">
+        ${parts}
+      </div>
+    `;
+
+    document.body.appendChild(SubjectMask.singleInstance.render());
     ["leftTop", "rightTop", "leftBottom", "rightBottom"].forEach(d => {
       addClass(d, this.parts[d].$el);
     });
     this.status = NOT_DISPLAYED;
 
     super.render();
+    return this.$el;
   }
 
   /**

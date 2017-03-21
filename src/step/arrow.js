@@ -6,14 +6,14 @@ import FadableItem from "../interface_items/fadable_item";
 import iconArrow from "../icons/caret-down";
 
 /**
- * A single arrow for pointing individual items in current subject 
- * 
+ * A single arrow for pointing individual items in current subject
+ *
  * @class Arrow
  */
 export default class Arrow extends FadableItem {
   /**
    * The jQuery wrapped object which will be pointed by this arrow
-   * 
+   *
    * @@field target
    * @type Object
    */
@@ -22,7 +22,7 @@ export default class Arrow extends FadableItem {
 
   /**
    * The position of the arrow. Valid values are "top", "right", "bottom" or "left". Defaults to "top"
-   * 
+   *
    * @@field position
    * @type String
    */
@@ -31,7 +31,7 @@ export default class Arrow extends FadableItem {
 
   /**
    * Flag created to set if the arrow was visible once, this is used for recreating references to the targets DOM objects
-   * 
+   *
    * @@field onceVisible
    * @type Object
    */
@@ -40,7 +40,7 @@ export default class Arrow extends FadableItem {
 
   /**
    * Renders the Arrow
-   * 
+   *
    * @method render
    */
 
@@ -52,11 +52,13 @@ export default class Arrow extends FadableItem {
     `;
 
     super.render();
+
+    return this.$el;
   }
 
   /**
    * Positionates the Arrow according to its target
-   * 
+   *
    * @method positionate
    */
 
@@ -102,8 +104,8 @@ export default class Arrow extends FadableItem {
   }
 
   /**
-   * Shows the Arrow 
-   * 
+   * Shows the Arrow
+   *
    * @method show
    */
 
@@ -113,8 +115,8 @@ export default class Arrow extends FadableItem {
   }
 
   /**
-   * Does a fade in transition in the Arrow 
-   * 
+   * Does a fade in transition in the Arrow
+   *
    * @method fadeIn
    */
 
@@ -125,9 +127,9 @@ export default class Arrow extends FadableItem {
 
   /**
    * Checks if the arrow's target position or dimension has changed
-   * 
+   *
    * @method hasChanged
-   * @return boolean                                     
+   * @return boolean
    */
 
   hasChanged() {

@@ -2,44 +2,43 @@ import remove from "@f/remove-element";
 import { NOT_DISPLAYED, NOT_RENDERED } from "../general/AnimationStatus";
 
 /**
- * A visual item 
- * 
+ * A visual item
+ *
  * @class VisualItem
  * @@abstract
  */
 export default class VisualItem {
   /**
    * The jQuery wrapped DOM element for the visual item
-   * 
+   *
    * @@field $el
-   * @type Object 
+   * @type Object
    */
 
   $el = null;
 
   /**
    * The jQuery wrapped DOM element for the visual item
-   * 
+   *
    * @@field $el
-   * @type AnimationStatus 
+   * @type AnimationStatus
    */
 
   status = NOT_RENDERED;
 
   /**
    * Renders the item's DOM object
-   * 
+   *
    * @method render
    */
 
-  render($parent = document.body) {
-    $parent.appendChild(this.$el);
+  render() {
     this.status = NOT_DISPLAYED;
   }
 
   /**
    * Destroys the item's DOM object
-   * 
+   *
    * @method destroy
    */
 
