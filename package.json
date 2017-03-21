@@ -9,6 +9,7 @@
   "style": "./distr/sideshow.css",
   "scripts": {
     "test": "",
+    "docs": "gulp docs",
     "dev": "gulp dev",
     "prod": "gulp full"
   },
