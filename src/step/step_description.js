@@ -1,12 +1,12 @@
-import applyStyles from "@f/apply-styles";
-import html from "bel";
-import stripIndent from "strip-indent";
-import FadableItem from "../interface_items/fadable_item";
-import { hasParser, parse } from "../general/parsers";
-import { parsePxValue } from "../general/utility_functions";
-import { currentWizard } from "../general/state";
-import StepDescriptionNextButton from "./step_description_next_button";
-import DetailsPanel from "./step_details_panel";
+import applyStyles from '@f/apply-styles'
+import html from 'bel'
+import stripIndent from 'strip-indent'
+import FadableItem from '../interface_items/fadable_item'
+import { hasParser, parse } from '../general/parsers'
+import { parsePxValue } from '../general/utility_functions'
+import { currentWizard } from '../general/state'
+import StepDescriptionNextButton from './step_description_next_button'
+import DetailsPanel from './step_details_panel'
 
 /**
  * Represents a panel holding the step description
@@ -23,7 +23,7 @@ export default class StepDescription extends FadableItem {
    * @type String
    */
 
-  text = "";
+  text = '';
 
   /**
    * The title text for the step description panel
@@ -32,7 +32,7 @@ export default class StepDescription extends FadableItem {
    * @type String
    */
 
-  title = "";
+  title = '';
 
   /**
    * An object holding dimension information for the Step Description panel
@@ -68,9 +68,9 @@ export default class StepDescription extends FadableItem {
    * @param {String} text The text for the step description panel
    */
 
-  setText(text) {
-    this.text = text;
-    this.textElement.textContent = text;
+  setText (text) {
+    this.text = text
+    this.textElement.textContent = text
   }
 
   /**
@@ -80,9 +80,9 @@ export default class StepDescription extends FadableItem {
    * @param {String} text The HTML content for step description panel
    */
 
-  setHTML(text) {
-    this.text = text;
-    this.textElement.innerHTML = text;
+  setHTML (text) {
+    this.text = text
+    this.textElement.innerHTML = text
   }
 
   /**
@@ -92,9 +92,9 @@ export default class StepDescription extends FadableItem {
    * @param {String} title The text for the step description panel
    */
 
-  setTitle(title) {
-    this.title = title;
-    this.titleElement.textContent = title;
+  setTitle (title) {
+    this.title = title
+    this.titleElement.textContent = title
   }
 
   /**
@@ -104,9 +104,9 @@ export default class StepDescription extends FadableItem {
    * @param {String} title The text for the step description panel
    */
 
-  setStepPosition(stepPosition) {
-    this.stepPosition = stepPosition;
-    this.stepPositionElement.textContent = stepPosition;
+  setStepPosition (stepPosition) {
+    this.stepPosition = stepPosition
+    this.stepPositionElement.textContent = stepPosition
   }
 
   /**
@@ -115,25 +115,25 @@ export default class StepDescription extends FadableItem {
    * @method render
    */
 
-  render() {
+  render () {
     this.stepPositionElement = html`
       <span
         class="sideshow-step-position"
         hidden=${currentWizard.showStepPosition === false}
       />
-    `;
+    `
 
     this.textElement = html`
       <div class="sideshow-step-text" />
-    `;
+    `
     this.titleElement = html`
       <h2 />
-    `;
+    `
 
-    const nextButton = this.nextButton.render();
-    nextButton.addEventListener("click", () => {
-      currentWizard.next();
-    });
+    const nextButton = this.nextButton.render()
+    nextButton.addEventListener('click', () => {
+      currentWizard.next()
+    })
 
     this.$el = html`
       <div class="sideshow-step-description sideshow-hidden sideshow-invisible">
@@ -142,9 +142,9 @@ export default class StepDescription extends FadableItem {
         ${this.textElement}
         ${nextButton}
       </div>
-    `;
+    `
 
-    return this.$el;
+    return this.$el
   }
 
   /**
@@ -153,8 +153,8 @@ export default class StepDescription extends FadableItem {
    * @method show
    */
 
-  show(displayButKeepTransparent) {
-    super.show(displayButKeepTransparent);
+  show (displayButKeepTransparent) {
+    super.show(displayButKeepTransparent)
   }
 
   /**
@@ -163,57 +163,57 @@ export default class StepDescription extends FadableItem {
    * @method positionate
    */
 
-  positionate() {
-    const dp = DetailsPanel.singleInstance;
+  positionate () {
+    const dp = DetailsPanel.singleInstance
 
     if (dp.dimension.width >= 900) {
-      this.dimension.width = 900;
+      this.dimension.width = 900
     } else {
-      this.dimension.width = dp.dimension.width * 0.9;
+      this.dimension.width = dp.dimension.width * 0.9
     }
 
-    applyStyles(this.$el, { width: this.dimension.width });
+    applyStyles(this.$el, { width: this.dimension.width })
 
     const paddingLeftRight = (parsePxValue(this.$el.style.paddingLeft) +
       parsePxValue(this.$el.style.paddingRight)) /
-      2;
+      2
     const paddingTopBottom = (parsePxValue(this.$el.style.paddingTop) +
       parsePxValue(this.$el.style.paddingBottom)) /
-      2;
+      2
 
-    this.dimension.height = parsePxValue(this.$el.offsetHeight);
+    this.dimension.height = parsePxValue(this.$el.offsetHeight)
 
     // Checks if the description dimension overflow the available space in the details panel
     if (
       this.dimension.height > dp.dimension.height || this.dimension.width < 400
     ) {
-      this.dimension.width = window.innerWidth * 0.9;
-      applyStyles(this.$el, { width: this.dimension.width });
-      this.dimension.height = parsePxValue(this.$el.offsetHeight);
+      this.dimension.width = window.innerWidth * 0.9
+      applyStyles(this.$el, { width: this.dimension.width })
+      this.dimension.height = parsePxValue(this.$el.offsetHeight)
 
-      this.position.x = (window.innerWidth - this.dimension.width) / 2;
-      this.position.y = (window.innerHeight - this.dimension.height) / 2;
+      this.position.x = (window.innerWidth - this.dimension.width) / 2
+      this.position.y = (window.innerHeight - this.dimension.height) / 2
     } else {
-      this.position.x = (dp.dimension.width - this.dimension.width) / 2;
-      this.position.y = (dp.dimension.height - this.dimension.height) / 2;
+      this.position.x = (dp.dimension.width - this.dimension.width) / 2
+      this.position.y = (dp.dimension.height - this.dimension.height) / 2
     }
 
     applyStyles(this.$el, {
       left: this.position.x - paddingLeftRight,
       top: this.position.y - paddingTopBottom
-    });
+    })
   }
 
-  update(step) {
-    const text = stripIndent(step.text);
+  update (step) {
+    const text = stripIndent(step.text)
     if (hasParser(step.format)) {
-      this.setHTML(parse(step.format, text));
+      this.setHTML(parse(step.format, text))
     } else {
-      this.setText(text);
+      this.setText(text)
     }
 
-    this.setTitle(step.title);
+    this.setTitle(step.title)
   }
 }
 
-StepDescription.singleInstance = new StepDescription();
+StepDescription.singleInstance = new StepDescription()

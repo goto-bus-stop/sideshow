@@ -1,6 +1,6 @@
-import SSException from "../general/exception";
+import SSException from '../general/exception'
 
-const pollingDuration = 150;
+const pollingDuration = 150
 
 /**
  * Controls the polling functions needed by Sideshow
@@ -36,22 +36,22 @@ class Polling {
    * @static
    */
 
-  enqueue(name, fn) {
-    if (typeof name === "function") {
-      fn = name;
-      name = "";
+  enqueue (name, fn) {
+    if (typeof name === 'function') {
+      fn = name
+      name = ''
     }
 
     if (
       this.getFunctionIndex(fn) < 0 &&
-      (name === "" || this.getFunctionIndex(name) < 0)
+      (name === '' || this.getFunctionIndex(name) < 0)
     ) {
-      this.queue.push({ name, fn, enabled: true });
+      this.queue.push({ name, fn, enabled: true })
     } else {
       throw new SSException(
-        "301",
-        "The function is already in the polling queue."
-      );
+        '301',
+        'The function is already in the polling queue.'
+      )
     }
   }
 
@@ -62,8 +62,8 @@ class Polling {
    * @static
    */
 
-  dequeue(fn) {
-    this.queue.splice(this.getFunctionIndex(fn), 1);
+  dequeue (fn) {
+    this.queue.splice(this.getFunctionIndex(fn), 1)
   }
 
   /**
@@ -73,8 +73,8 @@ class Polling {
    * @static
    */
 
-  enable(fn) {
-    this.queue[this.getFunctionIndex(fn)].enabled = true;
+  enable (fn) {
+    this.queue[this.getFunctionIndex(fn)].enabled = true
   }
 
   /**
@@ -84,8 +84,8 @@ class Polling {
    * @static
    */
 
-  disable(fn) {
-    this.queue[this.getFunctionIndex(fn)].enabled = false;
+  disable (fn) {
+    this.queue[this.getFunctionIndex(fn)].enabled = false
   }
 
   /**
@@ -95,17 +95,17 @@ class Polling {
    * @static
    */
 
-  getFunctionIndex(fn) {
-    if (typeof fn === "function") {
-      return this.queue.map(p => p.fn).indexOf(fn);
-    } else if (typeof fn === "string") {
-      return this.queue.map(p => p.name).indexOf(fn);
+  getFunctionIndex (fn) {
+    if (typeof fn === 'function') {
+      return this.queue.map(p => p.fn).indexOf(fn)
+    } else if (typeof fn === 'string') {
+      return this.queue.map(p => p.name).indexOf(fn)
     }
 
     throw new SSException(
-      "302",
-      "Invalid argument for getFunctionIndex method. Expected a string (the polling function name) or a function (the polling function itself)."
-    );
+      '302',
+      'Invalid argument for getFunctionIndex method. Expected a string (the polling function name) or a function (the polling function itself).'
+    )
   }
 
   /**
@@ -115,9 +115,9 @@ class Polling {
    * @static
    */
 
-  start() {
-    this.lock = false;
-    this.doPolling();
+  start () {
+    this.lock = false
+    this.doPolling()
   }
 
   /**
@@ -127,8 +127,8 @@ class Polling {
    * @static
    */
 
-  stop() {
-    this.lock = true;
+  stop () {
+    this.lock = true
   }
 
   /**
@@ -138,12 +138,12 @@ class Polling {
    * @static
    */
 
-  clear() {
-    const lock = this.lock;
+  clear () {
+    const lock = this.lock
 
-    this.lock = true;
-    this.queue = [];
-    this.lock = lock;
+    this.lock = true
+    this.queue = []
+    this.lock = lock
   }
 
   /**
@@ -153,20 +153,20 @@ class Polling {
    * @static
    */
 
-  doPolling() {
+  doPolling () {
     if (!this.lock) {
       // Using timeout to avoid the queue to not complete in a cycle
       setTimeout(
         () => {
           this.queue.forEach(pollingFunction => {
-            pollingFunction.enabled && pollingFunction.fn();
-          });
-          this.doPolling();
+            pollingFunction.enabled && pollingFunction.fn()
+          })
+          this.doPolling()
         },
         pollingDuration
-      );
+      )
     }
   }
 }
 
-export default new Polling();
+export default new Polling()

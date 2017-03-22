@@ -3,7 +3,7 @@
  *
  * @object config
  */
-const config = {};
+const config = {}
 
 /**
  * Chosen language for sideshow interface
@@ -11,7 +11,7 @@ const config = {};
  * @field language
  * @type String
  */
-config.language = "en";
+config.language = 'en'
 
 /**
  * Defines if the intro screen (the tutorial list) will be  skipped when there's just one
@@ -20,6 +20,6 @@ config.language = "en";
  * @field autoSkipIntro
  * @type boolean
  */
-config.autoSkipIntro = false;
+config.autoSkipIntro = false
 
-export default config;
+export default config

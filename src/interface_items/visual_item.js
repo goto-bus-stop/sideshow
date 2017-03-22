@@ -1,5 +1,5 @@
-import remove from "@f/remove-element";
-import { NOT_DISPLAYED, NOT_RENDERED } from "../general/AnimationStatus";
+import remove from '@f/remove-element'
+import { NOT_DISPLAYED, NOT_RENDERED } from '../general/AnimationStatus'
 
 /**
  * A visual item
@@ -32,8 +32,8 @@ export default class VisualItem {
    * @method render
    */
 
-  render() {
-    this.status = NOT_DISPLAYED;
+  render () {
+    this.status = NOT_DISPLAYED
   }
 
   /**
@@ -42,7 +42,7 @@ export default class VisualItem {
    * @method destroy
    */
 
-  destroy() {
-    remove(this.$el);
+  destroy () {
+    remove(this.$el)
   }
 }

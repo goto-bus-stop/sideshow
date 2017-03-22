@@ -1,19 +1,19 @@
-const path = require("path");
-const imports = require("postcss-import");
-const defaultResolve = require("postcss-import/lib/resolve-id");
-const cssnext = require("postcss-cssnext");
+const path = require('path')
+const imports = require('postcss-import')
+const defaultResolve = require('postcss-import/lib/resolve-id')
+const cssnext = require('postcss-cssnext')
 
 module.exports = {
   plugins: [
     cssnext(),
     imports({
-      resolve(id, basedir, opts) {
-        if (id === "@goto-bus-stop/sideshow") {
-          id = path.relative(basedir, path.join(__dirname, "../"));
+      resolve (id, basedir, opts) {
+        if (id === '@goto-bus-stop/sideshow') {
+          id = path.relative(basedir, path.join(__dirname, '../'))
         }
 
-        return defaultResolve(id, basedir, opts);
+        return defaultResolve(id, basedir, opts)
       }
     })
   ]
-};
+}

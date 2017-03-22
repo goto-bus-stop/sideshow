@@ -1,12 +1,12 @@
-import foreach from "@f/foreach-array";
-import remove from "@f/remove-element";
-import SSException from "../general/exception";
-import { currentWizard } from "../general/state";
-import Arrow from "./arrow";
+import foreach from '@f/foreach-array'
+import remove from '@f/remove-element'
+import SSException from '../general/exception'
+import { currentWizard } from '../general/state'
+import Arrow from './arrow'
 
 // https://github.com/jquery/jquery/blob/2d4f534/src/css/hiddenVisibleSelectors.js#L12
-function isVisible(el) {
-  return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length);
+function isVisible (el) {
+  return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length)
 }
 
 /**
@@ -22,8 +22,8 @@ class Arrows {
    *
    * @method clear
    */
-  clear() {
-    this.arrows = [];
+  clear () {
+    this.arrows = []
   }
 
   /**
@@ -31,43 +31,43 @@ class Arrows {
    *
    * @method setTargets
    */
-  setTargets(targets, targetsChanged) {
-    if (typeof targets === "string") {
-      targets = document.querySelectorAll(targets);
+  setTargets (targets, targetsChanged) {
+    if (typeof targets === 'string') {
+      targets = document.querySelectorAll(targets)
     }
 
     if (targets.length > 0) {
       foreach(
         el => {
-          const arrow = new Arrow();
-          arrow.target.$el = el;
+          const arrow = new Arrow()
+          arrow.target.$el = el
           if (isVisible(arrow.target.$el)) {
-            this.arrows.push(arrow);
-            arrow.onceVisible = true;
+            this.arrows.push(arrow)
+            arrow.onceVisible = true
           }
         },
         targets
-      );
+      )
     } else if (!targetsChanged) {
-      throw new SSException("150", "Invalid targets.");
+      throw new SSException('150', 'Invalid targets.')
     }
   }
 
-  recreateDOMReferences() {
-    const parent = this.arrows[0] ? this.arrows[0].$el.parentNode : document.body;
+  recreateDOMReferences () {
+    const parent = this.arrows[0] ? this.arrows[0].$el.parentNode : document.body
 
     foreach(
       arrow => {
-        remove(arrow.$el);
+        remove(arrow.$el)
       },
       this.arrows
-    );
+    )
 
-    this.clear();
-    this.setTargets(currentWizard.currentStep.targets, true);
-    parent.appendChild(this.render());
-    this.positionate();
-    this.show();
+    this.clear()
+    this.setTargets(currentWizard.currentStep.targets, true)
+    parent.appendChild(this.render())
+    this.positionate()
+    this.show()
   }
 
   /**
@@ -75,8 +75,8 @@ class Arrows {
    *
    * @method show
    */
-  show() {
-    foreach(arrow => arrow.show(), this.arrows);
+  show () {
+    foreach(arrow => arrow.show(), this.arrows)
   }
 
   /**
@@ -84,8 +84,8 @@ class Arrows {
    *
    * @method hide
    */
-  hide() {
-    foreach(arrow => arrow.hide(), this.arrows);
+  hide () {
+    foreach(arrow => arrow.hide(), this.arrows)
   }
 
   /**
@@ -93,8 +93,8 @@ class Arrows {
    *
    * @method fadeIn
    */
-  fadeIn() {
-    foreach(arrow => arrow.fadeIn(), this.arrows);
+  fadeIn () {
+    foreach(arrow => arrow.fadeIn(), this.arrows)
   }
 
   /**
@@ -102,13 +102,13 @@ class Arrows {
    *
    * @method fadeOut
    */
-  fadeOut() {
-    foreach(registerFadeOut, this.arrows);
+  fadeOut () {
+    foreach(registerFadeOut, this.arrows)
 
-    function registerFadeOut(arrow) {
+    function registerFadeOut (arrow) {
       arrow.fadeOut(() => {
-        arrow.destroy();
-      });
+        arrow.destroy()
+      })
     }
   }
 
@@ -117,8 +117,8 @@ class Arrows {
    *
    * @method positionate
    */
-  positionate() {
-    foreach(arrow => arrow.positionate(), this.arrows);
+  positionate () {
+    foreach(arrow => arrow.positionate(), this.arrows)
   }
 
   /**
@@ -126,13 +126,13 @@ class Arrows {
    *
    * @method render
    */
-  render(arrowPosition = "top") {
-    const fragment = document.createDocumentFragment();
+  render (arrowPosition = 'top') {
+    const fragment = document.createDocumentFragment()
     foreach(arrow => {
-      arrow.position = arrowPosition;
-      fragment.appendChild(arrow.render());
-    }, this.arrows);
-    return fragment;
+      arrow.position = arrowPosition
+      fragment.appendChild(arrow.render())
+    }, this.arrows)
+    return fragment
   }
 
   /**
@@ -140,21 +140,21 @@ class Arrows {
    *
    * @method pollForArrowsChanges
    */
-  pollForArrowsChanges() {
-    let brokenReference = false;
+  pollForArrowsChanges () {
+    let brokenReference = false
     foreach(arrow => {
       if (arrow.hasChanged()) {
-        arrow.positionate();
+        arrow.positionate()
       }
       if (arrow.onceVisible && !isVisible(arrow.target.$el)) {
-        brokenReference = true;
+        brokenReference = true
       }
-    }, this.arrows);
+    }, this.arrows)
 
     if (brokenReference) {
-      this.recreateDOMReferences();
+      this.recreateDOMReferences()
     }
   }
 }
 
-export default new Arrows();
+export default new Arrows()

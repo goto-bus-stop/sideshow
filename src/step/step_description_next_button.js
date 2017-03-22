@@ -1,6 +1,6 @@
-import html from "bel";
-import HidableItem from "../interface_items/hidable_item";
-import playIcon from "../icons/play";
+import html from 'bel'
+import HidableItem from '../interface_items/hidable_item'
+import playIcon from '../icons/play'
 
 /**
  * Step next button
@@ -24,8 +24,8 @@ export default class StepDescriptionNextButton extends HidableItem {
    * @method disable
    */
 
-  disable() {
-    this.$el.setAttribute("disabled", "disabled");
+  disable () {
+    this.$el.setAttribute('disabled', 'disabled')
   }
 
   /**
@@ -34,8 +34,8 @@ export default class StepDescriptionNextButton extends HidableItem {
    * @method enable
    */
 
-  enable() {
-    this.$el.removeAttribute("disabled", null);
+  enable () {
+    this.$el.removeAttribute('disabled', null)
   }
 
   /**
@@ -45,9 +45,9 @@ export default class StepDescriptionNextButton extends HidableItem {
    * @param {String} text The text for the next button
    */
 
-  setText(text) {
-    this._text = text;
-    this.labelElement.textContent = text;
+  setText (text) {
+    this._text = text
+    this.labelElement.textContent = text
   }
 
   /**
@@ -56,17 +56,17 @@ export default class StepDescriptionNextButton extends HidableItem {
    * @method render
    */
 
-  render() {
-    this.labelElement = html`<span />`;
+  render () {
+    this.labelElement = html`<span />`
     this.$el = html`
       <button class="sideshow-next-step-button">
         ${playIcon()}
         ${this.labelElement}
       </button>
-    `;
+    `
 
-    super.render();
+    super.render()
 
-    return this.$el;
+    return this.$el
   }
 }

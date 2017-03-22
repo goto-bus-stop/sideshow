@@ -1,9 +1,8 @@
-import applyStyles from "@f/apply-styles";
-import elementRect from "@f/element-rect";
-import html from "bel";
-import { parsePxValue } from "../general/utility_functions";
-import FadableItem from "../interface_items/fadable_item";
-import iconArrow from "../icons/caret-down";
+import applyStyles from '@f/apply-styles'
+import elementRect from '@f/element-rect'
+import html from 'bel'
+import FadableItem from '../interface_items/fadable_item'
+import iconArrow from '../icons/caret-down'
 
 /**
  * A single arrow for pointing individual items in current subject
@@ -27,7 +26,7 @@ export default class Arrow extends FadableItem {
    * @type String
    */
 
-  position = "";
+  position = '';
 
   /**
    * Flag created to set if the arrow was visible once, this is used for recreating references to the targets DOM objects
@@ -44,16 +43,16 @@ export default class Arrow extends FadableItem {
    * @method render
    */
 
-  render() {
+  render () {
     this.$el = html`
       <div class="sideshow-subject-arrow ${this.position} sideshow-hidden sideshow-invisible">
         ${iconArrow({ width: 40, height: 40 })}
       </div>
-    `;
+    `
 
-    super.render();
+    super.render()
 
-    return this.$el;
+    return this.$el
   }
 
   /**
@@ -62,20 +61,20 @@ export default class Arrow extends FadableItem {
    * @method positionate
    */
 
-  positionate() {
-    const target = this.target;
-    const position = this.position;
+  positionate () {
+    const target = this.target
+    const position = this.position
 
-    const offset = elementRect(target.$el, document.documentElement);
+    const offset = elementRect(target.$el, document.documentElement)
 
     target.position = {
       x: offset.left - window.pageXOffset,
       y: offset.top - window.pageYOffset
-    };
+    }
     target.dimension = {
       width: target.$el.offsetWidth,
       height: target.$el.offsetHeight
-    };
+    }
 
     const coordinates = {
       // a dictionary with each of the coordinates used for positioning Arrow
@@ -95,12 +94,12 @@ export default class Arrow extends FadableItem {
         x: `${target.position.x - 35}px`,
         y: `${target.position.y + target.dimension.height / 2 - 22}px`
       }
-    };
+    }
 
     applyStyles(this.$el, {
       left: coordinates[position].x,
       top: coordinates[position].y
-    });
+    })
   }
 
   /**
@@ -109,9 +108,9 @@ export default class Arrow extends FadableItem {
    * @method show
    */
 
-  show() {
-    super.show();
-    this.positionate();
+  show () {
+    super.show()
+    this.positionate()
   }
 
   /**
@@ -120,9 +119,9 @@ export default class Arrow extends FadableItem {
    * @method fadeIn
    */
 
-  fadeIn() {
-    super.fadeIn();
-    this.positionate();
+  fadeIn () {
+    super.fadeIn()
+    this.positionate()
   }
 
   /**
@@ -132,12 +131,12 @@ export default class Arrow extends FadableItem {
    * @return boolean
    */
 
-  hasChanged() {
-    const offset = elementRect(this.target.$el, document.documentElement);
+  hasChanged () {
+    const offset = elementRect(this.target.$el, document.documentElement)
 
     return this.target.dimension.width !== this.target.$el.offsetWidth ||
       this.target.dimension.height !== this.target.$el.offsetHeight ||
       this.target.position.y !== offset.top - window.pageYOffset ||
-      this.target.position.x !== offset.left - window.pageXOffset;
+      this.target.position.x !== offset.left - window.pageXOffset
   }
 }

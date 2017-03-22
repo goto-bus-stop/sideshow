@@ -1,3 +1,3 @@
-import Sideshow from "./Sideshow";
+import Sideshow from './Sideshow'
 
-export default new Sideshow();
+export default new Sideshow()

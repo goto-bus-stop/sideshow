@@ -1,7 +1,7 @@
-import addClass from "@f/add-class";
-import removeClass from "@f/remove-class";
-import { VISIBLE, NOT_DISPLAYED } from "../general/AnimationStatus";
-import VisualItem from "./visual_item";
+import addClass from '@f/add-class'
+import removeClass from '@f/remove-class'
+import { VISIBLE, NOT_DISPLAYED } from '../general/AnimationStatus'
+import VisualItem from './visual_item'
 
 /**
  * A visual item which can be shown and hidden
@@ -18,15 +18,15 @@ export default class HidableItem extends VisualItem {
    * @param {boolean} displayButKeepTransparent The item will hold space but keep invisible
    */
 
-  show(displayButKeepTransparent) {
+  show (displayButKeepTransparent) {
     if (!this.$el) {
-      this.render();
+      this.render()
     }
     if (!displayButKeepTransparent) {
-      removeClass("sideshow-invisible", this.$el);
+      removeClass('sideshow-invisible', this.$el)
     }
-    removeClass("sideshow-hidden", this.$el);
-    this.status = VISIBLE;
+    removeClass('sideshow-hidden', this.$el)
+    this.status = VISIBLE
   }
 
   /**
@@ -35,11 +35,11 @@ export default class HidableItem extends VisualItem {
    * @method hide
    */
 
-  hide(keepHoldingSpace) {
+  hide (keepHoldingSpace) {
     if (!keepHoldingSpace) {
-      addClass("sideshow-hidden", this.$el);
+      addClass('sideshow-hidden', this.$el)
     }
-    addClass("sideshow-invisible", this.$el);
-    this.status = NOT_DISPLAYED;
+    addClass('sideshow-invisible', this.$el)
+    this.status = NOT_DISPLAYED
   }
 }

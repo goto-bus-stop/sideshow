@@ -1,8 +1,8 @@
-import html from "bel";
-import FadableItem from "../interface_items/fadable_item";
-import closeIcon from "../icons/close";
-import strings from "../general/dictionary";
-import { getString } from "../general/utility_functions";
+import html from 'bel'
+import FadableItem from '../interface_items/fadable_item'
+import closeIcon from '../icons/close'
+import strings from '../general/dictionary'
+import { getString } from '../general/utility_functions'
 
 /**
  * The close button for the wizard
@@ -11,10 +11,10 @@ import { getString } from "../general/utility_functions";
  * @extends FadableItem
  */
 export default class CloseButton extends FadableItem {
-  constructor({ onClose }) {
-    super();
+  constructor ({ onClose }) {
+    super()
 
-    this.onClose = onClose;
+    this.onClose = onClose
   }
 
   /**
@@ -23,16 +23,16 @@ export default class CloseButton extends FadableItem {
    * @method render
    */
 
-  render() {
+  render () {
     this.$el = html`
       <button onclick=${() => this.onClose()} class="sideshow-close-button">
         ${closeIcon()}
         ${getString(strings.close)}
       </button>
-    `;
+    `
 
-    super.render();
+    super.render()
 
-    return this.$el;
+    return this.$el
   }
 }

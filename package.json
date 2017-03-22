@@ -8,10 +8,13 @@
   "module": "./distr/sideshow.es.js",
   "style": "./distr/sideshow.css",
   "scripts": {
-    "test": "",
+    "test": "standard",
     "docs": "gulp docs",
     "dev": "gulp dev",
     "prod": "gulp full"
+  },
+  "standard": {
+    "parser": "babel-eslint"
   },
   "repository": {
     "type": "git",
@@ -42,6 +45,7 @@
     "strip-indent": "^2.0.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.23.0",
     "babel-plugin-yo-yoify": "^0.3.2",
@@ -64,6 +68,7 @@
     "rollup-plugin-json": "^2.1.0",
     "rollup-plugin-node-resolve": "^2.0.0",
     "serve": "^5.0.3",
+    "standard": "^9.0.2",
     "stream-array": "^1.1.2"
   }
 }

@@ -1,6 +1,6 @@
-import html from "bel";
-import applyStyles from "@f/apply-styles";
-import VisualItem from "../interface_items/visual_item";
+import html from 'bel'
+import applyStyles from '@f/apply-styles'
+import VisualItem from '../interface_items/visual_item'
 
 /**
  * A corner part composing the mask.
@@ -42,8 +42,8 @@ export default class CornerPart extends VisualItem {
    * @static
    */
 
-  static SVGPathPointsTemplate(borderRadius) {
-    return `m 0,0 0,${borderRadius} C 0,${borderRadius * 0.46} ${borderRadius * 0.46},0 ${borderRadius},0`;
+  static SVGPathPointsTemplate (borderRadius) {
+    return `m 0,0 0,${borderRadius} C 0,${borderRadius * 0.46} ${borderRadius * 0.46},0 ${borderRadius},0`
   }
 
   /**
@@ -54,19 +54,19 @@ export default class CornerPart extends VisualItem {
    * @static
    */
 
-  static buildSVG(borderRadius) {
-    function createSvgNode(nodeName) {
-      return document.createElementNS("http://www.w3.org/2000/svg", nodeName);
+  static buildSVG (borderRadius) {
+    function createSvgNode (nodeName) {
+      return document.createElementNS('http://www.w3.org/2000/svg', nodeName)
     }
 
-    const bezierPoints = this.SVGPathPointsTemplate(borderRadius);
-    const svg = createSvgNode("svg");
-    const path = createSvgNode("path");
+    const bezierPoints = this.SVGPathPointsTemplate(borderRadius)
+    const svg = createSvgNode('svg')
+    const path = createSvgNode('path')
 
-    path.setAttribute("d", bezierPoints);
-    svg.appendChild(path);
+    path.setAttribute('d', bezierPoints)
+    svg.appendChild(path)
 
-    return svg;
+    return svg
   }
 
   /**
@@ -76,15 +76,15 @@ export default class CornerPart extends VisualItem {
    * @return {Object} The corner part jQuery wrapped DOM element
    */
 
-  render() {
+  render () {
     this.$el = html`
       <div class="sideshow-mask-corner-part">
         ${CornerPart.buildSVG(this.borderRadius)}
       </div>
-    `;
+    `
 
-    super.render();
-    return this.$el;
+    super.render()
+    return this.$el
   }
 
   /**
@@ -95,16 +95,16 @@ export default class CornerPart extends VisualItem {
    * @param {Object} borderRadius The border radius information
    */
 
-  update(position, borderRadius) {
+  update (position, borderRadius) {
     applyStyles(this.$el, {
       left: position.x,
       top: position.y,
       width: borderRadius,
       height: borderRadius
-    });
+    })
 
     this.$el
-      .querySelector("path")
-      .setAttribute("d", CornerPart.SVGPathPointsTemplate(borderRadius));
+      .querySelector('path')
+      .setAttribute('d', CornerPart.SVGPathPointsTemplate(borderRadius))
   }
 }

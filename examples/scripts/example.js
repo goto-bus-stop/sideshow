@@ -1,13 +1,13 @@
-import Sideshow from "@goto-bus-stop/sideshow";
-import marked from "marked";
-import "./tutorials/introducing_sideshow";
+import Sideshow from '@goto-bus-stop/sideshow'
+import marked from 'marked'
+import './tutorials/introducing_sideshow'
 
-Sideshow.config.language = "en";
+Sideshow.config.language = 'en'
 
-Sideshow.registerParser("marked", marked);
+Sideshow.registerParser('marked', marked)
 
-Sideshow.init();
+Sideshow.init()
 
-document.querySelector("#run_example").onclick = () => {
-  Sideshow.start({ listAll: true });
-};
+document.querySelector('#run_example').onclick = () => {
+  Sideshow.start({ listAll: true })
+}

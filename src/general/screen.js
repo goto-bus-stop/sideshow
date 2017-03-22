@@ -21,9 +21,9 @@ class Screen {
    * @return boolean
    */
 
-  hasChanged() {
+  hasChanged () {
     return window.innerWidth !== this.dimension.width ||
-      window.innerHeight !== this.dimension.height;
+      window.innerHeight !== this.dimension.height
   }
 
   /**
@@ -32,10 +32,10 @@ class Screen {
    * @method updateInfo
    */
 
-  updateInfo() {
-    this.dimension.width = window.innerWidth;
-    this.dimension.height = window.innerHeight;
+  updateInfo () {
+    this.dimension.width = window.innerWidth
+    this.dimension.height = window.innerHeight
   }
 }
 
-export default new Screen();
+export default new Screen()

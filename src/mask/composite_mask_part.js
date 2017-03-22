@@ -1,6 +1,6 @@
-import applyStyles from "@f/apply-styles";
-import html from "bel";
-import VisualItem from "../interface_items/visual_item";
+import applyStyles from '@f/apply-styles'
+import html from 'bel'
+import VisualItem from '../interface_items/visual_item'
 
 /**
  * A part composing the mask.
@@ -31,13 +31,13 @@ export default class Part extends VisualItem {
    * @method render
    */
 
-  render() {
+  render () {
     this.$el = html`
       <div class="sideshow-mask-part" />
-    `;
-    super.render();
+    `
+    super.render()
 
-    return this.$el;
+    return this.$el
   }
 
   /**
@@ -48,14 +48,14 @@ export default class Part extends VisualItem {
    * @param {Object} dimension The dimension information
    */
 
-  update(position, dimension) {
-    this.position = position;
-    this.dimension = dimension;
+  update (position, dimension) {
+    this.position = position
+    this.dimension = dimension
     applyStyles(this.$el, {
       left: position.x,
       top: position.y,
       width: dimension.width,
       height: dimension.height
-    });
+    })
   }
 }

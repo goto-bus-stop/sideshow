@@ -1,6 +1,6 @@
-import elementRect from "@f/element-rect";
-import { parsePxValue } from "../general/utility_functions";
-import Screen from "../general/screen";
+import elementRect from '@f/element-rect'
+import { parsePxValue } from '../general/utility_functions'
+import Screen from '../general/screen'
 
 /**
  * The current subject (the object being shown by the current wizard)
@@ -52,11 +52,11 @@ class Subject {
    * @return boolean
    */
 
-  hasChanged() {
-    if (!this.obj) return false;
+  hasChanged () {
+    if (!this.obj) return false
 
-    const offset = elementRect(this.obj, document.documentElement);
-    const style = window.getComputedStyle(this.obj);
+    const offset = elementRect(this.obj, document.documentElement)
+    const style = window.getComputedStyle(this.obj)
 
     return offset.left - window.pageXOffset !== this.position.x ||
       offset.top - window.pageYOffset !== this.position.y ||
@@ -68,7 +68,7 @@ class Subject {
         this.borderRadius.leftBottom ||
       parsePxValue(style.borderBottomRightRadius) !==
         this.borderRadius.rightBottom ||
-      Screen.hasChanged();
+      Screen.hasChanged()
   }
 
   /**
@@ -78,39 +78,39 @@ class Subject {
    * @param {Object} config Dimension, positioning and border radius information
    */
 
-  updateInfo(config) {
+  updateInfo (config) {
     if (!config) {
-      const rect = elementRect(this.obj, document.documentElement);
-      const style = window.getComputedStyle(this.obj);
+      const rect = elementRect(this.obj, document.documentElement)
+      const style = window.getComputedStyle(this.obj)
 
-      this.position.x = rect.left - window.pageXOffset;
-      this.position.y = rect.top - window.pageYOffset;
-      this.dimension.width = rect.width;
-      this.dimension.height = rect.height;
-      this.borderRadius.leftTop = parsePxValue(style.borderTopLeftRadius);
-      this.borderRadius.rightTop = parsePxValue(style.borderTopRightRadius);
-      this.borderRadius.leftBottom = parsePxValue(style.borderBottomLeftRadius);
-      this.borderRadius.rightBottom = parsePxValue(style.borderBottomRightRadius);
+      this.position.x = rect.left - window.pageXOffset
+      this.position.y = rect.top - window.pageYOffset
+      this.dimension.width = rect.width
+      this.dimension.height = rect.height
+      this.borderRadius.leftTop = parsePxValue(style.borderTopLeftRadius)
+      this.borderRadius.rightTop = parsePxValue(style.borderTopRightRadius)
+      this.borderRadius.leftBottom = parsePxValue(style.borderBottomLeftRadius)
+      this.borderRadius.rightBottom = parsePxValue(style.borderBottomRightRadius)
     } else {
-      this.position.x = config.position.x;
-      this.position.y = config.position.y;
-      this.dimension.width = config.dimension.width;
-      this.dimension.height = config.dimension.height;
-      this.borderRadius.leftTop = config.borderRadius.leftTop;
-      this.borderRadius.rightTop = config.borderRadius.rightTop;
-      this.borderRadius.leftBottom = config.borderRadius.leftBottom;
-      this.borderRadius.rightBottom = config.borderRadius.rightBottom;
+      this.position.x = config.position.x
+      this.position.y = config.position.y
+      this.dimension.width = config.dimension.width
+      this.dimension.height = config.dimension.height
+      this.borderRadius.leftTop = config.borderRadius.leftTop
+      this.borderRadius.rightTop = config.borderRadius.rightTop
+      this.borderRadius.leftBottom = config.borderRadius.leftBottom
+      this.borderRadius.rightBottom = config.borderRadius.rightBottom
     }
 
-    Screen.updateInfo();
+    Screen.updateInfo()
   }
 
-  isSubjectVisible(position, dimension) {
+  isSubjectVisible (position, dimension) {
     if (position.y + dimension.height > window.innerHeight || position.y < 0) {
-      return false;
+      return false
     }
-    return true;
+    return true
   }
 }
 
-export default new Subject();
+export default new Subject()
