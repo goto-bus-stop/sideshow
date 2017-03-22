@@ -24,12 +24,15 @@ export default class CompositeMask extends FadableItem {
    */
 
   init () {
-    ['top', 'left', 'right', 'bottom'].forEach(d => {
-      this.parts[d] = new Part()
-    });
-    ['leftTop', 'rightTop', 'leftBottom', 'rightBottom'].forEach(d => {
-      this.parts[d] = new CornerPart()
-    })
+    this.parts.top = new Part()
+    this.parts.left = new Part()
+    this.parts.right = new Part()
+    this.parts.bottom = new Part()
+
+    this.parts.leftTop = new CornerPart()
+    this.parts.rightTop = new CornerPart()
+    this.parts.leftBottom = new CornerPart()
+    this.parts.rightBottom = new CornerPart()
   }
 
   /**
@@ -63,9 +66,10 @@ export default class CompositeMask extends FadableItem {
     `
 
     document.body.appendChild(SubjectMask.singleInstance.render());
-    ['leftTop', 'rightTop', 'leftBottom', 'rightBottom'].forEach(d => {
-      addClass(d, this.parts[d].$el)
-    })
+    addClass('leftTop', this.parts.leftTop.$el)
+    addClass('rightTop', this.parts.rightTop.$el)
+    addClass('leftBottom', this.parts.leftBottom.$el)
+    addClass('rightBottom', this.parts.rightBottom.$el)
     this.status = NOT_DISPLAYED
 
     super.render()
