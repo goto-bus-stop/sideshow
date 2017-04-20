@@ -65,7 +65,7 @@ export default class CompositeMask extends FadableItem {
       </div>
     `
 
-    document.body.appendChild(SubjectMask.singleInstance.render());
+    document.body.appendChild(SubjectMask.singleInstance.render())
     addClass('leftTop', this.parts.leftTop.$el)
     addClass('rightTop', this.parts.rightTop.$el)
     addClass('leftBottom', this.parts.leftBottom.$el)
