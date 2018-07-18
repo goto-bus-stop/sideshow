@@ -1,21 +1,13 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "loose": true,
-        "modules": false
-      }
-    ]
+    ["env", {
+      "loose": true,
+      "modules": false
+    }]
   ],
   "plugins": [
     "transform-class-properties",
     "external-helpers",
-    [
-      "yo-yoify",
-      {
-        "useImport": true
-      }
-    ]
+    ["nanohtml", { "useImport": true }]
   ]
 }

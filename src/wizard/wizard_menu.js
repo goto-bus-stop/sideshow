@@ -1,5 +1,5 @@
 import addClass from '@f/add-class'
-import html from 'bel'
+import html from 'nanohtml'
 import CompositeMask from '../mask/composite_mask'
 import Subject from '../step/subject'
 import strings from '../general/dictionary'

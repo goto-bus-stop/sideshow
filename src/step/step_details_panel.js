@@ -1,5 +1,5 @@
 import applyStyles from '@f/apply-styles'
-import html from 'bel'
+import html from 'nanohtml'
 import FadableItem from '../interface_items/fadable_item'
 import CompositeMask from '../mask/composite_mask'
 import { parsePxValue } from '../general/utility_functions'

@@ -1,4 +1,4 @@
-import html from 'bel'
+import html from 'nanohtml'
 import FadableItem from '../interface_items/fadable_item'
 import closeIcon from '../icons/close'
 import strings from '../general/dictionary'

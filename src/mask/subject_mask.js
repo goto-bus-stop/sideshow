@@ -1,4 +1,4 @@
-import html from 'bel'
+import html from 'nanohtml'
 import applyStyles from '@f/apply-styles'
 import FadableItem from '../interface_items/fadable_item'
 

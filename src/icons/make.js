@@ -1,5 +1,5 @@
 import applyStyles from '@f/apply-styles'
-import html from 'bel'
+import html from 'nanohtml'
 
 const defaultStyles = {
   width: '1em',

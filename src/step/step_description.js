@@ -1,5 +1,5 @@
 import applyStyles from '@f/apply-styles'
-import html from 'bel'
+import html from 'nanohtml'
 import stripIndent from 'strip-indent'
 import FadableItem from '../interface_items/fadable_item'
 import { hasParser, parse } from '../general/parsers'

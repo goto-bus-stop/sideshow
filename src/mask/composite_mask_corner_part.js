@@ -1,4 +1,4 @@
-import html from 'bel'
+import html from 'nanohtml'
 import applyStyles from '@f/apply-styles'
 import VisualItem from '../interface_items/visual_item'
 

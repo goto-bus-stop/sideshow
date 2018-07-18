@@ -1,4 +1,4 @@
-import html from 'bel'
+import html from 'nanohtml'
 import HidableItem from '../interface_items/hidable_item'
 import playIcon from '../icons/play'
 

@@ -1,6 +1,6 @@
 import applyStyles from '@f/apply-styles'
 import elementRect from '@f/element-rect'
-import html from 'bel'
+import html from 'nanohtml'
 import FadableItem from '../interface_items/fadable_item'
 import iconArrow from '../icons/caret-down'
 

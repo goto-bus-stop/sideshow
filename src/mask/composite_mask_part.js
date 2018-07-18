@@ -1,5 +1,5 @@
 import applyStyles from '@f/apply-styles'
-import html from 'bel'
+import html from 'nanohtml'
 import VisualItem from '../interface_items/visual_item'
 
 /**

@@ -1,6 +1,6 @@
 import addClass from '@f/add-class'
 import scrollTo from '@f/scroll-to'
-import html from 'bel'
+import html from 'nanohtml'
 import FadableItem from '../interface_items/fadable_item'
 import StepDescription from '../step/step_description'
 import Screen from '../general/screen'
