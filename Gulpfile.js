@@ -23,10 +23,10 @@ gulp.task('style', () =>
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest('distr')))
 
-gulp.task('scripts:rollup', () => {
+gulp.task('scripts:rollup', async () => {
   const config = require('./rollup.config')
-  return rollup(config).then(bundle =>
-    Promise.all(config.targets.map(bundle.write, bundle)))
+  const bundle = await rollup(config)
+  await Promise.all(config.output.map((output) => bundle.write(output)))
 })
 
 gulp.task('scripts:minify', () =>
@@ -54,7 +54,7 @@ gulp.task('examples:style', () =>
 
 gulp.task('examples:rollup', () => {
   const config = require('./examples/rollup.config')
-  return rollup(config).then(bundle => bundle.write(config))
+  return rollup(config).then(bundle => bundle.write(config.output))
 })
 
 gulp.task('examples:minify', () =>

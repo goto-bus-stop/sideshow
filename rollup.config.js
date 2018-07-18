@@ -5,26 +5,26 @@ const commonjs = require('rollup-plugin-commonjs')
 const json = require('rollup-plugin-json')
 
 module.exports = {
-  entry: './src/general/global_object.js',
-  targets: [
+  input: './src/general/global_object.js',
+  output: [
     {
-      dest: './distr/sideshow.js',
+      file: './distr/sideshow.js',
       format: 'umd',
-      moduleName: 'Sideshow',
+      name: 'Sideshow',
+      banner: fs.readFileSync('./src/copyright_info.js', 'utf8'),
       globals: {
         marked: 'marked'
       }
     },
     {
-      dest: './distr/sideshow.cjs.js',
+      file: './distr/sideshow.cjs.js',
       format: 'cjs'
     },
     {
-      dest: './distr/sideshow.es.js',
+      file: './distr/sideshow.es.js',
       format: 'es'
     }
   ],
-  banner: fs.readFileSync('./src/copyright_info.js'),
   plugins: [
     babel({ include: '**/*.js' }),
     nodeResolve(),
