@@ -95,15 +95,12 @@ gulp.task('webserver', (done) => {
 
 // Docs
 
-gulp.task('docs', done => {
-  documentation.build('src/**/*.js', {}, (err, res) => {
-    if (err) return done(err)
-    documentation.formats.html(res, {}, (err, output) => {
-      if (err) return done(err)
-
-      streamArray(output).pipe(gulp.dest('./docs')).on('end', done)
-    })
-  })
+gulp.task('docs', async (done) => {
+  const res = await documentation.build('src/**/*.js', {})
+  const output = await documentation.formats.html(res, {})
+  streamArray(output)
+    .pipe(gulp.dest('./docs'))
+    .on('end', done)
 })
 
 gulp.task('default', gulp.series('sideshow', 'examples'))
