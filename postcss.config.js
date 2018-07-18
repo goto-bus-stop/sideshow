@@ -1,9 +1,9 @@
 const imports = require('postcss-import')
-const cssnext = require('postcss-cssnext')
+const presetEnv = require('postcss-preset-env')
 
 module.exports = {
   plugins: [
     imports(),
-    cssnext()
+    presetEnv()
   ]
 }
