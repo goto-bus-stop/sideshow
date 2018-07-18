@@ -1,5 +1,6 @@
 // All Requires
 const path = require('path')
+const http = require('http')
 const gulp = require('gulp')
 const postcss = require('gulp-postcss')
 const cssnano = require('cssnano')
@@ -7,7 +8,7 @@ const uglify = require('gulp-uglify')
 const rename = require('gulp-rename')
 const livereload = require('gulp-livereload')
 const del = require('del')
-const serve = require('serve')
+const ecstatic = require('ecstatic')
 const rollup = require('rollup').rollup
 const documentation = require('documentation')
 const streamArray = require('stream-array')
@@ -87,8 +88,9 @@ gulp.task('watch', () => {
 })
 
 // Webserver task
-gulp.task('webserver', () => {
-  serve(path.join(__dirname, 'examples'))
+gulp.task('webserver', (done) => {
+  http.createServer(ecstatic(path.join(__dirname, 'examples')))
+    .listen(5000, done)
 })
 
 // Docs
